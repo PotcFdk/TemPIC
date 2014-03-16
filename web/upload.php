@@ -1,55 +1,66 @@
 <?php
-	include("config.php");
-	
-	function isImage()
-	{
-		return ($_FILES["file"]["type"] == "image/gif")
-			|| ($_FILES["file"]["type"] == "image/jpeg")
-			|| ($_FILES["file"]["type"] == "image/jpg")
-			|| ($_FILES["file"]["type"] == "image/pjpeg")
-			|| ($_FILES["file"]["type"] == "image/x-png")
-			|| ($_FILES["file"]["type"] == "image/png");
-	}
+include_once('config.php');
 
-	$disallowedExts = array("php", "html", "htm");
-	$temp = explode(".", $_FILES["file"]["name"]);
-	$extension = end($temp);
-	if ($_FILES["file"]["size"] < 2000000)
-	{
-		if (in_array($extension, $disallowedExts))
-		{
-			echo "Disallowed file type!";
-		}
-		elseif ($_FILES["file"]["error"] > 0)
-		{
-			echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
-		}
-		else
-		{
-			echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-			echo "Type: " . $_FILES["file"]["type"] . "<br>";
-			echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-			//echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br>";
+function isImage($file) {
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime = finfo_file($finfo, $file);
+    finfo_close($finfo);
 
-			if (file_exists("upload/" . $_FILES["file"]["name"]))
-			{
-				echo $_FILES["file"]["name"] . " already exists. ";
-			}
-			else
-			{
-				$name = time() . "_" . rand(100000000, 999999999) . "_" . $_FILES["file"]["name"];
-				move_uploaded_file($_FILES["file"]["tmp_name"], $PATH_UPLOAD . "/" . $name);
-				$link = $URL_BASE . "/" . $PATH_UPLOAD . "/" . $name;
-				echo "Your link: <a href=\"" . $link . "\">right here</a><br><br>";
-				if (isImage())
-				{
-					echo "<img src=\"" . $link . "\" alt=\"Uploaded Image\">";
-				}
-			}
-		}
-	}
-	else
-	{
-		echo "File too large!";
-	}
-?>
+    return ($mime == 'image/gif')
+        || ($mime == 'image/jpeg')
+        || ($mime == 'image/jpg')
+        || ($mime == 'image/pjpeg')
+        || ($mime == 'image/x-png')
+        || ($mime == 'image/png');
+}
+
+function rearrange($arr) {
+    foreach ($arr as $key => $all) {
+        foreach($all as $i => $val) {
+            $new[$i][$key] = $val;    
+        }    
+    }
+    return $new;
+}
+
+if (!empty($_FILES['file'])) {
+    session_start();
+    $files = array();
+
+    // Because PHP structures the array in a retarded format
+    $_FILES['file'] = rearrange($_FILES['file']);
+
+    foreach ($_FILES['file'] as $file) {
+        $files[$file['name']] = array();
+
+        if ($file['size'] < 2000000) {
+            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+            if (in_array($extension, $DISALLOWED_EXTS)) {
+                $files[$file['name']]['error'] = 'Disallowed file type!';
+            } elseif ($file['error'] > 0) {
+                $files[$file['name']]['error'] = 'Return Code: ' . $file['error'];
+            } else {
+                if (file_exists('upload/' . $file['name'])) {
+                    $files[$file['name']]['error'] = $file['name'] . ' already exists.';
+                } else {
+                    $name = time() . '_' . rand(100000000, 999999999) . '_' . $file['name'];
+                    $path = $PATH_UPLOAD . '/' . $name;
+                    move_uploaded_file($file['tmp_name'], $path);
+
+                    $link = $URL_BASE . '/' . $PATH_UPLOAD . '/' . $name;
+
+                    $files[$file['name']]['link'] = $link;
+                    $files[$file['name']]['path'] = $path;
+                    $files[$file['name']]['image'] = isImage($path);
+                }
+            }
+        } else {
+            $files[$file['name']]['error'] = 'File too large!';
+        }
+    }
+
+    $_SESSION['files'] = $files;
+}
+
+header('Location: ' . $URL_BASE);
