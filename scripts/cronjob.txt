@@ -1,0 +1,4 @@
+# Run the clear_tempic file every minute.
+# Remember to set the path!
+# Example:
+* * * * * ~/clear_tempic.sh 2>/dev/null
