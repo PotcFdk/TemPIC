@@ -51,7 +51,6 @@ if (!empty($_FILES['file'])) {
                     $link = $URL_BASE . '/' . $PATH_UPLOAD . '/' . $name;
 
                     $files[$file['name']]['link'] = $link;
-                    $files[$file['name']]['path'] = $path;
                     $files[$file['name']]['image'] = isImage($path);
                 }
             }
