@@ -23,7 +23,7 @@ function rearrange($arr) {
     return $new;
 }
 
-if (!empty($_FILES['file']['name'])) {
+if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
     session_start();
     $files = array();
 
