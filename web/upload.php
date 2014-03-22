@@ -52,6 +52,7 @@ if (!empty($_FILES['file'])) {
 
                     $files[$file['name']]['link'] = $link;
                     $files[$file['name']]['image'] = isImage($path);
+                    $files[$file['name']]['extension'] = $extension;
                 }
             }
         } else {
