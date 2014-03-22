@@ -12,6 +12,24 @@ session_start();
 
         <script src="js/jquery-2.1.0.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+
+        <style>
+        	form {
+        		margin-bottom: 10px;
+        	}
+
+        	.panel-body a {
+        		text-align: center;
+        	}
+
+        	.panelbody a p {
+        		margin-top: 10px;
+        	}
+
+        	.panel-body img {
+        		margin: 0 auto;
+        	}
+        </style>
     </head>
     <body>
         <div class="container">
@@ -54,6 +72,8 @@ session_start();
 	                                                	<?php $image = $URL_BASE . '/img/filetypes/' . (file_exists('img/filetypes/' . $file['extension'] . '.png') ? $file['extension'] : '_blank') . '.png'; ?>
                                                 		<img src="<?php echo $image; ?>" alt="Uploaded File" class="img-responsive">
 	                                                <?php endif; ?>
+
+	                                                <p><?php echo htmlspecialchars($name); ?></p>
                                                 </a>
                                             </div>
                                         </div>
