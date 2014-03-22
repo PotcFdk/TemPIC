@@ -23,7 +23,7 @@ function rearrange($arr) {
     return $new;
 }
 
-if (!empty($_FILES['file'])) {
+if (!empty($_FILES['file']['name'])) {
     session_start();
     $files = array();
 
