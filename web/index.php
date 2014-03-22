@@ -22,12 +22,8 @@ session_start();
         		text-align: center;
         	}
 
-        	.panelbody a p {
-        		margin-top: 10px;
-        	}
-
         	.panel-body img {
-        		margin: 0 auto;
+        		margin: 0 auto 10px;
         	}
         </style>
     </head>
@@ -55,14 +51,14 @@ session_start();
                     <?php if (!empty($_SESSION['files'])) : ?>
                         <?php $count = 0; ?>
                         <?php foreach ($_SESSION['files'] as $name => $file) : ?>
-                            <?php if (!empty($file['error'])) : ?>
-                                <div class="alert alert-danger alert-dismissable">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                    Error uploading "<?php echo $name; ?>": <?php echo $file['error']; ?>
-                                </div>
-                            <?php else: ?>
-                                <?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
-                                    <div class="col-md-4">
+                            <?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
+                                <div class="col-md-4">
+                                	<?php if (!empty($file['error'])) : ?>
+		                                <div class="alert alert-danger alert-dismissable">
+		                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		                                    Error uploading "<?php echo $name; ?>": <?php echo $file['error']; ?>
+		                                </div>
+		                            <?php else: ?>
                                         <div class="panel panel-default">
                                             <div class="panel-body">
                                             	<a href="<?php echo $file['link']; ?>">
@@ -77,10 +73,11 @@ session_start();
                                                 </a>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php if ($count % 3 == 2) : ?></div><?php endif; ?>
-                                <?php $count++; ?>
-                            <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+
+                            <?php if ($count % 3 == 2) : ?></div><?php endif; ?>
+                            <?php $count++; ?>
                         <?php endforeach; ?>
 
                         <?php if ($count % 3 != 0) : ?></div><?php endif; ?>
