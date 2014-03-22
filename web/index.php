@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+require_once('config.php');
+session_start();
+?>
 <!doctype html>
 <html>
     <head>
@@ -44,11 +47,14 @@
                                     <div class="col-md-4">
                                         <div class="panel panel-default">
                                             <div class="panel-body">
-                                                <?php if ($file['image']) : ?>
-                                                    <img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
-                                                <?php endif; ?>
-
-                                                <a href="<?php echo $file['link']; ?>" class="btn btn-primary btn-xs pull-right" target="_blank">Link to file</a>
+                                            	<a href="<?php echo $file['link']; ?>">
+	                                                <?php if ($file['image']) : ?>
+	                                                    <img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
+	                                                <?php else: ?>
+	                                                	<?php $image = $URL_BASE . '/img/filetypes/' . (file_exists('img/filetypes/' . $file['extension'] . '.png') ? $file['extension'] : '_blank') . '.png'; ?>
+                                                		<img src="<?php echo $image; ?>" alt="Uploaded File" class="img-responsive">
+	                                                <?php endif; ?>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
