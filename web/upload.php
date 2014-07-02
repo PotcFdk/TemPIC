@@ -48,8 +48,9 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
                 $path_destination = $PATH_UPLOAD . '/' . $lifetime;
                 
                 if (!file_exists($path_destination)) {
-                    mkdir($path_destination, 0777, true);
-                }
+                    mkdir($path_destination, 0775);
+					chmod($path_destination, 0775);
+				}
                 
                 $name = time() . '_' . rand(100000000, 999999999) . '_' . $file['name'];
                 $path = $path_destination . '/' . $name;
@@ -58,6 +59,7 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
                     $files[$file['name']]['error'] = $name . ' already exists.';
                 } else {
                     move_uploaded_file($file['tmp_name'], $path);
+					chmod($path, 0664);
 
                     $link = $URL_BASE . '/' . $path;
 
