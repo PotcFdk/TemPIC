@@ -22,10 +22,14 @@ session_start();
 	</script>
 
         <style>
+			.page-header h1 {
+				cursor: default;
+			}
+			
         	form {
         		margin-bottom: 10px;
         	}
-
+			
         	.panel-body a {
         		text-align: center;
         	}
