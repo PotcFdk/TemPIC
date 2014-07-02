@@ -17,7 +17,9 @@ session_start();
 
 	<script>
 		$(function() {
-			$("#file").fileinput();
+			$("#file").fileinput({
+			  "showPreview" : false
+			});
 		});
 	</script>
 
