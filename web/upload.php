@@ -11,7 +11,8 @@ function isImage($file) {
         || ($mime == 'image/jpg')
         || ($mime == 'image/pjpeg')
         || ($mime == 'image/x-png')
-        || ($mime == 'image/png');
+        || ($mime == 'image/png')
+		|| ($mime == 'image/svg+xml');
 }
 
 function rearrange($arr) {
