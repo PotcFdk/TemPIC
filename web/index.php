@@ -9,9 +9,17 @@ session_start();
         <title>TemPIC</title>
 
         <link rel="stylesheet" href="css/bootstrap.min.css">
+	<link href="css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 
         <script src="js/jquery-2.1.0.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+	<script src="js/fileinput.min.js"></script>
+
+	<script>
+		$(function() {
+			$("#file").fileinput();
+		});
+	</script>
 
         <style>
         	form {
@@ -38,8 +46,8 @@ session_start();
                     <form class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="file" class="col-md-1 control-label">Files</label>
-                            <div class="col-md-3">
-                                <input class="form-control" type="file" name="file[]" id="file" multiple="true">
+                            <div class="col-md-7">
+                                <input class="file" type="file" name="file[]" id="file" multiple="true">
                             </div>
 							<div class="col-md-2">
 								<select class="form-control" name="lifetime">
