@@ -41,6 +41,13 @@ session_start();
                             <div class="col-md-3">
                                 <input class="form-control" type="file" name="file[]" id="file" multiple="true">
                             </div>
+							<div class="col-md-2">
+								<select class="form-control" name="lifetime">
+								<?php foreach ($LIFETIMES as $id => $data) : ?>
+									<option value="<?php echo $id; ?>"><?php echo $data['name']; ?></option>
+								<?php endforeach; ?>
+								</select>
+							</div>
                         </div>
 
                         <div class="col-md-offset-1">

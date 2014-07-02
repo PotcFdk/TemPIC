@@ -32,23 +32,34 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 
     foreach ($_FILES['file'] as $file) {
         $files[$file['name']] = array();
+        $lifetime = "test";
 
         if ($file['size'] < 2000000) {
             $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $lifetime = $_POST['lifetime'];
 
             if (in_array($extension, $DISALLOWED_EXTS)) {
                 $files[$file['name']]['error'] = 'Disallowed file type!';
             } elseif ($file['error'] > 0) {
                 $files[$file['name']]['error'] = 'Return Code: ' . $file['error'];
+            } elseif (!isset($lifetime) || !array_key_exists($lifetime, $LIFETIMES)) {
+                $files[$file['name']]['error'] = 'Invalid or no file lifetime specified.';
             } else {
-                if (file_exists('upload/' . $file['name'])) {
-                    $files[$file['name']]['error'] = $file['name'] . ' already exists.';
+                $path_destination = $PATH_UPLOAD . '/' . $lifetime;
+                
+                if (!file_exists($path_destination)) {
+                    mkdir($path_destination, 0777, true);
+                }
+                
+                $name = time() . '_' . rand(100000000, 999999999) . '_' . $file['name'];
+                $path = $path_destination . '/' . $name;
+                
+                if (file_exists($path)) {
+                    $files[$file['name']]['error'] = $name . ' already exists.';
                 } else {
-                    $name = time() . '_' . rand(100000000, 999999999) . '_' . $file['name'];
-                    $path = $PATH_UPLOAD . '/' . $name;
                     move_uploaded_file($file['tmp_name'], $path);
 
-                    $link = $URL_BASE . '/' . $PATH_UPLOAD . '/' . $name;
+                    $link = $URL_BASE . '/' . $path;
 
                     $files[$file['name']]['link'] = $link;
                     $files[$file['name']]['image'] = isImage($path);
