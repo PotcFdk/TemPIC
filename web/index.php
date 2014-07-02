@@ -47,7 +47,7 @@ session_start();
                         <div class="form-group">
                             <label for="file" class="col-md-1 control-label">Files</label>
                             <div class="col-md-7">
-                                <input class="file" type="file" name="file[]" id="file" multiple="true">
+                                <input class="file" type="file" name="file[]" id="file" multiple="multiple">
                             </div>
 							<div class="col-md-2">
 								<select class="form-control" name="lifetime">
