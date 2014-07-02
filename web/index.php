@@ -61,10 +61,6 @@ session_start();
 								</select>
 							</div>
                         </div>
-
-                        <div class="col-md-offset-1">
-                            <input type="submit" name="submit" value="Upload" class="btn btn-primary">
-                        </div>
                     </form>
 
                     <?php if (!empty($_SESSION['files'])) : ?>
