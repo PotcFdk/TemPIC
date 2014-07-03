@@ -11,44 +11,27 @@ session_start();
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link href="css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
 
 		<script src="js/jquery-2.1.0.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/fileinput.min.js"></script>
 
-	<script>
-		$(function() {
-			$("#file").fileinput({
-			  "showPreview" : false
+		<script>
+			$(function() {
+				$("#file").fileinput({
+				  "showPreview" : false
+				});
 			});
-		});
-	</script>
-
-		<style>
-			.page-header h1 {
-				cursor: default;
-			}
-			
-			form {
-				margin-bottom: 10px;
-			}
-			
-			.panel-body a {
-				text-align: center;
-			}
-
-			.panel-body img {
-				margin: 0 auto 10px;
-			}
-		</style>
+		</script>
 	</head>
 	<body>
 		<div class="copyrotate">
 			<a href="https://github.com/PotcFdk/TemPIC">
 				<img src="img/copyrotate.svg" alt="" width="20" height="20">
-				<p class="text">Powered by TemPIC<br />
-				(c) PotcFdk, ukgamer, 2014<br />
-				Visit this project on GitHub!</p>
+				<div class="text">Powered by TemPIC<br />
+				<div class="rotate">&copy;</div> PotcFdk, ukgamer, 2014<br />
+				Visit this project on GitHub!</div>
 			</a>
 		</div>
 		<div class="container">
