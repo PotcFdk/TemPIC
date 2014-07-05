@@ -28,17 +28,16 @@ function rearrange($arr) {
 if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	session_start();
 	$files = array();
+	$lifetime = $_POST['lifetime'];
 
 	// Because PHP structures the array in a retarded format
 	$_FILES['file'] = rearrange($_FILES['file']);
 
 	foreach ($_FILES['file'] as $file) {
 		$files[$file['name']] = array();
-		$lifetime = "test";
 
 		if ($file['size'] < 2000000) {
 			$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-			$lifetime = $_POST['lifetime'];
 
 			if (in_array($extension, $DISALLOWED_EXTS)) {
 				$files[$file['name']]['error'] = 'Disallowed file type!';
