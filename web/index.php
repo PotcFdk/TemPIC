@@ -1,8 +1,6 @@
 <?php
-if (!@include_once('config.php')) {
-	include('../includes/error.php');
-	exit();
-}
+include_once('config.php');
+require_once('../includes/configcheck.php');
 session_start();
 ?>
 <!doctype html>

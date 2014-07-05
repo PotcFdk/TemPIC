@@ -1,5 +1,6 @@
 <?php
 include_once('config.php');
+require_once('../includes/configcheck.php');
 
 function isImage($file) {
 	$finfo = finfo_open(FILEINFO_MIME_TYPE);
