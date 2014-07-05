@@ -1,8 +1,8 @@
 <?php
-	if (   !defined ('URL_BASE')
-		|| !defined ('PATH_UPLOAD')
-		|| !defined ('DISALLOWED_EXTS')
-		|| !defined ('LIFETIMES')
+	if (   !isset ($URL_BASE)
+		|| !isset ($PATH_UPLOAD)
+		|| !isset ($DISALLOWED_EXTS)
+		|| !isset ($LIFETIMES)
 	) {
 		include('error.php');
 		exit();
