@@ -1,5 +1,8 @@
 <?php
-require_once('config.php');
+if (!@include_once('config.php')) {
+	include('../includes/error.php');
+	exit();
+}
 session_start();
 ?>
 <!doctype html>
