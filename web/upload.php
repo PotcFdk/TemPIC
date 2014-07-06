@@ -52,8 +52,9 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					mkdir($path_destination, 0775);
 					chmod($path_destination, 0775);
 				}
-				
-				$name = time() . '_' . rand(100000000, 999999999) . '_' . $file['name'];
+				$offset = rand(0,20);
+				$uid = substr(md5(time().mt_rand()), $offset, 12);
+				$name = $uid . '_' . $file['name'];
 				$path = $path_destination . '/' . $name;
 				
 				if (file_exists($path)) {
