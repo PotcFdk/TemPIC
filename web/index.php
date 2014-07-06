@@ -73,10 +73,12 @@ session_start();
 						</div>
 					</form>
 
-					<div class="col-md-4">
-						<div id="exceeding_limit" class="std-hide alert alert-danger alert-dismissable">
-							<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
-							<p id="exceeding_limit_text"></p>
+					<div class="col-md-6 col-md-offset-2">
+						<div class="row">
+							<div id="exceeding_limit" class="std-hide alert alert-danger alert-dismissable">
+								<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
+								<p id="exceeding_limit_text"></p>
+							</div>
 						</div>
 					</div>
 					
