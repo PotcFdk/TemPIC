@@ -33,7 +33,7 @@ session_start();
 					var warn_element_text = $("#exceeding_limit_text");
 					
 					warn_element.hide();
-					warn_element_text.text("(At least) one of the files you added exceed the file size limit:");
+					warn_element_text.text("(At least) one of the files you added exceeds the file size limit:");
 					
 					for (var i = 0; i < this.files.length; ++i)
 					{
