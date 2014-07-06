@@ -38,3 +38,7 @@ form {
 .panel-body img {
 	margin: 0 auto 10px;
 }
+
+.std-hide {
+  display: none;
+} 

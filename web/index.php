@@ -20,8 +20,30 @@ session_start();
 
 		<script>
 			$(function() {
+			    $("[data-hide]").on("click", function(){
+					$("." + $(this).attr("data-hide")).hide();
+				});
+				
 				$("#file").fileinput({
 				  "showPreview" : false
+				});
+				
+				$('#file').bind('change', function() {
+					var warn_element = $("#exceeding_limit");
+					var warn_element_text = $("#exceeding_limit_text");
+					
+					warn_element.hide();
+					warn_element_text.text("(At least) one of the files you added exceed the file size limit:");
+					
+					for (var i = 0; i < this.files.length; ++i)
+					{
+						var file = this.files[i];
+						if (file.size > <?php echo $SIZE_LIMIT; ?>)
+						{
+							warn_element.show();
+							warn_element_text.append ("<br />" + file.name);
+						}
+					}
 				});
 			});
 		</script>
@@ -51,6 +73,13 @@ session_start();
 						</div>
 					</form>
 
+					<div class="col-md-4">
+						<div id="exceeding_limit" class="std-hide alert alert-danger alert-dismissable">
+							<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
+							<p id="exceeding_limit_text"></p>
+						</div>
+					</div>
+					
 					<?php if (!empty($_SESSION['files'])) : ?>
 						<?php $count = 0; ?>
 						<?php foreach ($_SESSION['files'] as $name => $file) : ?>
