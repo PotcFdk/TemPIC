@@ -60,10 +60,10 @@ session_start();
 					<form class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="file" class="col-md-1 control-label">Files</label>
-							<div class="col-md-7">
+							<div class="col-md-8">
 								<input class="file" type="file" name="file[]" id="file" multiple="multiple">
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-3">
 								<select class="form-control" name="lifetime">
 								<?php foreach ($LIFETIMES as $id => $data) : ?>
 									<option value="<?php echo $id; ?>"><?php echo $data['name']; ?></option>
@@ -73,8 +73,8 @@ session_start();
 						</div>
 					</form>
 
-					<div class="col-md-6 col-md-offset-2">
-						<div class="row">
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3">
 							<div id="exceeding_limit" class="std-hide alert alert-danger alert-dismissable">
 								<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
 								<p id="exceeding_limit_text"></p>
