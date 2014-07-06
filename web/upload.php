@@ -36,7 +36,7 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	foreach ($_FILES['file'] as $file) {
 		$files[$file['name']] = array();
 
-		if ($file['size'] < 2000000) {
+		if ($file['size'] <= $SIZE_LIMIT) {
 			$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
 
 			if (in_array($extension, $DISALLOWED_EXTS)) {
