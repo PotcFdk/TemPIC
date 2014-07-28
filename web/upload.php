@@ -52,13 +52,15 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					mkdir($path_destination, 0775);
 					chmod($path_destination, 0775);
 				}
+				
 				$offset = rand(0,20);
 				$uid = substr(md5(time().mt_rand()), $offset, 12);
-				$name = $uid . '_' . $file['name'];
+				$filename = pathinfo($file['name'], PATHINFO_FILENAME);
+				$name = $filename . '.' . $uid . '.' . $extension;
 				$path = $path_destination . '/' . $name;
 				
 				if (file_exists($path)) {
-					$files[$file['name']]['error'] = $name . ' already exists.';
+					$files[$file['name']]['error'] = $path . ' already exists.';
 				} else {
 					move_uploaded_file($file['tmp_name'], $path);
 					chmod($path, 0664);
