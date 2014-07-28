@@ -37,7 +37,8 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		$files[$file['name']] = array();
 
 		if ($file['size'] <= $SIZE_LIMIT) {
-			$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+			$fileinfo = pathinfo($file['name']);
+			$extension = $fileinfo['extension'];
 
 			if (in_array($extension, $DISALLOWED_EXTS)) {
 				$files[$file['name']]['error'] = 'Disallowed file type!';
@@ -55,8 +56,20 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 				
 				$offset = rand(0,20);
 				$uid = substr(md5(time().mt_rand()), $offset, 12);
-				$filename = pathinfo($file['name'], PATHINFO_FILENAME);
-				$name = $filename . '.' . $uid . '.' . $extension;
+				
+				$has_name = !empty($fileinfo['filename']);
+				$has_extension = !empty($fileinfo['extension']);
+				
+				if ($has_name && $has_extension) {
+					$name = $fileinfo['filename'] . '.' . $uid . '.' . $extension;
+				} elseif ($has_name) {
+					$name = $fileinfo['filename'] . '_' . $uid;
+				} elseif ($has_extension) {
+					$name = $fileinfo['basename'] . '_' . $uid;
+				} else {
+					$name = $uid;
+				}
+				
 				$path = $path_destination . '/' . $name;
 				
 				if (file_exists($path)) {
