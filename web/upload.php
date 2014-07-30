@@ -57,17 +57,11 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 				$offset = rand(0,20);
 				$uid = substr(md5(time().mt_rand()), $offset, 12);
 				
-				$has_name = !empty($fileinfo['filename']);
-				$has_extension = !empty($fileinfo['extension']);
+				$path_destination = $path_destination . '/' . $uid;
 				
-				if ($has_name && $has_extension) {
-					$name = $fileinfo['filename'] . '.' . $uid . '.' . $extension;
-				} elseif ($has_name) {
-					$name = $fileinfo['filename'] . '_' . $uid;
-				} elseif ($has_extension) {
-					$name = $fileinfo['basename'] . '_' . $uid;
-				} else {
-					$name = $uid;
+				if (!file_exists($path_destination)) {
+					mkdir($path_destination, 0775);
+					chmod($path_destination, 0775);
 				}
 				
 				$path = $path_destination . '/' . $name;
