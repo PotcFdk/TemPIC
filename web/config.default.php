@@ -1,7 +1,7 @@
 <?php
 	$URL_BASE        = 'http://example.com/tempic';
 	$PATH_UPLOAD     = 'upload';
-	$DISALLOWED_EXTS = array('php', 'html', 'htm');
+	$DISALLOWED_EXTS = array('php', 'html', 'htm', 'htaccess', 'htpasswd');
 	$SIZE_LIMIT      = 20e6;
 	$LIFETIMES       = array(
 		'30m' => array('name' => '30 Minutes', 'time' => 30),
