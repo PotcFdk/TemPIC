@@ -35,6 +35,8 @@ session_start();
 
 		<script>
 			$(function() {
+				// File upload form setup.
+				
 			    $("[data-hide]").on("click", function(){
 					$("." + $(this).attr("data-hide")).hide();
 				});
