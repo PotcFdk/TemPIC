@@ -64,7 +64,7 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					chmod($path_destination, 0775);
 				}
 				
-				$path = $path_destination . '/' . $name;
+				$path = $path_destination . '/' . $fileinfo['basename'];
 				
 				if (file_exists($path)) {
 					$files[$file['name']]['error'] = $path . ' already exists.';
