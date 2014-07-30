@@ -41,20 +41,31 @@
 		$basedir = $PATH_TEMPIC . '/' . $PATH_UPLOAD . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
-			$files = glob ($basedir . '/*');
-			foreach ($files as $file) {
-				if (is_file ($file)) {
-					$remaining = $data['time']*60 - ($time - filemtime ($file));
-					echo ' - found: ' . $file;
-					if ($remaining < 0) {
-						echo ' (deleted)';
-						unlink($file);
+			$subdirs = glob ($basedir . '/*');
+			foreach ($subdirs as $subdir) {
+				if (is_dir ($subdir)) {
+					$files = glob ($subdir . '/*');
+					$empty = true;
+					foreach ($files as $file) {
+						if (is_file ($file)) {
+							$remaining = $data['time']*60 - ($time - filemtime ($file));
+							echo ' - found: ' . $file;
+							if ($remaining < 0) {
+								echo ' (deleted)';
+								unlink($file);
+							}
+							else {
+								echo ' (remaining: ' . formatTime ($remaining) . ')';
+								$empty = false;
+							}
+							echo "\n";
+						}
 					}
-					else
-						echo ' (remaining: ' . formatTime ($remaining) . ')';
-					echo "\n";
+					if ($empty) {
+						rmdir ($subdir);
+					}
 				}
 			}
-		}		
+		}
 	}
 ?>
