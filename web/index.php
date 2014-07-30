@@ -22,7 +22,7 @@ session_start();
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>TemPIC</title>
+		<title><?php echo $INSTANCE_NAME; ?></title>
 
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link href="css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
@@ -71,7 +71,7 @@ session_start();
 			<div class="row">
 				<div class="col-md-12">
 					<div class="page-header">
-						<h1>TemPIC</h1>
+						<h1><?php echo $INSTANCE_NAME; ?></h1>
 					</div>
 
 					<form class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
