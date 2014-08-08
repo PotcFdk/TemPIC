@@ -43,6 +43,8 @@ session_start();
 			
 			$(function() {
 				$("#exceeding_limit").hide();
+				$('#progressbar').hide();
+				
 				// File upload form setup.
 				
 			    $("[data-hide]").on("click", function(){
@@ -114,6 +116,8 @@ session_start();
 					
 					xhr.open("POST", "upload.php");
 					xhr.send(fd);
+					
+					$('#progressbar').show();
 				});
 			});
 		</script>
