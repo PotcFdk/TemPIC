@@ -84,6 +84,7 @@ session_start();
 				  if (evt.lengthComputable) {
 					var percentComplete = Math.round(evt.loaded * 100 / evt.total);
 					$('#progressbar').attr('value', percentComplete.toString());
+					document.title = "<?php echo $INSTANCE_NAME; ?> - uploading " +  percentComplete.toString() + " %";
 				  }
 				  else {
 					$('#progressbar').removeAttr('value');
