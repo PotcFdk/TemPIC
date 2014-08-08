@@ -74,6 +74,12 @@ session_start();
 						<h1><?php echo $INSTANCE_NAME; ?></h1>
 					</div>
 
+					<div class="row">
+						<noscript>
+							<p>This site is best viewed with JavaScript. If you don't want to turn on JavaScript, please use <a href="index_nojs.php">the NoJS version</a>.</p>
+						</noscript>
+					</div>
+					
 					<form class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="file" class="col-md-1 control-label">Files</label>
