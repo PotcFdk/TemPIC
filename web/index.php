@@ -172,7 +172,7 @@ session_start();
 			<div class="row">
 				<div class="col-md-12">
 					<div class="page-header">
-						<h1><?php echo $INSTANCE_NAME; ?></h1>
+						<h1><a href="<?php echo $URL_BASE; ?>"><?php echo $INSTANCE_NAME; ?></a></h1>
 					</div>
 
 					<div class="row">
