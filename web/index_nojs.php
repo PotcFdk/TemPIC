@@ -40,6 +40,7 @@ session_start();
 
 					<form class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
 						<div class="form-group">
+							<input type="hidden" name="nojs" value="true">
 							<label for="file" class="col-md-1 control-label">Files</label>
 							<div class="col-md-6">
 								<input class="file" type="file" name="file[]" id="file" multiple="multiple">

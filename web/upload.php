@@ -102,5 +102,8 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	$_SESSION['files'] = $files;
 }
 
-header('Location: ' . $URL_BASE);
+if (isset($_POST['nojs']))
+	header('Location: ' . $URL_BASE . '/index_nojs.php');
+else
+	header('Location: ' . $URL_BASE);
 ?>
