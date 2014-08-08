@@ -103,3 +103,4 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 }
 
 header('Location: ' . $URL_BASE);
+?>
