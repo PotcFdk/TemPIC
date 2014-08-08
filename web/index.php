@@ -35,14 +35,14 @@ session_start();
 
 		<script>
 			function warn(text) {
-				var warn_element = $("#exceeding_limit");
-				var warn_element_text = $("#exceeding_limit_text");
+				var warn_element = $("#warn_element");
+				var warn_element_text = $("#warn_element_text");
 				warn_element_text.html(text);
 				warn_element.show();
 			}
 			
 			$(function() {
-				$("#exceeding_limit").hide();
+				$("#warn_element").hide();
 				$('#progressbar').hide();
 				
 				// File upload form setup.
@@ -162,9 +162,9 @@ session_start();
 					
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3">
-							<div id="exceeding_limit" class="std-hide alert alert-danger alert-dismissable">
+							<div id="warn_element" class="std-hide alert alert-danger alert-dismissable">
 								<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
-								<p id="exceeding_limit_text"></p>
+								<p id="warn_element_text"></p>
 							</div>
 						</div>
 					</div>
