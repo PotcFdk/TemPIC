@@ -104,6 +104,9 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 
 if (isset($_POST['nojs']))
 	header('Location: ' . $URL_BASE . '/index_nojs.php');
+elseif (isset($_POST['ajax']))
+	echo('#SUCCESS');
 else
 	header('Location: ' . $URL_BASE);
+	
 ?>

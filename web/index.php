@@ -34,7 +34,15 @@ session_start();
 		<script src="js/fileinput.min.js"></script>
 
 		<script>
+			function warn(text) {
+				var warn_element = $("#exceeding_limit");
+				var warn_element_text = $("#exceeding_limit_text");
+				warn_element_text.html(text);
+				warn_element.show();
+			}
+			
 			$(function() {
+				$("#exceeding_limit").hide();
 				// File upload form setup.
 				
 			    $("[data-hide]").on("click", function(){
@@ -46,21 +54,66 @@ session_start();
 				});
 				
 				$('#file').bind('change', function() {
-					var warn_element = $("#exceeding_limit");
-					var warn_element_text = $("#exceeding_limit_text");
-					
-					warn_element.hide();
-					warn_element_text.text("(At least) one of the files you added exceeds the file size limit:");
+					var warning = "(At least) one of the files you added exceeds the file size limit:";
+					var show = false;
 					
 					for (var i = 0; i < this.files.length; ++i)
 					{
 						var file = this.files[i];
 						if (file.size > <?php echo $SIZE_LIMIT; ?>)
 						{
-							warn_element.show();
-							warn_element_text.append ("<br />" + file.name);
+							show = true;
+							warning += "<br />" + file.name;
 						}
 					}
+					
+					if (show) warn(warning);
+				});
+				
+				$('#file').bind('change', function() {
+					for (var i = 0; i < this.files.length; ++i)
+					{
+						var file = this.files[i];
+						console.log('Added file: ' + file.name + ', ' + file.size);
+					}
+				});
+				
+				function uploadProgress(evt) {
+				  if (evt.lengthComputable) {
+					var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+					$('#progressbar').attr('value', percentComplete.toString());
+				  }
+				  else {
+					$('#progressbar').removeAttr('value');
+				  }
+				}
+
+				function uploadComplete(evt) {
+					window.location.reload();
+				}
+
+				function uploadFailed(evt) {
+				  warn("There was an error attempting to upload the file.");
+				}
+
+				function uploadCanceled(evt) {
+				  warn("The upload has been canceled by the user or the browser dropped the connection.");
+				}				
+				
+				var btn = $('button[type=submit]');
+				btn.prop('type', 'button');
+				btn.on('click', function() {
+					var xhr = new XMLHttpRequest();
+					var fd = new FormData($('#file-form')[0]);
+					fd.append('ajax', 'true');
+	
+					xhr.upload.addEventListener("progress", uploadProgress, false);
+					xhr.addEventListener("load", uploadComplete, false);
+					xhr.addEventListener("error", uploadFailed, false);
+					xhr.addEventListener("abort", uploadCanceled, false);
+					
+					xhr.open("POST", "upload.php");
+					xhr.send(fd);
 				});
 			});
 		</script>
@@ -80,7 +133,7 @@ session_start();
 						</noscript>
 					</div>
 					
-					<form class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
+					<form id="file-form" class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="file" class="col-md-1 control-label">Files</label>
 							<div class="col-md-8">
@@ -96,6 +149,12 @@ session_start();
 						</div>
 					</form>
 
+					<div class="row">
+						<div class="col-md-8 col-md-offset-1">
+						<progress id="progressbar" max="100" value="0"></progress>
+						</div>
+					</div>
+					
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3">
 							<div id="exceeding_limit" class="std-hide alert alert-danger alert-dismissable">
