@@ -113,14 +113,6 @@ session_start();
 					if (show) warn(warning);
 				});
 				
-				$('#file').bind('change', function() {
-					for (var i = 0; i < this.files.length; ++i)
-					{
-						var file = this.files[i];
-						console.log('Added file: ' + file.name + ', ' + file.size);
-					}
-				});
-				
 				var upload_started = 0;
 				var xhr;
 				
@@ -133,7 +125,6 @@ session_start();
 					$('#progresstext').html("Uploading: " + percentComplete.toString() + " %<br />"
 						+ humanFileSize(evt.loaded) + " / " + humanFileSize(evt.total) + " total<br />"
 						+ 'ETA: ' + millisecondsToStr((evt.total - evt.loaded)/speed))
-					console.log(evt);
 					document.title = "<?php echo $INSTANCE_NAME; ?> - uploading " +  percentComplete.toString() + " %";
 				  }
 				  else {
