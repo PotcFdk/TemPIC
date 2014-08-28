@@ -1,10 +1,11 @@
 <?php
-	$INSTANCE_NAME   = 'TemPIC';
-	$URL_BASE        = 'http://example.com/tempic';
-	$PATH_UPLOAD     = 'upload';
-	$DISALLOWED_EXTS = array('php', 'html', 'htm', 'htaccess', 'htpasswd');
-	$SIZE_LIMIT      = 20e6;
-	$LIFETIMES       = array(
+	$INSTANCE_NAME    = 'TemPIC';
+	$URL_BASE         = 'http://example.com/tempic';
+	$PATH_UPLOAD      = 'upload';
+	$DISALLOWED_EXTS  = array('php', 'html', 'htm', 'htaccess', 'htpasswd');
+	$SIZE_LIMIT       = 20e6;
+	$DEFAULT_LIFETIME = '30m';
+	$LIFETIMES        = array(
 		'30m' => array('name' => '30 Minutes', 'time' => 30),
 		'1h'  => array('name' => '1 Hour',     'time' => 60),
 		'2h'  => array('name' => '2 Hours',    'time' => 2*60),
