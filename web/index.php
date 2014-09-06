@@ -120,14 +120,15 @@ session_start();
 				
 				function uploadProgress(evt) {
 				  if (evt.lengthComputable) {
-					var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+					var percentComplete = evt.loaded * 100 / evt.total;
+					var percentCompleteStr = Math.round(percentComplete).toString() + " %";
 					var duration = (Date.now() - upload_started);
 					var speed = evt.loaded / duration;
 					$('#progressbar').attr('value', percentComplete.toString());
-					$('#progresstext').html("Uploading: " + percentComplete.toString() + " %<br />"
+					$('#progresstext').html("Uploading: " + percentCompleteStr + "<br />"
 						+ humanFileSize(evt.loaded) + " / " + humanFileSize(evt.total) + " total<br />"
-						+ 'ETA: ' + millisecondsToStr((evt.total - evt.loaded)/speed))
-					document.title = "<?php echo $INSTANCE_NAME; ?> - uploading " +  percentComplete.toString() + " %";
+						+ 'ETA: ' + millisecondsToStr((evt.total - evt.loaded)/speed));
+					document.title = "<?php echo $INSTANCE_NAME; ?> - uploading " +  percentCompleteStr;
 				  }
 				  else {
 					$('#progressbar').removeAttr('value');
