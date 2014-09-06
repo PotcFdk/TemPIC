@@ -102,7 +102,6 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	
 	// generate album
 	
-	$album_id;
 	$valid_files = array();
 	foreach ($files as $filen => $file) {
 		if (!isset($file['error'])) { // no errors, file is ok
@@ -126,11 +125,18 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	$_SESSION['files'] = $files;
 }
 
-if (isset($_POST['nojs']))
-	header('Location: ' . $URL_BASE . '/index_nojs.php');
-elseif (isset($_POST['ajax']))
-	echo (isset($album_id) ? $album_id : '#SUCCESS');
-else
-	header('Location: ' . $URL_BASE);
-	
+if (isset($_POST['nojs'])) {
+	if (!empty($_SESSION['album_id']))
+		header('Location: '.$URL_BASE.'/index_nojs.php?album='.$_SESSION['album_id']);
+	else
+		header('Location: '. $URL_BASE.'/index_nojs.php');
+} elseif (isset($_POST['ajax'])) {
+	if (!empty($_SESSION['album_id']))
+		echo ($_SESSION['album_id']);
+} else {
+	if (!empty($_SESSION['album_id']))
+		header('Location: '.$URL_BASE);
+	else
+		header('Location: '.$URL_BASE.'?album='.$_SESSION['album_id']);
+}
 ?>
