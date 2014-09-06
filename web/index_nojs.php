@@ -1,6 +1,8 @@
 <?php
 @include_once('config.php');
 require_once('../includes/configcheck.php');
+require_once('../includes/baseconfig.php');
+require_once('../includes/helpers.php');
 session_start();
 ?>
 <!doctype html>
@@ -35,7 +37,7 @@ session_start();
 			<div class="row">
 				<div class="col-md-12">
 					<div class="page-header">
-						<h1><?php echo $INSTANCE_NAME; ?></h1>
+						<h1><a href="<?php echo $URL_BASE.'/index_nojs.php'; ?>"><?php echo $INSTANCE_NAME; ?></a></h1>
 					</div>
 
 					<form class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
@@ -67,9 +69,26 @@ session_start();
 						</div>
 					</div>
 					
-					<?php if (!empty($_SESSION['files'])) : ?>
+					<?php $files;
+					if (isset($_GET['album'])) {
+						$album_id = strip_album_id($_GET['album']);
+						if (!empty($album_id)) {
+							$count = 1; // PHP. Why do you do this to me?
+							if (file_exists($PATH_ALBUM.'/'.str_replace(':','/',$album_id,$count).'.txt')) {
+								$album = unserialize(file_get_contents($PATH_ALBUM.'/'.str_replace(':','/',$album_id,$count).'.txt'));
+								if (!empty($album)) {
+									$files = $album;
+								}
+							}
+						}
+					}
+					if (empty($files) && !empty($_SESSION['files'])) {
+						$files = $_SESSION['files'];
+					}
+					
+					if (!empty($files)) : ?>
 						<?php $count = 0; ?>
-						<?php foreach ($_SESSION['files'] as $name => $file) : ?>
+						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
 								<div class="col-md-4">
 									<?php if (!empty($file['error'])) : ?>
