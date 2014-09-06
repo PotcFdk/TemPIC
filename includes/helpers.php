@@ -6,4 +6,14 @@
 	  }
 	  return $string;
 	}
+	
+	function get_album_url ($album_id = "") {
+		global $URL_BASE;
+		global $URL_ALBUM;
+		if (empty($URL_ALBUM)) {
+			return $URL_BASE.'/?album='.$album_id; 
+		} else {
+			return $URL_ALBUM.$album_id; 
+		}
+	}
 ?>

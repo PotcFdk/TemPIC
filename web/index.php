@@ -135,7 +135,11 @@ session_start();
 				}
 
 				function uploadComplete(evt) {
-					window.location = "<?php echo $URL_BASE; ?>";
+					if (evt.target.responseText) {
+						window.location = "<?php echo get_album_url(); ?>" + evt.target.responseText;
+					} else {
+						window.location = "/";
+					}
 				}
 
 				function uploadFailed(evt) {
@@ -223,25 +227,7 @@ session_start();
 						</div>
 					</div>
 					
-					<?php if (!empty($_SESSION['album_id'])) :
-							if (empty($URL_ALBUM)) {
-								$album_url = $URL_BASE.'/?album='.$_SESSION['album_id']; 
-							} else {
-								$album_url = $URL_ALBUM.$_SESSION['album_id']; 
-							}
-						?>
-						<div class="row">
-							<div class="col-md-6 col-md-offset-3">
-								<div id="set_info" class="alert alert-success">
-									<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
-									<p id="set_info_text">You have uploaded multiple items, so an album has been generated!<br />
-									<a href="<?php echo $album_url; ?>"><?php echo $album_url; ?></a></p>
-								</div>
-							</div>
-						</div>
-					<?php endif; 
-					
-					$files;
+					<?php $files;
 					if (isset($_GET['album'])) {
 						$album_id = strip_album_id($_GET['album']);
 						if (!empty($album_id)) {
