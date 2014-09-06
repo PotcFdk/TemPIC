@@ -15,6 +15,7 @@
 */
 	require_once ('config.php');
 	require_once ($PATH_TEMPIC . '/config.php');
+	require_once ($PATH_INCLUDES . '/baseconfig.php');
 	
 	function formatTime ($time) {
 		$ret = "";
@@ -51,6 +52,10 @@
 	
 	$time  = time ();
 
+	// cleanup uploaded files
+	
+	echo "FILE CLEANUP\n";
+	
 	foreach ($LIFETIMES as $lifetime => $data) {
 		$basedir = $PATH_TEMPIC . '/' . $PATH_UPLOAD . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
@@ -79,6 +84,37 @@
 						rmdir ($subdir);
 					}
 				}
+			}
+		}
+	}
+	
+	// cleanup album metadata
+	
+	echo "ALBUM CLEANUP\n";
+	
+	foreach ($LIFETIMES as $lifetime => $data) {
+		$basedir = $PATH_TEMPIC . '/' . $PATH_ALBUM . '/' . $lifetime;
+		echo '* scanning basedir: ' . $basedir . "\n";
+		if (is_dir ($basedir)) {
+			$files = glob ($basedir . '/*');
+			$empty = true;
+			foreach ($files as $file) {
+				if (is_file ($file)) {
+					$remaining = $data['time']*60 - ($time - filemtime ($file));
+					echo ' - found: ' . $file;
+					if ($remaining < 0) {
+						echo ' (deleted)';
+						unlink($file);
+					}
+					else {
+						echo ' (remaining: ' . formatTime ($remaining) . ')';
+						$empty = false;
+					}
+					echo "\n";
+				}
+			}
+			if ($empty) {
+				rmdir ($basedir);
 			}
 		}
 	}

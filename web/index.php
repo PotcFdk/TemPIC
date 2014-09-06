@@ -1,6 +1,8 @@
 <?php
 @include_once('config.php');
 require_once('../includes/configcheck.php');
+require_once('../includes/baseconfig.php');
+require_once('../includes/helpers.php');
 session_start();
 ?>
 <!doctype html>
@@ -133,7 +135,7 @@ session_start();
 				}
 
 				function uploadComplete(evt) {
-					window.location.reload();
+					window.location = "<?php echo $URL_BASE; ?>";
 				}
 
 				function uploadFailed(evt) {
@@ -221,9 +223,44 @@ session_start();
 						</div>
 					</div>
 					
-					<?php if (!empty($_SESSION['files'])) : ?>
+					<?php if (!empty($_SESSION['album_id'])) :
+							if (empty($URL_ALBUM)) {
+								$album_url = $URL_BASE.'/?album='.$_SESSION['album_id']; 
+							} else {
+								$album_url = $URL_ALBUM.$_SESSION['album_id']; 
+							}
+						?>
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<div id="set_info" class="alert alert-success">
+									<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
+									<p id="set_info_text">You have uploaded multiple items, so an album has been generated!<br />
+									<a href="<?php echo $album_url; ?>"><?php echo $album_url; ?></a></p>
+								</div>
+							</div>
+						</div>
+					<?php endif; 
+					
+					$files;
+					if (isset($_GET['album'])) {
+						$album_id = strip_album_id($_GET['album']);
+						if (!empty($album_id)) {
+							$count = 1; // PHP. Why do you do this to me?
+							if (file_exists($PATH_ALBUM.'/'.str_replace(':','/',$album_id,$count).'.txt')) {
+								$album = unserialize(file_get_contents($PATH_ALBUM.'/'.str_replace(':','/',$album_id,$count).'.txt'));
+								if (!empty($album)) {
+									$files = $album;
+								}
+							}
+						}
+					}
+					if (empty($files) && !empty($_SESSION['files'])) {
+						$files = $_SESSION['files'];
+					}
+					
+					if (!empty($files)) : ?>
 						<?php $count = 0; ?>
-						<?php foreach ($_SESSION['files'] as $name => $file) : ?>
+						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
 								<div class="col-md-4">
 									<?php if (!empty($file['error'])) : ?>
@@ -261,4 +298,7 @@ session_start();
 	</body>
 </html>
 
-<?php unset($_SESSION['files']); ?>
+<?php
+	unset($_SESSION['files']);
+	unset($_SESSION['album_id']);
+?>

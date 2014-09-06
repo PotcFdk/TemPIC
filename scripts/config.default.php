@@ -1,3 +1,4 @@
 <?php
-	$PATH_TEMPIC = "/var/www/tempic";
+	$PATH_TEMPIC   = "../web";
+	$PATH_INCLUDES = "../includes";
 ?>
