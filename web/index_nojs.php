@@ -21,6 +21,34 @@ session_start();
 	See the License for the specific language governing permissions and
 	limitations under the License.
 -->
+<?php
+	// Make sure $files, $album_id and $remaining_time contain the data we want.
+
+	if (!empty($_SESSION['files'])) {
+		$files = $_SESSION['files'];
+		$album_id = $_SESSION['album_id'];
+		if (!empty($_SESSION['album_lifetime']) && !empty($LIFETIMES[$_SESSION['album_lifetime']]))
+			$remaining_time = $LIFETIMES[$_SESSION['album_lifetime']];
+	}
+
+	if (empty($files) && isset($_GET['album'])) {
+		$album_id = strip_album_id($_GET['album']);
+		if (!empty($album_id)) {
+			$_a = explode(":", $album_id, 2);
+			$a_lifetime = $_a[0];
+			$a_hash = $_a[1];
+			
+			if (!empty($LIFETIMES[$a_lifetime]) && file_exists($PATH_ALBUM.'/'.$a_lifetime.'/'.$a_hash.'.txt')) {
+				$time  = time ();
+				$album = unserialize(file_get_contents($PATH_ALBUM.'/'.$a_lifetime.'/'.$a_hash.'.txt'));
+				if (!empty($album)) {
+					$files = $album;
+				}
+				$remaining_time = $LIFETIMES[$a_lifetime]['time']*60 - ($time - filemtime ($PATH_ALBUM.'/'.$a_lifetime.'/'.$a_hash.'.txt'));
+			}
+		}
+	}
+?>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -72,24 +100,7 @@ session_start();
 						</div>
 					</div>
 					
-					<?php $files;
-					if (isset($_GET['album'])) {
-						$album_id = strip_album_id($_GET['album']);
-						if (!empty($album_id)) {
-							$count = 1; // PHP. Why do you do this to me?
-							if (file_exists($PATH_ALBUM.'/'.str_replace(':','/',$album_id,$count).'.txt')) {
-								$album = unserialize(file_get_contents($PATH_ALBUM.'/'.str_replace(':','/',$album_id,$count).'.txt'));
-								if (!empty($album)) {
-									$files = $album;
-								}
-							}
-						}
-					}
-					if (empty($files) && !empty($_SESSION['files'])) {
-						$files = $_SESSION['files'];
-					}
-					
-					if (!empty($files)) : ?>
+					<?php if (!empty($files)) : ?>
 						<?php $count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
@@ -129,4 +140,8 @@ session_start();
 	</body>
 </html>
 
-<?php unset($_SESSION['files']); ?>
+<?php
+	unset($_SESSION['files']);
+	unset($_SESSION['album_id']);
+	unset($_SESSION['album_lifetime']);
+?>
