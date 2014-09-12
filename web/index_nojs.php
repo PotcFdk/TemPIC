@@ -53,7 +53,10 @@ session_start();
 							<div class="col-md-3">
 								<select class="form-control" name="lifetime">
 								<?php foreach ($LIFETIMES as $id => $data) : ?>
-									<option value="<?php echo $id; ?>"><?php echo $data['name']; ?></option>
+									<option value="<?php echo $id; ?>"<?php
+										if (isset($DEFAULT_LIFETIME) && $DEFAULT_LIFETIME == $id)
+											echo ' selected';
+									?>><?php echo $data['name']; ?></option>
 								<?php endforeach; ?>
 								</select>
 							</div>
