@@ -228,6 +228,18 @@ session_start();
 						</div>
 					</div>
 					
+					<?php if (isset($_GET['404'])) : ?>
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<div id="404_element" class="alert alert-danger alert-dismissable">
+									<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
+									<p id="404_element_text">The requested file could not be found!<br />
+									It may have been removed or it never existed in first place.</p>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
+					
 					<?php $files;
 					if (isset($_GET['album'])) {
 						$album_id = strip_album_id($_GET['album']);
