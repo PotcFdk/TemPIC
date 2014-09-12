@@ -17,39 +17,6 @@
 	require_once ($PATH_TEMPIC . '/config.php');
 	require_once ($PATH_INCLUDES . '/baseconfig.php');
 	
-	function formatTime ($time) {
-		$ret = "";
-		$first = true;
-		
-		$hours = intval (intval ($time) / 3600);
-		if ($hours > 0) {
-			if ($first)
-				$first = false;
-			else
-				$ret .= ' ';
-			$ret .= $hours . ' hours';
-		}
-		
-		$minutes = bcmod ((intval ($time) / 60), 60);
-		if ($hours > 0 || $minutes > 0) {
-			if ($first)
-				$first = false;
-			else
-				$ret .= ' ';
-			$ret .= $minutes . ' minutes';
-		}
-		
-		if ($first)
-			$first = false;
-		else
-			$ret .= ' ';
-		
-		$time = bcmod (intval ($time), 60);
-		$ret .= $time . ' seconds';
-
-		return $ret;
-	}
-	
 	$time  = time ();
 
 	// cleanup uploaded files
