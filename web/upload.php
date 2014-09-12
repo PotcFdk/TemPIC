@@ -102,25 +102,27 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	
 	// generate album
 	
-	$valid_files = array();
-	foreach ($files as $filen => $file) {
-		if (!isset($file['error'])) { // no errors, file is ok
-			$valid_files[$filen] = $file;
+	if (isset($lifetime) && array_key_exists($lifetime, $LIFETIMES)) {
+		$valid_files = array();
+		foreach ($files as $filen => $file) {
+			if (!isset($file['error'])) { // no errors, file is ok
+				$valid_files[$filen] = $file;
+			}
 		}
-	}
-	if (count($valid_files) >= 1) {
-		$album_bare_id = substr(md5(time()),12);
-		
-		$path_destination = $PATH_ALBUM.'/'.$lifetime;
-		if (!file_exists($path_destination)) {
-			mkdir($path_destination, 0775);
-			chmod($path_destination, 0775);
+		if (count($valid_files) >= 1) {
+			$album_bare_id = substr(md5(time()),12);
+			
+			$path_destination = $PATH_ALBUM.'/'.$lifetime;
+			if (!file_exists($path_destination)) {
+				mkdir($path_destination, 0775);
+				chmod($path_destination, 0775);
+			}
+			
+			file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($valid_files));
+			
+			$_SESSION['album_lifetime'] = $lifetime;
+			$_SESSION['album_id'] = $lifetime.':'.$album_bare_id;
 		}
-		
-		file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($valid_files));
-		
-		$_SESSION['album_lifetime'] = $lifetime;
-		$_SESSION['album_id'] = $lifetime.':'.$album_bare_id;
 	}
 
 	$_SESSION['files'] = $files;
