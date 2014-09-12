@@ -119,6 +119,7 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		
 		file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($valid_files));
 		
+		$_SESSION['album_lifetime'] = $lifetime;
 		$_SESSION['album_id'] = $lifetime.':'.$album_bare_id;
 	}
 
