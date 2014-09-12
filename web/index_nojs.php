@@ -66,6 +66,7 @@ session_start();
 				<div class="col-md-12">
 					<div class="page-header">
 						<h1><a href="<?php echo $URL_BASE.'/index_nojs.php'; ?>"><?php echo $INSTANCE_NAME; ?></a></h1>
+						<h4>NoJS version - <a href="/">click here</a> to access the normal version.</h4>
 					</div>
 
 					<form class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
