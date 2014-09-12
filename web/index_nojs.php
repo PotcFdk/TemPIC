@@ -28,7 +28,7 @@ session_start();
 		$files = $_SESSION['files'];
 		$album_id = $_SESSION['album_id'];
 		if (!empty($_SESSION['album_lifetime']) && !empty($LIFETIMES[$_SESSION['album_lifetime']]))
-			$remaining_time = $LIFETIMES[$_SESSION['album_lifetime']];
+			$remaining_time = $LIFETIMES[$_SESSION['album_lifetime']]['time'];
 	}
 
 	if (empty($files) && isset($_GET['album'])) {
