@@ -309,7 +309,7 @@ session_start();
 						</div>
 					</div>
 					
-					<?php if (isset($_GET['404'])) : ?>
+					<?php if (isset($_GET['404']) || (!empty($album_id) && empty($files))) : // 404 or bad album id ?>
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3">
 								<div id="404_element" class="alert alert-danger alert-dismissable">
