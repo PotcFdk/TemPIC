@@ -252,7 +252,7 @@ session_start();
 					xhr.addEventListener("error", uploadFailed, false);
 					xhr.addEventListener("abort", uploadCanceled, false);
 					
-					xhr.open("POST", "upload.php");
+					xhr.open("POST", "<?php echo $URL_BASE; ?>/upload.php");
 					xhr.send(fd);
 					upload_started = Date.now();
 					
@@ -278,7 +278,7 @@ session_start();
 						</noscript>
 					</div>
 					
-					<form id="file-form" class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
+					<form id="file-form" class="form-horizontal" method="post" action="<?php echo $URL_BASE; ?>/upload.php" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="file" class="col-md-1 control-label">Files</label>
 							<div class="col-md-8">

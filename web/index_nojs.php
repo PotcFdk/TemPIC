@@ -69,7 +69,7 @@ session_start();
 						<h4>NoJS version - <a href="/">click here</a> to access the normal version.</h4>
 					</div>
 
-					<form class="form-horizontal" method="post" action="upload.php" enctype="multipart/form-data">
+					<form class="form-horizontal" method="post" action="<?php echo $URL_BASE; ?>/upload.php" enctype="multipart/form-data">
 						<div class="form-group">
 							<input type="hidden" name="nojs" value="true">
 							<label for="file" class="col-md-1 control-label">Files</label>
