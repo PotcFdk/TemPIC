@@ -18,6 +18,16 @@
 require_once('../includes/configcheck.php');
 require_once('../includes/baseconfig.php');
 
+function createZipFile ($name, $files) {
+	$zip = new ZipArchive;
+	$zip->open($name, ZipArchive::CREATE);
+	foreach ($files as $filen => $file) {
+		$zip->addFile($file, $filen);
+	}
+	$zip->close();
+	return $zip;
+}
+
 function isImage($file) {
 	$finfo = finfo_open(FILEINFO_MIME_TYPE);
 	$mime = finfo_file($finfo, $file);
@@ -44,6 +54,7 @@ function rearrange($arr) {
 if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	session_start();
 	$files = array();
+	$file_paths = array();
 	$lifetime = $_POST['lifetime'];
 
 	// Because PHP structures the array in a retarded format
@@ -87,6 +98,7 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 				} else {
 					move_uploaded_file($file['tmp_name'], $path);
 					chmod($path, 0664);
+					$file_paths[$file['name']] = $path;
 
 					$link = $URL_BASE . '/' . $path;
 
@@ -122,6 +134,12 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 			
 			$_SESSION['album_lifetime'] = $lifetime;
 			$_SESSION['album_id'] = $lifetime.':'.$album_bare_id;
+			
+			// create album zip file
+			if (isset($ENABLE_ALBUM_ZIP) && $ENABLE_ALBUM_ZIP && count($valid_files) >= 2) {
+				$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
+				$zip_file = createZipFile($zip_path, $file_paths);
+			}
 		}
 	}
 
