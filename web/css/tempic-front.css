@@ -57,10 +57,3 @@ progress {
 	width: 100%;
 	height: 20px;
 }
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url('../fonts/opensans.woff') format('woff');
-}

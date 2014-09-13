@@ -54,14 +54,23 @@ session_start();
 		<meta charset="utf-8">
 		<title><?php echo $INSTANCE_NAME; ?></title>
 
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link href="css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $URL_BASE; ?>/css/bootstrap.min.css">
+		<link href="<?php echo $URL_BASE; ?>/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $URL_BASE; ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $URL_BASE; ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
 
-		<script src="js/jquery-2.1.0.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/fileinput.min.js"></script>
+		<script src="<?php echo $URL_BASE; ?>/js/jquery-2.1.0.min.js"></script>
+		<script src="<?php echo $URL_BASE; ?>/js/bootstrap.min.js"></script>
+		<script src="<?php echo $URL_BASE; ?>/js/fileinput.min.js"></script>
+		
+		<style>
+			@font-face {
+				font-family: 'Open Sans';
+				font-style: normal;
+				font-weight: 400;
+				src: local('Open Sans'), local('OpenSans'), url('<?php echo $URL_BASE; ?>/fonts/opensans.woff') format('woff');
+			}
+		</style>
 
 		<script>
 			function warn(text) {
