@@ -169,7 +169,7 @@ session_start();
 							} else {
 								$('#lifetime_text').html('<p><span class="label label-danger">Removed</span> '
 									+ 'This album has been removed.</p>');
-								setInterval(function() { window.location = "/"; }, 1000);
+								setInterval(function() { window.location = "<?php echo $URL_BASE; ?>"; }, 1000);
 							}
 						}
 						updateRemainingLifetime();
