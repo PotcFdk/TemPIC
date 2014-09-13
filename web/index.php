@@ -227,7 +227,7 @@ session_start();
 					if (evt.target.responseText) {
 						window.location = "<?php echo get_album_url(); ?>" + evt.target.responseText;
 					} else {
-						window.location = "/";
+						window.location = "<?php echo $URL_BASE; ?>";
 					}
 				}
 
