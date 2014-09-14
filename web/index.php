@@ -22,17 +22,24 @@ session_start();
 	limitations under the License.
 -->
 <?php
-	// Make sure $files, $album_id and $remaining_time contain the data we want.
+	// Make sure $files, $album_id, $album_hash and $remaining_time contain the data we want.
 
 	if (!empty($_SESSION['files'])) {
 		$files = $_SESSION['files'];
-		$album_id = $_SESSION['album_id'];
-		$album_lifetime = $_SESSION['album_lifetime'];
 		
-		$_a = explode(":", $album_id, 2);
-		$album_hash = $_a[1];
+		if (!empty($_SESSION['album_id'])) {
+			$album_id = $_SESSION['album_id'];
+			$_a = explode(":", $album_id, 2);
+			$album_hash = $_a[1];
+		}
 		
-		if (!empty($_SESSION['album_lifetime']) && !empty($LIFETIMES[$_SESSION['album_lifetime']]))
+		if (!empty($_SESSION['album_lifetime'])) {
+			$album_lifetime = $_SESSION['album_lifetime'];
+			if (!empty($LIFETIMES[$album_lifetime]))
+				$remaining_time = $LIFETIMES[$_SESSION['album_lifetime']]['time']*60;
+		}
+		
+		if (!empty($album_lifetime) && !empty($LIFETIMES[$album_lifetime]))
 			$remaining_time = $LIFETIMES[$_SESSION['album_lifetime']]['time']*60;
 	}
 
