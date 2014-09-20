@@ -290,7 +290,7 @@ session_start();
 									<?php if (!empty($file['error'])) : ?>
 		                                <div class="alert alert-danger alert-dismissable">
 		                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		                                    Error uploading "<?php echo $name; ?>": <?php echo $file['error']; ?>
+		                                    Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
 		                                </div>
 		                            <?php else: ?>
 										<div class="panel panel-default">
