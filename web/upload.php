@@ -108,6 +108,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					$files[$file['name']]['image'] = isImage($path);
 					if (!empty($fileinfo['extension']))
 						$files[$file['name']]['extension'] = $fileinfo['extension'];
+					$files[$file['name']]['md5'] = md5_file($path);
 				}
 			}
 		} else {

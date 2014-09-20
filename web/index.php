@@ -334,6 +334,9 @@ session_start();
 
 	                                                <p><?php echo htmlspecialchars($name); ?></p>
 												</a>
+												<?php if (!empty($file['md5'])) :?><br />
+													MD5: <?php echo $file['md5'];
+												endif; ?>
 											</div>
 										</div>
 									<?php endif; ?>
