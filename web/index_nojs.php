@@ -22,12 +22,24 @@ session_start();
 	limitations under the License.
 -->
 <?php
-	// Make sure $files, $album_id and $remaining_time contain the data we want.
+	// Make sure $files, $album_id, $album_hash and $remaining_time contain the data we want.
 
 	if (!empty($_SESSION['files'])) {
 		$files = $_SESSION['files'];
-		$album_id = $_SESSION['album_id'];
-		if (!empty($_SESSION['album_lifetime']) && !empty($LIFETIMES[$_SESSION['album_lifetime']]))
+		
+		if (!empty($_SESSION['album_id'])) {
+			$album_id = $_SESSION['album_id'];
+			$_a = explode(":", $album_id, 2);
+			$album_hash = $_a[1];
+		}
+		
+		if (!empty($_SESSION['album_lifetime'])) {
+			$album_lifetime = $_SESSION['album_lifetime'];
+			if (!empty($LIFETIMES[$album_lifetime]))
+				$remaining_time = $LIFETIMES[$_SESSION['album_lifetime']]['time']*60;
+		}
+		
+		if (!empty($album_lifetime) && !empty($LIFETIMES[$album_lifetime]))
 			$remaining_time = $LIFETIMES[$_SESSION['album_lifetime']]['time']*60;
 	}
 
@@ -35,16 +47,16 @@ session_start();
 		$album_id = strip_album_id($_GET['album']);
 		if (!empty($album_id)) {
 			$_a = explode(":", $album_id, 2);
-			$a_lifetime = $_a[0];
-			$a_hash = $_a[1];
+			$album_lifetime = $_a[0];
+			$album_hash = $_a[1];
 			
-			if (!empty($LIFETIMES[$a_lifetime]) && file_exists($PATH_ALBUM.'/'.$a_lifetime.'/'.$a_hash.'.txt')) {
+			if (!empty($LIFETIMES[$album_lifetime]) && file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')) {
 				$time  = time ();
-				$album = unserialize(file_get_contents($PATH_ALBUM.'/'.$a_lifetime.'/'.$a_hash.'.txt'));
+				$album = unserialize(file_get_contents($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
 				if (!empty($album)) {
 					$files = $album;
 				}
-				$remaining_time = $LIFETIMES[$a_lifetime]['time']*60 - ($time - filemtime ($PATH_ALBUM.'/'.$a_lifetime.'/'.$a_hash.'.txt'));
+				$remaining_time = $LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime ($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
 			}
 		}
 	}
@@ -109,6 +121,17 @@ session_start();
 									<p id="404_element_text">The requested file could not be found!<br />
 									It may have been removed or it never existed in first place.</p>
 								</div>
+							</div>
+						</div>
+					<?php endif; ?>
+					
+					<?php if (!empty($album_lifetime) && !empty($album_hash)
+						&& file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip')) : ?>
+						<div class="row">
+							<div class="col-md-12">
+								<p><span class="label label-info">Zip File</span> You can <a href="<?php
+									echo $URL_BASE.'/'.$PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip';
+								?>">download the entire album as a zip file</a>!</p>
 							</div>
 						</div>
 					<?php endif; ?>
