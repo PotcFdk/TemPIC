@@ -65,9 +65,8 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 
 		if ($file['size'] <= $SIZE_LIMIT) {
 			$fileinfo = pathinfo($file['name']);
-			$extension = $fileinfo['extension'];
 
-			if (in_array($extension, $DISALLOWED_EXTS)) {
+			if (!empty($fileinfo['extension']) && in_array($extension, $DISALLOWED_EXTS)) {
 				$files[$file['name']]['error'] = 'Disallowed file type!';
 			} elseif ($file['error'] > 0) {
 				$files[$file['name']]['error'] = 'Return Code: ' . $file['error'];
@@ -107,7 +106,8 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 
 					$files[$file['name']]['link'] = $link;
 					$files[$file['name']]['image'] = isImage($path);
-					$files[$file['name']]['extension'] = $extension;
+					if (!empty($fileinfo['extension']))
+						$files[$file['name']]['extension'] = $fileinfo['extension'];
 				}
 			}
 		} else {
