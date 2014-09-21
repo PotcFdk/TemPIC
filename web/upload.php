@@ -100,7 +100,10 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					chmod($path, 0664);
 					$file_paths[$file['name']] = $path;
 
-					$link = $URL_BASE . '/' . $path;
+					if (!empty($URL_UPLOAD)) // $URL_UPLOAD lifetime / uid / filename
+						$link = $URL_UPLOAD . $lifetime . '/' . $uid . '/' . $fileinfo['basename'];
+					else // $URL_BASE / upload / lifetime / uid / filename
+						$link = $URL_BASE . '/' . $path;
 
 					$files[$file['name']]['link'] = $link;
 					$files[$file['name']]['image'] = isImage($path);
