@@ -299,7 +299,9 @@ session_start();
 	                                                <?php if ($file['image']) : ?>
 	                                                    <img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
 	                                                <?php else: ?>
-	                                                	<?php $image = $URL_BASE . '/img/filetypes/' . (file_exists('img/filetypes/' . $file['extension'] . '.png') ? $file['extension'] : '_blank') . '.png'; ?>
+	                                                	<?php $image = $URL_BASE . '/img/filetypes/'
+															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
+															? $file['extension'] : '_blank') . '.png'; ?>
 														<img src="<?php echo $image; ?>" alt="Uploaded File" class="img-responsive">
 	                                                <?php endif; ?>
 
