@@ -66,7 +66,7 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		if ($file['size'] <= $SIZE_LIMIT) {
 			$fileinfo = pathinfo($file['name']);
 
-			if (!empty($fileinfo['extension']) && in_array($extension, $DISALLOWED_EXTS)) {
+			if (!empty($fileinfo['extension']) && in_array($fileinfo['extension'], $DISALLOWED_EXTS)) {
 				$files[$file['name']]['error'] = 'Disallowed file type!';
 			} elseif ($file['error'] > 0) {
 				$files[$file['name']]['error'] = 'Return Code: ' . $file['error'];
