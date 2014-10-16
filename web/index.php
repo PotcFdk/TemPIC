@@ -232,6 +232,11 @@ session_start();
 								</select>
 							</div>
 						</div>
+						<div class="row" id="div_albumname">
+							<div class="col-md-8 col-md-offset-1">
+								<input type="text" name="album_name" id="album_name">
+							</div>
+						</div>
 					</form>
 
 					<div class="row" id="div_progressbar">
