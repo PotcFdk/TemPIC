@@ -118,13 +118,16 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	// generate album
 	
 	if (isset($lifetime) && array_key_exists($lifetime, $LIFETIMES)) {
-		$valid_files = array();
+		$album_data = array();
+		$album_data['name'] = $_POST['album_name'];
+		$album_data['files'] = array();
+
 		foreach ($files as $filen => $file) {
 			if (!isset($file['error'])) { // no errors, file is ok
-				$valid_files[$filen] = $file;
+				$album_data['files'][$filen] = $file;
 			}
 		}
-		if (count($valid_files) >= 1) {
+		if (count($album_data['files']) >= 1) {
 			$album_bare_id = substr(md5(time()),12);
 			
 			$path_destination = $PATH_ALBUM.'/'.$lifetime;
@@ -133,13 +136,13 @@ if (is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 				chmod($path_destination, 0775);
 			}
 			
-			file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($valid_files));
+			file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($album_data));
 			
 			$_SESSION['album_lifetime'] = $lifetime;
 			$_SESSION['album_id'] = $lifetime.':'.$album_bare_id;
 			
 			// create album zip file
-			if (isset($ENABLE_ALBUM_ZIP) && $ENABLE_ALBUM_ZIP && count($valid_files) >= 2) {
+			if (isset($ENABLE_ALBUM_ZIP) && $ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
 				$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
 				$zip_file = createZipFile($zip_path, $file_paths);
 			}

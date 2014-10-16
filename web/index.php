@@ -52,9 +52,10 @@ session_start();
 			
 			if (!empty($LIFETIMES[$album_lifetime]) && file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')) {
 				$time  = time ();
-				$album = unserialize(file_get_contents($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
-				if (!empty($album)) {
-					$files = $album;
+				$album_data = unserialize(file_get_contents($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
+				if (!empty($album_data) && !empty($album_data['files'])) {
+					$album_name = $album_data['name'];
+					$files = $album_data['files'];
 				}
 				$remaining_time = $LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime ($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
 			}
@@ -64,7 +65,8 @@ session_start();
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title><?php echo $INSTANCE_NAME; ?></title>
+		<title><?php if (!empty($album_name)) { echo htmlspecialchars($album_name, ENT_QUOTES); }
+			echo $INSTANCE_NAME; ?></title>
 
 		<link rel="stylesheet" href="<?php echo $URL_BASE; ?>/css/bootstrap.min.css">
 		<link href="<?php echo $URL_BASE; ?>/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
@@ -101,7 +103,7 @@ session_start();
 								$('#lifetime_text').html('<p><span class="label label-info">Album removal</span> Remaining time: '
 									+ millisecondsToAccurateStr(remaining*1000)+'</p>');
 								-- remaining;
-							} else {
+-							} else {
 								$('#lifetime_text').html('<p><span class="label label-danger">Removed</span> '
 									+ 'This album has been removed.</p>');
 								setInterval(function() { window.location = "<?php echo $URL_BASE; ?>"; }, 1000);
