@@ -92,7 +92,7 @@ session_start();
 
 		<script>			
 			$(function() {
-				$('#div_albumname').hide();
+				$('#div_albumname_input').hide();
 				$('#div_warn_element').hide();
 				$('#warn_element').hide();
 				$('#div_progressbar').hide();
@@ -142,7 +142,8 @@ session_start();
 					}
 					
 					if (show) warn(warning);
-					else if (this.files.length >= 2) $('#div_albumname').show();
+					else if (this.files.length >= 2) $('#div_albumname_input').show();
+					else $('#div_albumname_input').hide();
 				});
 				
 				var upload_started = 0;
@@ -237,7 +238,7 @@ session_start();
 								</select>
 							</div>
 						</div>
-						<div class="row" id="div_albumname">
+						<div class="row" id="div_albumname_input">
 							<label for="file" class="col-md-1 control-label">Name</label>
 							<div class="col-md-8">
 								<input type="text" class="form-control" name="album_name" id="album_name">
