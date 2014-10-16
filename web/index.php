@@ -233,8 +233,9 @@ session_start();
 							</div>
 						</div>
 						<div class="row" id="div_albumname">
-							<div class="col-md-8 col-md-offset-1">
-								<input type="text" name="album_name" id="album_name">
+							<label for="file" class="col-md-1 control-label">Name</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="album_name" id="album_name">
 							</div>
 						</div>
 					</form>
