@@ -27,6 +27,9 @@ session_start();
 	if (!empty($_SESSION['files'])) {
 		$files = $_SESSION['files'];
 		
+		if (!empty($_SESSION['album_name']))
+			$album_name = $_SESSION['album_name'];
+
 		if (!empty($_SESSION['album_id'])) {
 			$album_id = $_SESSION['album_id'];
 			$_a = explode(":", $album_id, 2);
@@ -64,7 +67,8 @@ session_start();
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title><?php echo $INSTANCE_NAME; ?></title>
+		<title><?php if (!empty($album_name)) { echo htmlspecialchars($album_name, ENT_QUOTES).' - '; }
+			echo $INSTANCE_NAME; ?></title>
 
 		<link rel="stylesheet" href="<?php echo $URL_BASE; ?>/css/bootstrap.min.css">
 		<link href="<?php echo $URL_BASE; ?>/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
@@ -102,6 +106,12 @@ session_start();
 								</select>
 							</div>
 						</div>
+						<div class="row" id="div_albumname_input">
+							<label for="file" class="col-md-1 control-label">Name</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="album_name" id="album_name">
+							</div>
+						</div>
 					</form>
 
 					<div class="row">
@@ -125,6 +135,14 @@ session_start();
 						</div>
 					<?php endif; ?>
 					
+					<?php if (!empty($album_name)) : ?>
+						<div class="row">
+							<div class="col-md-8">
+								<h3 id="albumname_text">Album: <?php echo htmlspecialchars($album_name, ENT_QUOTES); ?></h3>
+							</div>
+						</div>
+					<?php endif; ?>
+
 					<?php if (!empty($album_lifetime) && !empty($album_hash)
 						&& file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip')) : ?>
 						<div class="row">
@@ -180,6 +198,7 @@ session_start();
 
 <?php
 	unset($_SESSION['files']);
+	unset($_SESSION['album_name']);
 	unset($_SESSION['album_id']);
 	unset($_SESSION['album_lifetime']);
 ?>
