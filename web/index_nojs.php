@@ -94,7 +94,7 @@ session_start();
 								<input class="file" type="file" name="file[]" id="file" multiple="multiple">
 							</div>
 							<div class="col-md-2">
-								<input class="submit" type="submit" name="submit" id="submit">
+								<input class="submit" type="submit" name="submit" id="submit" value="Upload">
 							</div>
 							<div class="col-md-3">
 								<select class="form-control" name="lifetime">
