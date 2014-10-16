@@ -89,6 +89,7 @@ session_start();
 
 		<script>			
 			$(function() {
+				$('#div_albumname').hide();
 				$('#div_warn_element').hide();
 				$('#warn_element').hide();
 				$('#div_progressbar').hide();
@@ -138,6 +139,7 @@ session_start();
 					}
 					
 					if (show) warn(warning);
+					else if (this.files.length >= 2) $('#div_albumname').show();
 				});
 				
 				var upload_started = 0;
