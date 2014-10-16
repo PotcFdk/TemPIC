@@ -65,7 +65,7 @@ session_start();
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title><?php if (!empty($album_name)) { echo htmlspecialchars($album_name, ENT_QUOTES); }
+		<title><?php if (!empty($album_name)) { echo htmlspecialchars($album_name, ENT_QUOTES).' - '; }
 			echo $INSTANCE_NAME; ?></title>
 
 		<link rel="stylesheet" href="<?php echo $URL_BASE; ?>/css/bootstrap.min.css">
