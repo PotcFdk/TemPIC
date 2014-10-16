@@ -27,6 +27,9 @@ session_start();
 	if (!empty($_SESSION['files'])) {
 		$files = $_SESSION['files'];
 		
+		if (!empty($_SESSION['album_name']))
+			$album_name = $_SESSION['album_name'];
+
 		if (!empty($_SESSION['album_id'])) {
 			$album_id = $_SESSION['album_id'];
 			$_a = explode(":", $album_id, 2);
