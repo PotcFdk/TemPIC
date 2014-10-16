@@ -103,7 +103,7 @@ session_start();
 								$('#lifetime_text').html('<p><span class="label label-info">Album removal</span> Remaining time: '
 									+ millisecondsToAccurateStr(remaining*1000)+'</p>');
 								-- remaining;
--							} else {
+							} else {
 								$('#lifetime_text').html('<p><span class="label label-danger">Removed</span> '
 									+ 'This album has been removed.</p>');
 								setInterval(function() { window.location = "<?php echo $URL_BASE; ?>"; }, 1000);
