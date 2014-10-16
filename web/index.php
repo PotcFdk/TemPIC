@@ -278,6 +278,14 @@ session_start();
 							</div>
 						</div>
 					<?php endif; ?>
+
+					<?php if (!empty($album_name)) : ?>
+						<div class="row">
+							<div class="col-md-8">
+								<h3 id="albumname_text">Album: <?php echo htmlspecialchars($album_name, ENT_QUOTES); ?></h3>
+							</div>
+						</div>
+					<?php endif; ?>
 					
 					<?php if (!empty($album_lifetime) && !empty($album_hash)
 						&& file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip')) : ?>
