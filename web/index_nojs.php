@@ -55,9 +55,10 @@ session_start();
 			
 			if (!empty($LIFETIMES[$album_lifetime]) && file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')) {
 				$time  = time ();
-				$album = unserialize(file_get_contents($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
-				if (!empty($album)) {
-					$files = $album;
+				$album_data = unserialize(file_get_contents($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
+				if (!empty($album_data) && !empty($album_data['files'])) {
+					$album_name = $album_data['name'];
+					$files = $album_data['files'];
 				}
 				$remaining_time = $LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime ($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
 			}
