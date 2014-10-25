@@ -142,7 +142,7 @@ session_start();
 					}
 					
 					if (show) warn(warning);
-					else if (this.files.length >= 2) $('#div_albumname_input').show();
+					else if (this.files.length > 0) $('#div_albumname_input').show();
 					else $('#div_albumname_input').hide();
 				});
 				
