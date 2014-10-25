@@ -15,6 +15,10 @@ body {
 	background: transparent;
 }
 
+pre {
+	word-wrap: normal;
+}
+
 .page-header h1 {
 	cursor: default;
 }
