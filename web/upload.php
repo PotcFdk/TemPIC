@@ -108,7 +108,9 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					$files[$file['name']]['image'] = isImage($path);
 					if (!empty($fileinfo['extension']))
 						$files[$file['name']]['extension'] = $fileinfo['extension'];
+					$files[$file['name']]['crc'] = hash_file('crc32b', $path);
 					$files[$file['name']]['md5'] = md5_file($path);
+					$files[$file['name']]['sha1'] = sha1_file($path);
 				}
 			}
 		} else {
