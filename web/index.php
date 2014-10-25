@@ -50,8 +50,10 @@ session_start();
 		$album_id = strip_album_id($_GET['album']);
 		if (!empty($album_id)) {
 			$_a = explode(":", $album_id, 2);
-			$album_lifetime = $_a[0];
-			$album_hash = $_a[1];
+			if (!empty($_a[0]))
+				$album_lifetime = $_a[0];
+			if (!empty($_a[1]))
+				$album_hash = $_a[1];
 			
 			if (!empty($LIFETIMES[$album_lifetime]) && file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')) {
 				$time  = time ();
