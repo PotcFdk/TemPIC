@@ -163,8 +163,8 @@ if (isset($_POST['nojs'])) {
 		echo ($_SESSION['album_id']);
 } else {
 	if (!empty($_SESSION['album_id']))
-		header('Location: '.$URL_BASE);
-	else
 		header('Location: '.$URL_BASE.'?album='.$_SESSION['album_id']);
+	else
+		header('Location: '.$URL_BASE);
 }
 ?>
