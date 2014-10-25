@@ -185,6 +185,14 @@ session_start();
 
 	                                                <p><?php echo htmlspecialchars($name); ?></p>
 												</a>
+												<pre><?php
+													if (!empty($file['crc']))
+														echo "CRC32: " . $file['crc'] . "\n";
+													if (!empty($file['md5']))
+														echo "MD5  : " . $file['md5'] . "\n";
+													if (!empty($file['sha1']))
+														echo "SHA-1: " . $file['sha1'] . "\n";
+												?></pre>
 											</div>
 										</div>
 									<?php endif; ?>
