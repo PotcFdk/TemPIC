@@ -326,14 +326,13 @@ session_start();
 							<p id="lifetime_text"></p>
 						</div>
 					</div>
-
+					
+					<?php if (!empty($files)) : ?>
 					<div class="row">
 						<div class="col-md-12">
 							<p id="checksum_toggle_text"><span class="label label-info">Checksums</span> <input type="checkbox" id="checksums-toggle"> Show file checksums</p>
 						</div>
 					</div>
-					
-					<?php if (!empty($files)) : ?>
 						<?php $count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>

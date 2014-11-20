@@ -162,6 +162,7 @@ session_start();
 						</div>
 					<?php endif; ?>
 					
+					<?php if (!empty($files)) : ?>
 					<div class="row">
 						<div class="col-md-12">
 							<form action="" method="post">
@@ -171,8 +172,6 @@ session_start();
 							</form>
 						</div>
 					</div>
-					
-					<?php if (!empty($files)) : ?>
 						<?php $count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
