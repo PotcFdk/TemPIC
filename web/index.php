@@ -103,6 +103,7 @@ session_start();
 				$('#div_progressbar').hide();
 				$('#progressbar').hide();
 				$('#div_progresstext').hide();
+				$(".checksum-field").hide();
 				
 				<?php // Show album lifetime, if possible.
 					if (!empty($remaining_time)) : ?>									
