@@ -121,7 +121,15 @@ session_start();
 						updateRemainingLifetime();
 						setInterval(updateRemainingLifetime, 1000);
 				<?php endif; ?>
-				
+
+				$('#checksums-toggle').change(function() {
+					if ($(this).is(':checked')) {
+						$(".checksum-field").show(300);
+					} else {
+						$(".checksum-field").hide(300);
+					}
+				});
+
 				// File upload form setup.
 				
 			    $("[data-hide]").on("click", function(){
@@ -308,6 +316,12 @@ session_start();
 							<p id="lifetime_text"></p>
 						</div>
 					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<input type="checkbox" id="checksums-toggle" /> <p>show file checksums</p>
+						</div>
+					</div>
 					
 					<?php if (!empty($files)) : ?>
 						<?php $count = 0; ?>
@@ -334,7 +348,7 @@ session_start();
 
 	                                                <p><?php echo htmlspecialchars($name); ?></p>
 												</a>
-												<pre><?php
+												<pre class="checksum-field"><?php
 													if (!empty($file['crc']))
 														echo "CRC32: " . $file['crc'] . "\n";
 													if (!empty($file['md5']))
