@@ -100,9 +100,9 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					$file_paths[$file['name']] = $path;
 
 					if (!empty($URL_UPLOAD)) // $URL_UPLOAD lifetime / uid / filename
-						$link = $URL_UPLOAD . $lifetime . '/' . $uid . '/' . $fileinfo['basename'];
-					else // $URL_BASE / upload / lifetime / uid / filename
-						$link = $URL_BASE . '/' . $path;
+						$link = $URL_UPLOAD . $lifetime . '/' . $uid . '/' . rawurlencode($fileinfo['basename']);
+					else // $URL_BASE / (upload / lifetime / uid) / filename
+						$link = $URL_BASE . '/' . $path_destination . '/' . rawurlencode($fileinfo['basename']);
 
 					$files[$file['name']]['link'] = $link;
 					$files[$file['name']]['image'] = isImage($path);

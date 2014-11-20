@@ -95,7 +95,15 @@ session_start();
 			}
 		</style>
 
-		<script>			
+		<script>	
+			// Detect browser capabilities
+			window.onload = function() {
+				if (window.FormData === undefined)
+					document.getElementById("browser_warning_text").innerHTML = 'Your browser seems to be heavily outdated. Please consider updating. As a workaround you can use <a href="index_nojs.php">the NoJS version</a>.';
+				else
+					document.getElementById("browser_warning_text").style.display = 'none';
+			}
+			
 			$(function() {
 				$('#div_albumname_input').hide();
 				$('#div_warn_element').hide();
@@ -233,6 +241,7 @@ session_start();
 						<noscript>
 							<p>This site is best viewed with JavaScript. If you don't want to turn on JavaScript, please use <a href="index_nojs.php">the NoJS version</a>.</p>
 						</noscript>
+						<p id="browser_warning_text"></p>
 					</div>
 					
 					<form id="file-form" class="form-horizontal" method="post" action="<?php echo $URL_BASE; ?>/upload.php" enctype="multipart/form-data">
