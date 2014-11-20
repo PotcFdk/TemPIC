@@ -320,7 +320,7 @@ session_start();
 
 					<div class="row">
 						<div class="col-md-12">
-							<input type="checkbox" id="checksums-toggle" /> <p>show file checksums</p>
+							<p id="checksum_toggle_text"><span class="label label-info">Checksums</span> <input type="checkbox" id="checksums-toggle"> Show file checksums</p>
 						</div>
 					</div>
 					
