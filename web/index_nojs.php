@@ -69,6 +69,8 @@ session_start();
 			}
 		}
 	}
+	
+	$display_checksums = !empty($_POST['checksums']);
 ?>
 <html>
 	<head>
@@ -160,6 +162,16 @@ session_start();
 						</div>
 					<?php endif; ?>
 					
+					<div class="row">
+						<div class="col-md-12">
+							<form action="" method="post">
+								<p id="checksum_toggle_text"><span class="label label-info">Checksums</span>
+								<input type="hidden" name="checksums" value="<?php echo $display_checksums ? "" : "true"; ?>">
+								<input type="submit" value="<?php echo $display_checksums ? "Hide" : "Show"; ?> file checksums"></p>
+							</form>
+						</div>
+					</div>
+					
 					<?php if (!empty($files)) : ?>
 						<?php $count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
@@ -185,14 +197,15 @@ session_start();
 
 	                                                <p><?php echo htmlspecialchars($name); ?></p>
 												</a>
-												<pre><?php
+												<?php if ($display_checksums): ?>
+												<pre class="checksum-field"><?php
 													if (!empty($file['crc']))
 														echo "CRC32: " . $file['crc'] . "\n";
 													if (!empty($file['md5']))
 														echo "MD5  : " . $file['md5'] . "\n";
 													if (!empty($file['sha1']))
 														echo "SHA-1: " . $file['sha1'] . "\n";
-												?></pre>
+												?></pre><?php endif; ?>
 											</div>
 										</div>
 									<?php endif; ?>
