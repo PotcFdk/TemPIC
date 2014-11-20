@@ -99,7 +99,7 @@ session_start();
 			// Detect browser capabilities
 			window.onload = function() {
 				if (window.FormData === undefined)
-					document.getElementById("browser_warning_text").innerHTML = 'Your browser seems to be heavily outdated. Please consider updating. As a workaround you can use <a href="index_nojs.php">the NoJS version</a>.';
+					document.getElementById("browser_warning_text").innerHTML = 'Your browser seems to be heavily outdated. Please consider updating. As a workaround you can use <a href="index_nojs.php<?php if (!empty($album_id)) echo '?album='.$album_id; ?>">the NoJS version</a>.';
 				else
 					document.getElementById("browser_warning_text").style.display = 'none';
 			}
@@ -239,7 +239,7 @@ session_start();
 
 					<div class="row">
 						<noscript>
-							<p>This site is best viewed with JavaScript. If you don't want to turn on JavaScript, please use <a href="index_nojs.php">the NoJS version</a>.</p>
+							<p>This site is best viewed with JavaScript. If you don't want to turn on JavaScript, please use <a href="index_nojs.php<?php if (!empty($album_id)) echo '?album='.$album_id; ?>">the NoJS version</a>.</p>
 						</noscript>
 						<p id="browser_warning_text"></p>
 					</div>
