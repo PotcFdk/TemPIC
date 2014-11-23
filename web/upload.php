@@ -30,7 +30,9 @@ function createZipFile ($name, $files) {
 
 function isImage($file) {
 	$finfo = finfo_open(FILEINFO_MIME_TYPE);
+	$err_lvl = error_reporting(E_ALL & ~E_WARNING);
 	$mime = finfo_file($finfo, $file);
+	error_reporting($err_lvl);
 	finfo_close($finfo);
 
 	return ($mime == 'image/gif')
