@@ -304,7 +304,7 @@ session_start();
 
 					<?php if (!empty($album_name)) : ?>
 						<div class="row">
-							<div class="col-md-8">
+							<div class="col-md-12">
 								<h3 class="album-name" id="albumname_text">Album: <?php echo htmlspecialchars($album_name, ENT_QUOTES); ?></h3>
 							</div>
 						</div>
