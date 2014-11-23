@@ -36,6 +36,12 @@ h1 a:hover
 	cursor: inherit;
 }
 
+.album-name
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 form {
 	margin-bottom: 10px;
 }
