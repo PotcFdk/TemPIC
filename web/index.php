@@ -179,7 +179,8 @@ session_start();
 					var speed = evt.loaded / duration;
 					$('#progressbar').attr('value', percentComplete.toString());
 					$('#progresstext').html("Uploading: " + percentCompleteStr + "<br />"
-						+ humanFileSize(evt.loaded) + " / " + humanFileSize(evt.total) + " total<br />"
+						+ humanFileSize(evt.loaded) + " / " + humanFileSize(evt.total) + " total"
+							+ "@ " + humanFileSize(speed) + " per second<br />"
 						+ "Elapsed: " + millisecondsToStr(duration) + "<br />"
 						+ 'ETA: ' + millisecondsToStr((evt.total - evt.loaded)/speed));
 					document.title = "<?php echo $INSTANCE_NAME; ?> - " + percentCompleteStr + " (uploading)";
