@@ -181,7 +181,7 @@ session_start();
 					$('#progresstext').html("Uploading: " + percentCompleteStr + "<br />"
 						+ humanFileSize(evt.loaded) + " / " + humanFileSize(evt.total) + " total<br />"
 						+ 'ETA: ' + millisecondsToStr((evt.total - evt.loaded)/speed));
-					document.title = "<?php echo $INSTANCE_NAME; ?> - uploading " +  percentCompleteStr;
+					document.title = "<?php echo $INSTANCE_NAME; ?> - " + percentCompleteStr + " (uploading)";
 				  }
 				  else {
 					$('#progressbar').removeAttr('value');
