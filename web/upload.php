@@ -28,7 +28,36 @@ function createZipFile ($name, $files) {
 	return $zip;
 }
 
-function isImage($file) {
+function createThumbnail ($src, $dest, $new_width) {
+	$type = exif_imagetype($src);
+	
+	switch ($type) {
+        case 1:
+            $image = imagecreatefromgif($src);
+        break;
+        case 2:
+			$image = imagecreatefromjpeg($src);
+        break;
+        case 3:
+            $image = imagecreatefrompng($src);
+        break;
+		default:
+			return false;
+    }
+	
+	$width = imagesx($image);
+	$height = imagesy($image);
+	
+	$new_height = floor($height * ($new_width / $width));
+	
+	$target = imagecreatetruecolor($new_width, $new_height);
+	
+	imagecopyresampled($target, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+	imagejpeg($target, $dest);
+	return true;
+}
+
+function isImage ($file) {
 	$finfo = finfo_open(FILEINFO_MIME_TYPE);
 	$err_lvl = error_reporting(E_ALL & ~E_WARNING);
 	$mime = finfo_file($finfo, $file);
@@ -53,7 +82,22 @@ function mb_pathinfo($filepath) {
 	return $ret;
 }
 
-function rearrange($arr) {
+function hasThumbnailSupport ($file) {
+	$finfo = finfo_open(FILEINFO_MIME_TYPE);
+	$err_lvl = error_reporting(E_ALL & ~E_WARNING);
+	$mime = finfo_file($finfo, $file);
+	error_reporting($err_lvl);
+	finfo_close($finfo);
+
+	return ($mime == 'image/gif')
+		|| ($mime == 'image/jpeg')
+		|| ($mime == 'image/jpg')
+		|| ($mime == 'image/pjpeg')
+		|| ($mime == 'image/x-png')
+		|| ($mime == 'image/png');
+}
+
+function rearrange ($arr) {
 	foreach ($arr as $key => $all) {
 		foreach($all as $i => $val) {
 			$new[$i][$key] = $val;    
@@ -126,10 +170,12 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					$file_paths[$file['name']] = $path;
 
 					if (!empty($URL_UPLOAD)) // $URL_UPLOAD lifetime / uid / filename
-						$link = $URL_UPLOAD . $lifetime . '/' . $uid . '/' . rawurlencode($fileinfo['basename']);
+						$link_base = $URL_UPLOAD . $lifetime . '/' . $uid . '/';
 					else // $URL_BASE / (upload / lifetime / uid) / filename
-						$link = $URL_BASE . '/' . $path_destination . '/' . rawurlencode($fileinfo['basename']);
-
+						$link_base = $URL_BASE . '/' . $path_destination . '/';
+						
+					$link = $link_base . rawurlencode($fileinfo['basename']);
+						
 					$files[$file['name']]['link'] = $link;
 					$files[$file['name']]['image'] = isImage($path);
 					if (!empty($fileinfo['extension']))
@@ -137,6 +183,11 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					$files[$file['name']]['crc'] = hash_file('crc32b', $path);
 					$files[$file['name']]['md5'] = md5_file($path);
 					$files[$file['name']]['sha1'] = sha1_file($path);
+					
+					if (hasThumbnailSupport($path)) {
+						if (createThumbnail($path, $path_destination . '/_thumb_' . $fileinfo['filename'] . '.jpg', 500))
+							$files[$file['name']]['thumbnail'] = $link_base . '_thumb_' . rawurlencode($fileinfo['filename'] . '.jpg');
+					}
 				}
 			}
 		} else {
