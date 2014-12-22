@@ -44,6 +44,15 @@ function isImage($file) {
 		|| ($mime == 'image/svg+xml');
 }
 
+function mb_pathinfo($filepath) {
+	preg_match ('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m);
+	if ($m[1]) $ret['dirname']   = $m[1];
+	if ($m[2]) $ret['basename']  = $m[2];
+	if ($m[5]) $ret['extension'] = $m[5];
+	if ($m[3]) $ret['filename']  = $m[3];
+	return $ret;
+}
+
 function rearrange($arr) {
 	foreach ($arr as $key => $all) {
 		foreach($all as $i => $val) {
@@ -66,7 +75,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		$files[$file['name']] = array();
 
 		if ($file['size'] <= $SIZE_LIMIT) {
-			$fileinfo = pathinfo($file['name']);
+			$fileinfo = mb_pathinfo($file['name']);
 
 			if (!empty($fileinfo['extension']) && in_array($fileinfo['extension'], $DISALLOWED_EXTS)) {
 				$files[$file['name']]['error'] = 'Disallowed file type!';
