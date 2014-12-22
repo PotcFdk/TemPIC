@@ -28,10 +28,10 @@
 		$basedir = $PATH_TEMPIC . '/' . $PATH_UPLOAD . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
-			$subdirs = glob ($basedir . '/*');
+			$subdirs = scandir ($basedir);
 			foreach ($subdirs as $subdir) {
 				if (is_dir ($subdir)) {
-					$files = glob ($subdir . '/*');
+					$files = scandir($subdir);
 					$empty = true;
 					foreach ($files as $file) {
 						if (is_file ($file)) {
@@ -64,7 +64,7 @@
 		$basedir = $PATH_TEMPIC . '/' . $PATH_ALBUM . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
-			$files = glob ($basedir . '/*');
+			$files = scandir($basedir);
 			$empty = true;
 			foreach ($files as $file) {
 				if (is_file ($file)) {
