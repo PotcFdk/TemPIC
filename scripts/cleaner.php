@@ -19,6 +19,14 @@
 	require_once ($PATH_INCLUDES . '/helpers.php');
 	
 	$time  = time ();
+	
+	//
+	
+	$scandir_exclude = array('.', '..');
+	
+	function safe_scandir($dir) {
+		return array_diff(scandir ($dir), $scandir_exclude);
+	}
 
 	// cleanup uploaded files
 	
@@ -28,11 +36,11 @@
 		$basedir = $PATH_TEMPIC . '/' . $PATH_UPLOAD . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
-			$subdirs = scandir ($basedir);
+			$subdirs = safe_scandir ($basedir);
 			foreach ($subdirs as $subdir) {
 				$subdir = $basedir . '/' . $subdir;
 				if (is_dir ($subdir)) {
-					$files = scandir($subdir);
+					$files = safe_scandir($subdir);
 					$empty = true;
 					foreach ($files as $file) {
 						$file = $subdir . '/' . $file;
@@ -66,7 +74,7 @@
 		$basedir = $PATH_TEMPIC . '/' . $PATH_ALBUM . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
-			$files = scandir($basedir);
+			$files = safe_scandir($basedir);
 			$empty = true;
 			foreach ($files as $file) {
 				if (is_file ($file)) {
