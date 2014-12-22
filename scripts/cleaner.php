@@ -19,6 +19,12 @@
 	require_once ($PATH_INCLUDES . '/helpers.php');
 	
 	$time  = time ();
+	
+	//
+	
+	function safe_scandir($dir) {
+		return array_diff(scandir ($dir), array('.', '..'));
+	}
 
 	// cleanup uploaded files
 	
@@ -28,12 +34,14 @@
 		$basedir = $PATH_TEMPIC . '/' . $PATH_UPLOAD . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
-			$subdirs = glob ($basedir . '/*');
+			$subdirs = safe_scandir ($basedir);
 			foreach ($subdirs as $subdir) {
+				$subdir = $basedir . '/' . $subdir;
 				if (is_dir ($subdir)) {
-					$files = glob ($subdir . '/*');
+					$files = safe_scandir($subdir);
 					$empty = true;
 					foreach ($files as $file) {
+						$file = $subdir . '/' . $file;
 						if (is_file ($file)) {
 							$remaining = $data['time']*60 - ($time - filemtime ($file));
 							echo ' - found: ' . $file;
@@ -64,9 +72,10 @@
 		$basedir = $PATH_TEMPIC . '/' . $PATH_ALBUM . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
-			$files = glob ($basedir . '/*');
+			$files = safe_scandir($basedir);
 			$empty = true;
 			foreach ($files as $file) {
+				$file = $basedir . '/' . $file;
 				if (is_file ($file)) {
 					$remaining = $data['time']*60 - ($time - filemtime ($file));
 					echo ' - found: ' . $file;
