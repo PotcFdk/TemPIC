@@ -75,6 +75,7 @@
 			$files = safe_scandir($basedir);
 			$empty = true;
 			foreach ($files as $file) {
+				$file = $basedir . '/' . $file;
 				if (is_file ($file)) {
 					$remaining = $data['time']*60 - ($time - filemtime ($file));
 					echo ' - found: ' . $file;
