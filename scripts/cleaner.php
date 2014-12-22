@@ -30,10 +30,12 @@
 		if (is_dir ($basedir)) {
 			$subdirs = scandir ($basedir);
 			foreach ($subdirs as $subdir) {
+				$subdir = $basedir . '/' . $subdir;
 				if (is_dir ($subdir)) {
 					$files = scandir($subdir);
 					$empty = true;
 					foreach ($files as $file) {
+						$file = $subdir . '/' . $file;
 						if (is_file ($file)) {
 							$remaining = $data['time']*60 - ($time - filemtime ($file));
 							echo ' - found: ' . $file;
