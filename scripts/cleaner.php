@@ -22,10 +22,8 @@
 	
 	//
 	
-	$scandir_exclude = array('.', '..');
-	
 	function safe_scandir($dir) {
-		return array_diff(scandir ($dir), $scandir_exclude);
+		return array_diff(scandir ($dir), array('.', '..'));
 	}
 
 	// cleanup uploaded files
