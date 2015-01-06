@@ -66,7 +66,9 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	session_start();
 	$files = array();
 	$file_paths = array();
-	$lifetime = $_POST['lifetime'];
+	
+	if (!empty($_POST['lifetime']))
+		$lifetime = $_POST['lifetime'];
 	if (!empty($_POST['album_name']))
 		$album_name = $_POST['album_name'];
 
