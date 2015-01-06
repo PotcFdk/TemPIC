@@ -69,6 +69,9 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	
 	if (!empty($_POST['lifetime']))
 		$lifetime = $_POST['lifetime'];
+	elseif (!empty($DEFAULT_LIFETIME))
+		$lifetime = $DEFAULT_LIFETIME;
+	
 	if (!empty($_POST['album_name']))
 		$album_name = $_POST['album_name'];
 
