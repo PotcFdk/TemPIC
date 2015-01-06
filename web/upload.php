@@ -67,6 +67,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	$files = array();
 	$file_paths = array();
 	$lifetime = $_POST['lifetime'];
+	if (!empty($_POST['album_name']))
+		$album_name = $_POST['album_name'];
 
 	// Because PHP structures the array in a retarded format
 	$_FILES['file'] = rearrange($_FILES['file']);
@@ -133,7 +135,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	
 	if (isset($lifetime) && array_key_exists($lifetime, $LIFETIMES)) {
 		$album_data = array();
-		$album_data['name'] = $_POST['album_name'];
+		if (isset($album_name))
+			$album_data['name'] = $album_name;
 		
 		if (mb_strlen($album_data['name']) > 150)
 			$album_data['name'] = mb_substr($album_data['name'], 0, $MAX_ALBUM_NAME_LENGTH);
