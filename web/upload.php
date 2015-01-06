@@ -135,11 +135,12 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	
 	if (isset($lifetime) && array_key_exists($lifetime, $LIFETIMES)) {
 		$album_data = array();
-		if (isset($album_name))
+		if (isset($album_name)) {
 			$album_data['name'] = $album_name;
 		
-		if (mb_strlen($album_data['name']) > 150)
-			$album_data['name'] = mb_substr($album_data['name'], 0, $MAX_ALBUM_NAME_LENGTH);
+			if (mb_strlen($album_data['name']) > 150)
+				$album_data['name'] = mb_substr($album_data['name'], 0, $MAX_ALBUM_NAME_LENGTH);
+		}
 		
 		$album_data['files'] = array();
 
@@ -159,7 +160,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 			
 			file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($album_data));
 			
-			$_SESSION['album_name'] = $album_data['name'];
+			if (!empty($album_data['name']))
+				$_SESSION['album_name'] = $album_data['name'];
 			$_SESSION['album_lifetime'] = $lifetime;
 			$_SESSION['album_id'] = $lifetime.':'.$album_bare_id;
 			
