@@ -86,6 +86,7 @@ session_start();
 		<script src="<?php echo $URL_BASE; ?>/js/bootstrap.min.js"></script>
 		<script src="<?php echo $URL_BASE; ?>/js/fileinput.min.js"></script>
 		<script src="<?php echo $URL_BASE; ?>/js/tempic-helpers.js"></script>
+		<script src="<?php echo $URL_BASE; ?>/js/modernizr-p1.js"></script>
 		
 		<style>
 			@font-face {
@@ -99,7 +100,7 @@ session_start();
 		<script>	
 			// Detect browser capabilities
 			window.onload = function() {
-				if (window.FormData === undefined)
+				if (!Modernizr.filereader || !Modernizr.partialflexbox || window.FormData === undefined)
 					document.getElementById("browser_warning_text").innerHTML = 'Your browser seems to be heavily outdated. Please consider updating. As a workaround you can use <a href="index_nojs.php<?php if (!empty($album_id)) echo '?album='.$album_id; ?>">the NoJS version</a>.';
 				else
 					document.getElementById("browser_warning_text").style.display = 'none';
