@@ -284,7 +284,7 @@ session_start();
 							</div>
 						</div>
 						<div class="row" id="div_albumdescription_input">
-							<label for="file" class="col-md-1 control-label">Description</label>
+							<label for="file" class="col-md-1 control-label">Info</label>
 							<div class="col-md-8">
 								<textarea class="form-control" name="album_description" id="album_description"></textarea>
 							</div>
