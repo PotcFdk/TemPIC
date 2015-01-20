@@ -33,6 +33,9 @@ session_start();
 		if (!empty($_SESSION['album_name']))
 			$album_name = $_SESSION['album_name'];
 
+		if (!empty($_SESSION['album_description']))
+			$album_description = $_SESSION['album_description'];
+
 		if (!empty($_SESSION['album_id'])) {
 			$album_id = $_SESSION['album_id'];
 			$_a = explode(":", $album_id, 2);
@@ -64,6 +67,8 @@ session_start();
 				if (!empty($album_data) && !empty($album_data['files'])) {
 					if (!empty($album_data['name']))
 						$album_name = $album_data['name'];
+					if (!empty($album_data['description']))
+						$album_description = $album_data['description'];
 					$files = $album_data['files'];
 				}
 				$remaining_time = $LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime ($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
@@ -108,6 +113,7 @@ session_start();
 			
 			$(function() {
 				$('#div_albumname_input').hide();
+				$('#div_albumdescription_input').hide();
 				$('#div_warn_element').hide();
 				$('#warn_element').hide();
 				$('#div_progressbar').hide();
@@ -166,8 +172,14 @@ session_start();
 					}
 					
 					if (show) warn(warning);
-					else if (this.files.length > 0) $('#div_albumname_input').show();
-					else $('#div_albumname_input').hide();
+					else if (this.files.length > 0)	{
+						$('#div_albumname_input').show();
+						$('#div_albumdescription_input').show();
+					}
+					else {
+						$('#div_albumname_input').hide();
+						$('#div_albumdescription_input').hide();
+					}
 				});
 				
 				var upload_started = 0;
@@ -337,7 +349,14 @@ session_start();
 							<p id="checksum_toggle_text"><span class="label label-info">Checksums</span> <input type="checkbox" id="checksums-toggle"> Show file checksums</p>
 						</div>
 					</div>
-						<?php $count = 0; ?>
+					<?php if (!empty($album_description)) : ?>
+						<div class="row">
+							<div class="col-md-12">
+								<h3 class="album-description" id="albumdescription_text"><?php echo htmlspecialchars($album_description, ENT_QUOTES); ?></h3>
+							</div>
+						</div>
+					<?php endif;
+						$count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
 								<div class="col-md-4">
