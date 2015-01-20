@@ -289,8 +289,7 @@ session_start();
 								<textarea class="noscroll form-control"
 									name="album_description" id="album_description"
 									onkeyup="textAreaAutoResize"
-									placeholder="Album Description">
-								</textarea>
+									placeholder="Album Description"></textarea>
 							</div>
 						</div>
 					</form>
