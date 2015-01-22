@@ -78,6 +78,13 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	if (!empty($_POST['album_description']))
 		$album_description = $_POST['album_description'];
 
+	// trim name and description
+
+	$album_name = trim($album_name);
+	if (empty($album_name)) unset($album_name);
+	$album_description = trim($album_description);
+	if (empty($album_description)) unset($album_description);
+
 	// Because PHP structures the array in a retarded format
 	$_FILES['file'] = rearrange($_FILES['file']);
 
