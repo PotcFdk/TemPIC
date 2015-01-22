@@ -361,7 +361,7 @@ session_start();
 					<?php if (!empty($album_description)) : ?>
 						<div class="row">
 							<div class="col-md-12">
-								<div class="album-description" id="albumdescription_text"><?php echo htmlspecialchars($album_description, ENT_QUOTES); ?></div>
+								<div class="album-description" id="albumdescription_text"><?php echo nl2br(htmlspecialchars($album_description, ENT_QUOTES)); ?></div>
 							</div>
 						</div>
 					<?php endif;
