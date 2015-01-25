@@ -126,6 +126,14 @@ session_start();
 								<input type="text" class="form-control" name="album_name" id="album_name">
 							</div>
 						</div>
+						<div class="row" id="div_albumdescription_input">
+							<label for="file" class="col-md-1 control-label">Info</label>
+							<div class="col-md-8">
+								<textarea class="verticalresizing noscroll form-control"
+									name="album_description" id="album_description"
+									placeholder="Album Description"></textarea>
+							</div>
+						</div>
 					</form>
 
 					<div class="row">
