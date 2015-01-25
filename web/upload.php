@@ -143,7 +143,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		if (isset($album_name)) {
 			$album_data['name'] = $album_name;
 		
-			if (mb_strlen($album_data['name']) > 150)
+			if (mb_strlen($album_data['name']) > $MAX_ALBUM_NAME_LENGTH)
 				$album_data['name'] = mb_substr($album_data['name'], 0, $MAX_ALBUM_NAME_LENGTH);
 		}
 		
