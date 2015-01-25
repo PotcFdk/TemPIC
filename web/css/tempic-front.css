@@ -75,12 +75,3 @@ progress {
 .noscroll {
     overflow: hidden;
 }
-
-.album-description {
-	border: 2px solid;
-	padding: 5px;
-	border-radius: 5px;
-	font-size: 18px;
-	font-family: "Open Sans",serif;
-	margin-bottom: 10px;
-}

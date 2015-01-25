@@ -149,7 +149,7 @@ session_start();
 
 				// File upload form setup.
 				
-			    $("[data-hide]").on("click", function(){
+				$("[data-hide]").on("click", function(){
 					$("." + $(this).attr("data-hide")).hide();
 				});
 				
@@ -361,7 +361,22 @@ session_start();
 					<?php if (!empty($album_description)) : ?>
 						<div class="row">
 							<div class="col-md-12">
-								<div class="album-description" id="albumdescription_text"><?php echo nl2br(htmlspecialchars($album_description, ENT_QUOTES)); ?></div>
+								<div class="panel-group" id="description_accordion" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default">
+										<div class="panel-heading" role="tab" id="description_collapse">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#description_accordion" href="#description_collapse" aria-expanded="true" aria-controls="description_collapse">
+													Description
+												</a>
+											</h4>
+										</div>
+										<div id="description_collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+											<div class="panel-body">
+												<?php echo nl2br(htmlspecialchars($album_description, ENT_QUOTES)); ?>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					<?php endif;
@@ -370,24 +385,24 @@ session_start();
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
 								<div class="col-md-4">
 									<?php if (!empty($file['error'])) : ?>
-		                                <div class="alert alert-danger alert-dismissable">
-		                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		                                    Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
-		                                </div>
-		                            <?php else: ?>
+										<div class="alert alert-danger alert-dismissable">
+											<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+											Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
+										</div>
+									<?php else: ?>
 										<div class="panel panel-default">
 											<div class="panel-body">
 												<a href="<?php echo $file['link']; ?>">
-	                                                <?php if ($file['image']) : ?>
-	                                                    <img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
-	                                                <?php else: ?>
-	                                                	<?php $image = $URL_BASE . '/img/filetypes/'
+													<?php if ($file['image']) : ?>
+														<img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
+													<?php else: ?>
+														<?php $image = $URL_BASE . '/img/filetypes/'
 															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
 															? $file['extension'] : '_blank') . '.png'; ?>
 														<img src="<?php echo $image; ?>" alt="Uploaded File" class="img-responsive">
-	                                                <?php endif; ?>
+													<?php endif; ?>
 
-	                                                <p><?php echo htmlspecialchars($name); ?></p>
+													<p><?php echo htmlspecialchars($name); ?></p>
 												</a>
 												<pre class="checksum-field"><?php
 													if (!empty($file['crc']))
