@@ -363,14 +363,14 @@ session_start();
 							<div class="col-md-12">
 								<div class="panel-group" id="description_accordion" role="tablist" aria-multiselectable="true">
 									<div class="panel panel-default">
-										<div class="panel-heading" role="tab" id="description_collapse">
+										<div class="panel-heading" role="tab">
 											<h4 class="panel-title">
 												<a data-toggle="collapse" data-parent="#description_accordion" href="#description_collapse" aria-expanded="true" aria-controls="description_collapse">
 													Description
 												</a>
 											</h4>
 										</div>
-										<div id="description_collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+										<div id="description_collapse" class="panel-collapse collapse in" role="tabpanel">
 											<div class="panel-body">
 												<?php echo nl2br(htmlspecialchars($album_description, ENT_QUOTES)); ?>
 											</div>
