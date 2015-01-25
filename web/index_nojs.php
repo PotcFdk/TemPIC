@@ -91,6 +91,9 @@ session_start();
 				<div class="col-md-12">
 					<div class="page-header">
 						<h1><a href="<?php echo $URL_BASE.'/index_nojs.php'; ?>"><?php echo $INSTANCE_NAME; ?></a></h1>
+						<?php if (!empty($INSTANCE_DESCRIPTION)): ?>
+						<h4><?php echo $INSTANCE_DESCRIPTION; ?></h4>
+						<?php endif; ?>
 						<h4>NoJS version - <a href="<?php if (!empty($album_id)) echo get_album_url($album_id); else echo '/'; ?>">click here</a> to access the normal version.</h4>
 					</div>
 

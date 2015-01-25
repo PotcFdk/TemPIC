@@ -239,6 +239,9 @@ session_start();
 				<div class="col-md-12">
 					<div class="page-header">
 						<h1><a href="<?php echo $URL_BASE; ?>"><?php echo $INSTANCE_NAME; ?></a></h1>
+						<?php if (!empty($INSTANCE_DESCRIPTION)): ?>
+						<h4><?php echo $INSTANCE_DESCRIPTION; ?></h4>
+						<?php endif; ?>
 					</div>
 
 					<div class="row">
