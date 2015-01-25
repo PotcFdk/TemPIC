@@ -156,6 +156,9 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		
 			if (mb_strlen($album_data['name']) > 150)
 				$album_data['name'] = mb_substr($album_data['name'], 0, $MAX_ALBUM_NAME_LENGTH);
+			
+			if (mb_strlen($album_data['description']) > $MAX_ALBUM_DESCRIPTION_LENGTH)
+				$album_data['description'] = mb_substr($album_data['description'], 0, $MAX_ALBUM_DESCRIPTION_LENGTH);
 		}
 		
 		$album_data['files'] = array();
