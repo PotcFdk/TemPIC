@@ -33,6 +33,9 @@ session_start();
 		if (!empty($_SESSION['album_name']))
 			$album_name = $_SESSION['album_name'];
 
+		if (!empty($_SESSION['album_description']))
+			$album_description = $_SESSION['album_description'];
+
 		if (!empty($_SESSION['album_id'])) {
 			$album_id = $_SESSION['album_id'];
 			$_a = explode(":", $album_id, 2);
@@ -64,6 +67,8 @@ session_start();
 				if (!empty($album_data) && !empty($album_data['files'])) {
 					if (!empty($album_data['name']))
 						$album_name = $album_data['name'];
+					if (!empty($album_data['description']))
+						$album_description = $album_data['description'];
 					$files = $album_data['files'];
 				}
 				$remaining_time = $LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime ($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
