@@ -254,6 +254,7 @@ session_start();
 <?php
 	unset($_SESSION['files']);
 	unset($_SESSION['album_name']);
+	unset($_SESSION['album_description']);
 	unset($_SESSION['album_id']);
 	unset($_SESSION['album_lifetime']);
 ?>
