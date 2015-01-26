@@ -257,45 +257,53 @@ session_start();
 					</div>
 
 					<div class="row">
-						<noscript>
-							<p>This site is best viewed with JavaScript. If you don't want to turn on JavaScript, please use <a href="index_nojs.php<?php if (!empty($album_id)) echo '?album='.$album_id; ?>">the NoJS version</a>.</p>
-						</noscript>
-						<p id="browser_warning_text"></p>
+						<div class="col-md-12">
+							<noscript>
+								<p>This site is best viewed with JavaScript.
+								If you don't want to turn on JavaScript, please use
+								<a href="index_nojs.php<?php if (!empty($album_id)) echo '?album='.$album_id; ?>">the NoJS version</a>.</p>
+							</noscript>
+							<p id="browser_warning_text"></p>
+						</div>
 					</div>
 					
-					<form id="file-form" class="form-horizontal" method="post" action="<?php echo $URL_BASE; ?>/upload.php" enctype="multipart/form-data">
-						<div class="form-group">
-							<label for="file" class="col-md-1 control-label">Files</label>
-							<div class="col-md-8">
-								<input class="file" type="file" name="file[]" id="file" multiple="multiple">
-							</div>
-							<div class="col-md-3">
-								<select class="form-control" name="lifetime">
-								<?php foreach ($LIFETIMES as $id => $data) : ?>
-									<option value="<?php echo $id; ?>"<?php
-										if (isset($DEFAULT_LIFETIME) && $DEFAULT_LIFETIME == $id)
-											echo ' selected';
-									?>><?php echo $data['name']; ?></option>
-								<?php endforeach; ?>
-								</select>
-							</div>
+					<div class="row">
+						<div class="col-md-12">
+							<form id="file-form" class="form-horizontal" method="post" action="<?php echo $URL_BASE; ?>/upload.php" enctype="multipart/form-data">
+								<div class="form-group">
+									<label for="file" class="col-md-1 control-label">Files</label>
+									<div class="col-md-8">
+										<input class="file" type="file" name="file[]" id="file" multiple="multiple">
+									</div>
+									<div class="col-md-3">
+										<select class="form-control" name="lifetime">
+										<?php foreach ($LIFETIMES as $id => $data) : ?>
+											<option value="<?php echo $id; ?>"<?php
+												if (isset($DEFAULT_LIFETIME) && $DEFAULT_LIFETIME == $id)
+													echo ' selected';
+											?>><?php echo $data['name']; ?></option>
+										<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+								<div class="row" id="div_albumname_input">
+									<label for="file" class="col-md-1 control-label">Name</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" name="album_name" id="album_name">
+									</div>
+								</div>
+								<div class="row" id="div_albumdescription_input">
+									<label for="file" class="col-md-1 control-label">Info</label>
+									<div class="col-md-8">
+										<textarea class="verticalresizing noscroll form-control"
+											name="album_description" id="album_description"
+											onkeyup="textAreaAutoResize(this);"
+											placeholder="Album Description"></textarea>
+									</div>
+								</div>
+							</form>
 						</div>
-						<div class="row" id="div_albumname_input">
-							<label for="file" class="col-md-1 control-label">Name</label>
-							<div class="col-md-8">
-								<input type="text" class="form-control" name="album_name" id="album_name">
-							</div>
-						</div>
-						<div class="row" id="div_albumdescription_input">
-							<label for="file" class="col-md-1 control-label">Info</label>
-							<div class="col-md-8">
-								<textarea class="verticalresizing noscroll form-control"
-									name="album_description" id="album_description"
-									onkeyup="textAreaAutoResize(this);"
-									placeholder="Album Description"></textarea>
-							</div>
-						</div>
-					</form>
+					</div>
 
 					<div class="row" id="div_progressbar">
 						<div class="col-md-8 col-md-offset-1">

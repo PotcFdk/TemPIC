@@ -102,42 +102,46 @@ session_start();
 						<h4>NoJS version - <a href="<?php if (!empty($album_id)) echo get_album_url($album_id); else echo '/'; ?>">click here</a> to access the normal version.</h4>
 					</div>
 
-					<form class="form-horizontal" method="post" action="<?php echo $URL_BASE; ?>/upload.php" enctype="multipart/form-data">
-						<div class="form-group">
-							<input type="hidden" name="nojs" value="true">
-							<label for="file" class="col-md-1 control-label">Files</label>
-							<div class="col-md-6">
-								<input class="file" type="file" name="file[]" id="file" multiple="multiple">
-							</div>
-							<div class="col-md-2">
-								<input class="submit" type="submit" name="submit" id="submit" value="Upload">
-							</div>
-							<div class="col-md-3">
-								<select class="form-control" name="lifetime">
-								<?php foreach ($LIFETIMES as $id => $data) : ?>
-									<option value="<?php echo $id; ?>"<?php
-										if (isset($DEFAULT_LIFETIME) && $DEFAULT_LIFETIME == $id)
-											echo ' selected';
-									?>><?php echo $data['name']; ?></option>
-								<?php endforeach; ?>
-								</select>
-							</div>
+					<div class="row">
+						<div class="col-md-12">
+							<form class="form-horizontal" method="post" action="<?php echo $URL_BASE; ?>/upload.php" enctype="multipart/form-data">
+								<div class="form-group">
+									<input type="hidden" name="nojs" value="true">
+									<label for="file" class="col-md-1 control-label">Files</label>
+									<div class="col-md-6">
+										<input class="file" type="file" name="file[]" id="file" multiple="multiple">
+									</div>
+									<div class="col-md-2">
+										<input class="submit" type="submit" name="submit" id="submit" value="Upload">
+									</div>
+									<div class="col-md-3">
+										<select class="form-control" name="lifetime">
+										<?php foreach ($LIFETIMES as $id => $data) : ?>
+											<option value="<?php echo $id; ?>"<?php
+												if (isset($DEFAULT_LIFETIME) && $DEFAULT_LIFETIME == $id)
+													echo ' selected';
+											?>><?php echo $data['name']; ?></option>
+										<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+								<div class="row" id="div_albumname_input">
+									<label for="file" class="col-md-1 control-label">Name</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" name="album_name" id="album_name">
+									</div>
+								</div>
+								<div class="row" id="div_albumdescription_input">
+									<label for="file" class="col-md-1 control-label">Info</label>
+									<div class="col-md-8">
+										<textarea class="verticalresizing noscroll form-control"
+											name="album_description" id="album_description"
+											placeholder="Album Description"></textarea>
+									</div>
+								</div>
+							</form>
 						</div>
-						<div class="row" id="div_albumname_input">
-							<label for="file" class="col-md-1 control-label">Name</label>
-							<div class="col-md-8">
-								<input type="text" class="form-control" name="album_name" id="album_name">
-							</div>
-						</div>
-						<div class="row" id="div_albumdescription_input">
-							<label for="file" class="col-md-1 control-label">Info</label>
-							<div class="col-md-8">
-								<textarea class="verticalresizing noscroll form-control"
-									name="album_description" id="album_description"
-									placeholder="Album Description"></textarea>
-							</div>
-						</div>
-					</form>
+					</div>
 
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3">
