@@ -33,6 +33,9 @@ session_start();
 		if (!empty($_SESSION['album_name']))
 			$album_name = $_SESSION['album_name'];
 
+		if (!empty($_SESSION['album_description']))
+			$album_description = $_SESSION['album_description'];
+
 		if (!empty($_SESSION['album_id'])) {
 			$album_id = $_SESSION['album_id'];
 			$_a = explode(":", $album_id, 2);
@@ -64,6 +67,8 @@ session_start();
 				if (!empty($album_data) && !empty($album_data['files'])) {
 					if (!empty($album_data['name']))
 						$album_name = $album_data['name'];
+					if (!empty($album_data['description']))
+						$album_description = $album_data['description'];
 					$files = $album_data['files'];
 				}
 				$remaining_time = $LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime ($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
@@ -108,6 +113,7 @@ session_start();
 			
 			$(function() {
 				$('#div_albumname_input').hide();
+				$('#div_albumdescription_input').hide();
 				$('#div_warn_element').hide();
 				$('#warn_element').hide();
 				$('#div_progressbar').hide();
@@ -143,7 +149,7 @@ session_start();
 
 				// File upload form setup.
 				
-			    $("[data-hide]").on("click", function(){
+				$("[data-hide]").on("click", function(){
 					$("." + $(this).attr("data-hide")).hide();
 				});
 				
@@ -166,8 +172,14 @@ session_start();
 					}
 					
 					if (show) warn(warning);
-					else if (this.files.length > 0) $('#div_albumname_input').show();
-					else $('#div_albumname_input').hide();
+					else if (this.files.length > 0)	{
+						$('#div_albumname_input').show();
+						$('#div_albumdescription_input').show();
+					}
+					else {
+						$('#div_albumname_input').hide();
+						$('#div_albumdescription_input').hide();
+					}
 				});
 				
 				var upload_started = 0;
@@ -274,6 +286,15 @@ session_start();
 								<input type="text" class="form-control" name="album_name" id="album_name">
 							</div>
 						</div>
+						<div class="row" id="div_albumdescription_input">
+							<label for="file" class="col-md-1 control-label">Info</label>
+							<div class="col-md-8">
+								<textarea class="verticalresizing noscroll form-control"
+									name="album_description" id="album_description"
+									onkeyup="textAreaAutoResize(this);"
+									placeholder="Album Description"></textarea>
+							</div>
+						</div>
 					</form>
 
 					<div class="row" id="div_progressbar">
@@ -340,29 +361,51 @@ session_start();
 							<p id="checksum_toggle_text"><span class="label label-info">Checksums</span> <input type="checkbox" id="checksums-toggle"> Show file checksums</p>
 						</div>
 					</div>
-						<?php $count = 0; ?>
+					<?php if (!empty($album_description)) : ?>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel-group" id="description_accordion" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-default">
+										<div class="panel-heading" role="tab">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#description_accordion" href="#description_collapse" aria-expanded="true" aria-controls="description_collapse">
+													Description
+												</a>
+											</h4>
+										</div>
+										<div id="description_collapse" class="panel-collapse collapse in" role="tabpanel">
+											<div class="panel-body">
+												<?php echo nl2br(htmlspecialchars($album_description, ENT_QUOTES)); ?>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					<?php endif;
+						$count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
 								<div class="col-md-4">
 									<?php if (!empty($file['error'])) : ?>
-		                                <div class="alert alert-danger alert-dismissable">
-		                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		                                    Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
-		                                </div>
-		                            <?php else: ?>
+										<div class="alert alert-danger alert-dismissable">
+											<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+											Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
+										</div>
+									<?php else: ?>
 										<div class="panel panel-default">
 											<div class="panel-body">
 												<a href="<?php echo $file['link']; ?>">
-	                                                <?php if ($file['image']) : ?>
-	                                                    <img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
-	                                                <?php else: ?>
-	                                                	<?php $image = $URL_BASE . '/img/filetypes/'
+													<?php if ($file['image']) : ?>
+														<img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
+													<?php else: ?>
+														<?php $image = $URL_BASE . '/img/filetypes/'
 															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
 															? $file['extension'] : '_blank') . '.png'; ?>
 														<img src="<?php echo $image; ?>" alt="Uploaded File" class="img-responsive">
-	                                                <?php endif; ?>
+													<?php endif; ?>
 
-	                                                <p><?php echo htmlspecialchars($name); ?></p>
+													<p><?php echo htmlspecialchars($name); ?></p>
 												</a>
 												<pre class="checksum-field"><?php
 													if (!empty($file['crc']))
@@ -392,6 +435,7 @@ session_start();
 <?php
 	unset($_SESSION['files']);
 	unset($_SESSION['album_name']);
+	unset($_SESSION['album_description']);
 	unset($_SESSION['album_id']);
 	unset($_SESSION['album_lifetime']);
 ?>

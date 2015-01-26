@@ -73,7 +73,15 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		$lifetime = $DEFAULT_LIFETIME;
 	
 	if (!empty($_POST['album_name']))
-		$album_name = $_POST['album_name'];
+		$album_name = trim($_POST['album_name']);
+
+	if (!empty($_POST['album_description']))
+		$album_description = trim($_POST['album_description']);
+
+	// unset if empty
+
+	if (empty($album_name)) unset($album_name);
+	if (empty($album_description)) unset($album_description);
 
 	// Because PHP structures the array in a retarded format
 	$_FILES['file'] = rearrange($_FILES['file']);
@@ -140,11 +148,19 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	
 	if (isset($lifetime) && array_key_exists($lifetime, $LIFETIMES)) {
 		$album_data = array();
+		
 		if (isset($album_name)) {
 			$album_data['name'] = $album_name;
 		
 			if (mb_strlen($album_data['name']) > $MAX_ALBUM_NAME_LENGTH)
 				$album_data['name'] = mb_substr($album_data['name'], 0, $MAX_ALBUM_NAME_LENGTH);
+		}
+		
+		if (isset($album_description)) {
+			$album_data['description'] = $album_description;
+			
+			if (mb_strlen($album_data['description']) > $MAX_ALBUM_DESCRIPTION_LENGTH)
+				$album_data['description'] = mb_substr($album_data['description'], 0, $MAX_ALBUM_DESCRIPTION_LENGTH);
 		}
 		
 		$album_data['files'] = array();
@@ -167,6 +183,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 			
 			if (!empty($album_data['name']))
 				$_SESSION['album_name'] = $album_data['name'];
+			if (!empty($album_data['description']))
+				$_SESSION['album_description'] = $album_data['description'];
 			$_SESSION['album_lifetime'] = $lifetime;
 			$_SESSION['album_id'] = $lifetime.':'.$album_bare_id;
 			

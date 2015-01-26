@@ -33,6 +33,9 @@ session_start();
 		if (!empty($_SESSION['album_name']))
 			$album_name = $_SESSION['album_name'];
 
+		if (!empty($_SESSION['album_description']))
+			$album_description = $_SESSION['album_description'];
+
 		if (!empty($_SESSION['album_id'])) {
 			$album_id = $_SESSION['album_id'];
 			$_a = explode(":", $album_id, 2);
@@ -64,6 +67,8 @@ session_start();
 				if (!empty($album_data) && !empty($album_data['files'])) {
 					if (!empty($album_data['name']))
 						$album_name = $album_data['name'];
+					if (!empty($album_data['description']))
+						$album_description = $album_data['description'];
 					$files = $album_data['files'];
 				}
 				$remaining_time = $LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime ($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
@@ -124,6 +129,14 @@ session_start();
 								<input type="text" class="form-control" name="album_name" id="album_name">
 							</div>
 						</div>
+						<div class="row" id="div_albumdescription_input">
+							<label for="file" class="col-md-1 control-label">Info</label>
+							<div class="col-md-8">
+								<textarea class="verticalresizing noscroll form-control"
+									name="album_description" id="album_description"
+									placeholder="Album Description"></textarea>
+							</div>
+						</div>
 					</form>
 
 					<div class="row">
@@ -135,7 +148,7 @@ session_start();
 						</div>
 					</div>
 					
-					<?php if (!empty($album_id) && empty($files)) : // bad album id ?>
+					<?php if (isset($_GET['404']) || (!empty($album_id) && empty($files))) : // 404 or bad album id ?>
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3">
 								<div id="404_element" class="alert alert-danger alert-dismissable">
@@ -176,29 +189,44 @@ session_start();
 							</form>
 						</div>
 					</div>
-						<?php $count = 0; ?>
+					<?php if (!empty($album_description)) : ?>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-default">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h3 class="panel-title">Description</h3>
+										</div>
+										<div class="panel-body">
+											<?php echo nl2br(htmlspecialchars($album_description, ENT_QUOTES)); ?>
+										</div>
+									</div>
+							</div>
+						</div>
+					<?php endif;
+						$count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
 								<div class="col-md-4">
 									<?php if (!empty($file['error'])) : ?>
-		                                <div class="alert alert-danger alert-dismissable">
-		                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		                                    Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
-		                                </div>
-		                            <?php else: ?>
+										<div class="alert alert-danger alert-dismissable">
+											<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+											Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
+										</div>
+									<?php else: ?>
 										<div class="panel panel-default">
 											<div class="panel-body">
 												<a href="<?php echo $file['link']; ?>">
-	                                                <?php if ($file['image']) : ?>
-	                                                    <img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
-	                                                <?php else: ?>
-	                                                	<?php $image = $URL_BASE . '/img/filetypes/'
+													<?php if ($file['image']) : ?>
+														<img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
+													<?php else: ?>
+														<?php $image = $URL_BASE . '/img/filetypes/'
 															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
 															? $file['extension'] : '_blank') . '.png'; ?>
 														<img src="<?php echo $image; ?>" alt="Uploaded File" class="img-responsive">
-	                                                <?php endif; ?>
+													<?php endif; ?>
 
-	                                                <p><?php echo htmlspecialchars($name); ?></p>
+													<p><?php echo htmlspecialchars($name); ?></p>
 												</a>
 												<?php if ($display_checksums): ?>
 												<pre class="checksum-field"><?php
@@ -229,6 +257,7 @@ session_start();
 <?php
 	unset($_SESSION['files']);
 	unset($_SESSION['album_name']);
+	unset($_SESSION['album_description']);
 	unset($_SESSION['album_id']);
 	unset($_SESSION['album_lifetime']);
 ?>

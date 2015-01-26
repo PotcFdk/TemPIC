@@ -67,3 +67,11 @@ progress {
 	width: 100%;
 	height: 20px;
 }
+
+.verticalresizing {
+	resize: vertical;
+}
+
+.noscroll {
+    overflow: hidden;
+}

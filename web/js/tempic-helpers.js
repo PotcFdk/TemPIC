@@ -75,3 +75,10 @@ function millisecondsToAccurateStr (milliseconds) {
 	
 	return res.length > 0 ? res.join(' ') : 'now';
 }
+
+// textarea auto height
+function textAreaAutoResize (obj) {
+  if (obj.scrollHeight > obj.clientHeight) {
+    obj.style.height = obj.scrollHeight + "px";
+  }
+}
