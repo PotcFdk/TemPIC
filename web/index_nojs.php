@@ -145,7 +145,7 @@ session_start();
 						</div>
 					</div>
 					
-					<?php if (!empty($album_id) && empty($files)) : // bad album id ?>
+					<?php if (isset($_GET['404']) || (!empty($album_id) && empty($files))) : // 404 or bad album id ?>
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3">
 								<div id="404_element" class="alert alert-danger alert-dismissable">
@@ -206,24 +206,24 @@ session_start();
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
 								<div class="col-md-4">
 									<?php if (!empty($file['error'])) : ?>
-		                                <div class="alert alert-danger alert-dismissable">
-		                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		                                    Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
-		                                </div>
-		                            <?php else: ?>
+										<div class="alert alert-danger alert-dismissable">
+											<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+											Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
+										</div>
+									<?php else: ?>
 										<div class="panel panel-default">
 											<div class="panel-body">
 												<a href="<?php echo $file['link']; ?>">
-	                                                <?php if ($file['image']) : ?>
-	                                                    <img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
-	                                                <?php else: ?>
-	                                                	<?php $image = $URL_BASE . '/img/filetypes/'
+													<?php if ($file['image']) : ?>
+														<img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
+													<?php else: ?>
+														<?php $image = $URL_BASE . '/img/filetypes/'
 															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
 															? $file['extension'] : '_blank') . '.png'; ?>
 														<img src="<?php echo $image; ?>" alt="Uploaded File" class="img-responsive">
-	                                                <?php endif; ?>
+													<?php endif; ?>
 
-	                                                <p><?php echo htmlspecialchars($name); ?></p>
+													<p><?php echo htmlspecialchars($name); ?></p>
 												</a>
 												<?php if ($display_checksums): ?>
 												<pre class="checksum-field"><?php
