@@ -10,7 +10,7 @@ session_start();
 ?>
 <!doctype html>
 <!--
-	TemPIC - Copyright 2014 PotcFdk, ukgamer
+	TemPIC - Copyright 2014 - 2015; PotcFdk, ukgamer
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
