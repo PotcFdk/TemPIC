@@ -86,6 +86,9 @@ session_start();
 		<link href="<?php echo $URL_BASE; ?>/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="<?php echo $URL_BASE; ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="<?php echo $URL_BASE; ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
+		<?php if (!empty($CSS_OVERRIDE) && file_exists("css/".$CSS_OVERRIDE)) : ?>
+		<link href="<?php echo $URL_BASE; ?>/css/<?php echo $CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
+		<?php endif; ?>
 
 		<script src="<?php echo $URL_BASE; ?>/js/jquery-2.1.0.min.js"></script>
 		<script src="<?php echo $URL_BASE; ?>/js/bootstrap.min.js"></script>
