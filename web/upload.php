@@ -185,8 +185,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					$files[$file['name']]['sha1'] = sha1_file($path);
 					
 					if (hasThumbnailSupport($path)) {
-						if (createThumbnail($path, $path_destination . '/_thumb_' . $fileinfo['filename'] . '.jpg', 500))
-							$files[$file['name']]['thumbnail'] = $link_base . '_thumb_' . rawurlencode($fileinfo['filename'] . '.jpg');
+						if (createThumbnail($path, $path_destination . '/' . $THUMBNAIL_PREFIX . $fileinfo['filename'] . '.jpg', 500))
+							$files[$file['name']]['thumbnail'] = $link_base . $THUMBNAIL_PREFIX . rawurlencode($fileinfo['filename'] . '.jpg');
 					}
 				}
 			}

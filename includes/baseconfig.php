@@ -18,6 +18,8 @@
 	$PATH_ALBUM  = 'album';
 	$PATH_UPLOAD = 'upload';
 	
+	$THUMBNAIL_PREFIX = '_thumb_';
+	
 	$MAX_ALBUM_NAME_LENGTH = 150;
 	$MAX_ALBUM_DESCRIPTION_LENGTH = 5000;
 ?>
