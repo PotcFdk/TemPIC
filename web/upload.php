@@ -48,6 +48,8 @@ function createThumbnail ($src, $dest, $new_width) {
 	$width = imagesx($image);
 	$height = imagesy($image);
 	
+	$new_width = min($width, $new_width);
+	
 	$new_height = floor($height * ($new_width / $width));
 	
 	$target = imagecreatetruecolor($new_width, $new_height);
