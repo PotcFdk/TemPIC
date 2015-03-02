@@ -243,7 +243,9 @@ session_start();
 										<div class="panel panel-default">
 											<div class="panel-body">
 												<a href="<?php echo $file['link']; ?>">
-													<?php if ($file['image']) : ?>
+													<?php if (!empty($file['thumbnail'])) : ?>
+														<img src="<?php echo $file['thumbnail']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
+													<?php elseif ($file['image']) : ?>
 														<img src="<?php echo $file['link']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
 													<?php else: ?>
 														<?php $image = $URL_BASE . '/img/filetypes/'
