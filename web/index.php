@@ -142,14 +142,17 @@ session_start();
 						setInterval(updateRemainingLifetime, 1000);
 				<?php endif; ?>
 
+				var base_text = $('#checksums-toggle').text();
 				var is_showing_checksums = false;
 				$('#checksums-toggle').on('click', function() {
 					if (is_showing_checksums) {
 						is_showing_checksums = false;
 						$(".checksum-field").hide(300);
+						$('#checksums-toggle').text(base_text);
 					} else {
 						is_showing_checksums = true;
 						$(".checksum-field").show(300);
+						$('#checksums-toggle').text(base_text.replace("Show","Hide"));
 					}
 				});
 
