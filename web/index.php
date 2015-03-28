@@ -342,14 +342,16 @@ session_start();
 								</div>
 							</div>
 						</div>
-					<?php endif;
-					if (!empty($album_name)) : ?>
+					<?php endif; ?>
+					
+					<?php if (!empty($album_name)) : ?>
 						<div id="div_albumname" class="row">
 							<div class="col-md-12">
 								<h3 class="album-name" id="albumname_text">Album: <?php echo htmlspecialchars($album_name, ENT_QUOTES); ?></h3>
 							</div>
 						</div>
 					<?php endif; ?>
+					
 					<div id="div_infoarea" class="row">
 						<div id="div_infoarea_left" class="col-md-6">
 							<div class="row">
@@ -370,6 +372,7 @@ session_start();
 							</div>
 						</div>
 					</div>
+					
 					<?php if (!empty($files)) : ?>
 						<?php if (!empty($album_description)) : ?>
 							<div id="div_descriptionbox" class="row description-box">
