@@ -114,7 +114,7 @@ session_start();
 						<h4>NoJS version - <a href="<?php if (!empty($album_id)) echo get_album_url($album_id); else echo '/'; ?>">click here</a> to access the normal version.</h4>
 					</div>
 
-					<div class="row">
+					<div id="div_fileform" class="row">
 						<div class="col-md-12">
 							<form class="form-horizontal" method="post" action="<?php echo $URL_BASE; ?>/upload.php" enctype="multipart/form-data">
 								<div class="form-group">
@@ -177,49 +177,57 @@ session_start();
 					<?php endif; ?>
 					
 					<?php if (!empty($album_name)) : ?>
-						<div class="row">
+						<div id="div_albumname" class="row">
 							<div class="col-md-12">
 								<h3 class="album-name" id="albumname_text">Album: <?php echo htmlspecialchars($album_name, ENT_QUOTES); ?></h3>
 							</div>
 						</div>
 					<?php endif; ?>
 
-					<?php if (!empty($album_lifetime) && !empty($album_hash)
-						&& file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip')) : ?>
-						<div class="row">
-							<div class="col-md-12">
-								<p><span class="label label-info">Zip File</span> You can <a href="<?php
-									echo $URL_BASE.'/'.$PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip';
-								?>">download the entire album as a zip file</a>!</p>
+					<div id="div_infoarea" class="row">
+						<div id="div_infoarea_left" class="col-md-6">
+							<div class="row">
+								<div class="col-md-12">
+									<p id="lifetime_text"></p>
+								</div>
 							</div>
 						</div>
-					<?php endif; ?>
-					
-					<?php if (!empty($files)) : ?>
-					<div class="row">
-						<div class="col-md-12">
-							<form action="" method="post">
-								<p id="checksum_toggle_text"><span class="label label-info">Checksums</span>
-								<input type="hidden" name="checksums" value="<?php echo $display_checksums ? "" : "true"; ?>">
-								<input type="submit" value="<?php echo $display_checksums ? "Hide" : "Show"; ?> file checksums"></p>
-							</form>
+						<div id="div_infoarea_right" class="col-md-6">
+							<div class="pull-right">
+								<?php if (!empty($files)) : ?>
+									<div class="pull-left">
+									<form action="" method="post">
+										<input type="hidden" name="checksums" value="<?php echo $display_checksums ? "" : "true"; ?>">
+										<input class="btn btn-default" type="submit" value="<?php echo $display_checksums ? "Hide" : "Show"; ?> file checksums">
+									</form>
+									</div>
+								<?php endif;
+								if (!empty($album_lifetime) && !empty($album_hash)
+									&& file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip')) : ?>
+									<a href="<?php
+										echo $URL_BASE.'/'.$PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip';
+									?>" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-download"></span> Download entire album</a>
+								<?php endif; ?>
+							</div>
 						</div>
 					</div>
-					<?php if (!empty($album_description)) : ?>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="panel panel-default">
+					
+					<?php if (!empty($files)) : ?>
+						<?php if (!empty($album_description)) : ?>
+							<div id="div_descriptionbox" class="row description-box">
+								<div class="col-md-12">
 									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h3 class="panel-title">Description</h3>
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h3 class="panel-title">Description</h3>
+											</div>
+											<div class="panel-body">
+												<?php echo nl2br(htmlspecialchars($album_description, ENT_QUOTES)); ?>
+											</div>
 										</div>
-										<div class="panel-body">
-											<?php echo nl2br(htmlspecialchars($album_description, ENT_QUOTES)); ?>
-										</div>
-									</div>
+								</div>
 							</div>
-						</div>
-					<?php endif;
+						<?php endif;
 						$count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
