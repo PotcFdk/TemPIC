@@ -196,7 +196,7 @@ session_start();
 							<div class="pull-right">
 								<?php if (!empty($files)) : ?>
 									<div class="pull-left">
-									<form action="" method="post">
+									<form method="post">
 										<input type="hidden" name="checksums" value="<?php echo $display_checksums ? "" : "true"; ?>">
 										<input class="btn btn-default" type="submit" value="<?php echo $display_checksums ? "Hide" : "Show"; ?> file checksums">
 									</form>
