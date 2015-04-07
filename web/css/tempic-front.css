@@ -76,9 +76,8 @@ progress {
     overflow: hidden;
 }
 
-.description-box {
-	margin-top: 20px;
-	margin-bottom: 0;
+.infoarea {
+	margin-bottom: 20px;
 }
 
 .no-padding {

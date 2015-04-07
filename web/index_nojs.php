@@ -184,7 +184,7 @@ session_start();
 						</div>
 					<?php endif; ?>
 
-					<div id="div_infoarea" class="row">
+					<div id="div_infoarea" class="row infoarea">
 						<div id="div_infoarea_left" class="col-md-6">
 							<div class="row">
 								<div class="col-md-12">
@@ -214,7 +214,7 @@ session_start();
 					
 					<?php if (!empty($files)) : ?>
 						<?php if (!empty($album_description)) : ?>
-							<div id="div_descriptionbox" class="row description-box">
+							<div id="div_descriptionbox" class="row">
 								<div class="col-md-12">
 									<div class="panel panel-default">
 										<div class="panel panel-default">
@@ -225,6 +225,7 @@ session_start();
 												<?php echo nl2br(htmlspecialchars($album_description, ENT_QUOTES)); ?>
 											</div>
 										</div>
+									</div>
 								</div>
 							</div>
 						<?php endif;

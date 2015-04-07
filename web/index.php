@@ -355,7 +355,7 @@ session_start();
 						</div>
 					<?php endif; ?>
 					
-					<div id="div_infoarea" class="row">
+					<div id="div_infoarea" class="row infoarea">
 						<div id="div_infoarea_left" class="col-md-6">
 							<div class="row">
 								<div class="col-md-12">
@@ -378,7 +378,7 @@ session_start();
 					
 					<?php if (!empty($files)) : ?>
 						<?php if (!empty($album_description)) : ?>
-							<div id="div_descriptionbox" class="row description-box">
+							<div id="div_descriptionbox" class="row">
 								<div class="col-md-12">
 									<div class="panel-group" id="description_accordion" role="tablist" aria-multiselectable="true">
 										<div class="panel panel-default">
