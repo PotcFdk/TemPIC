@@ -216,7 +216,7 @@ session_start();
 						<?php if (!empty($album_description)) : ?>
 							<div id="div_descriptionbox" class="row">
 								<div class="col-md-12">
-									<div class="panel panel-default">
+									<div class="panel-group">
 										<div class="panel panel-default">
 											<div class="panel-heading">
 												<h3 class="panel-title">Description</h3>
