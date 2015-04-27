@@ -206,7 +206,7 @@ session_start();
 							+ " @ " + humanFileSize((speed*1000).toFixed(2)) + " per second<br />"
 						+ "Elapsed: " + millisecondsToStr(duration) + "<br />"
 						+ 'ETA: ' + millisecondsToStr((evt.total - evt.loaded)/speed));
-					document.title = "<?php echo $INSTANCE_NAME; ?> - " + percentCompleteStr + " (uploading)";
+					document.title = percentCompleteStr + " - <?php echo $INSTANCE_NAME; ?> (uploading)";
 				  }
 				  else {
 					$('#progressbar').removeAttr('value');
