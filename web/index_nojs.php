@@ -219,7 +219,7 @@ session_start();
 									<div class="panel-group">
 										<div class="panel panel-default">
 											<div class="panel-heading">
-												<h3 class="panel-title">Description</h3>
+												<h4 class="panel-title">Description</h4>
 											</div>
 											<div class="panel-body">
 												<?php echo nl2br(htmlspecialchars($album_description, ENT_QUOTES)); ?>
@@ -228,8 +228,8 @@ session_start();
 									</div>
 								</div>
 							</div>
-						<?php endif;
-						$count = 0; ?>
+						<?php endif; ?>
+						<?php $count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
 								<div class="col-md-4">
@@ -270,7 +270,6 @@ session_start();
 							<?php if ($count % 3 == 2) : ?></div><?php endif; ?>
 							<?php $count++; ?>
 						<?php endforeach; ?>
-
 						<?php if ($count % 3 != 0) : ?></div><?php endif; ?>
 					<?php endif; ?>
 				</div>
