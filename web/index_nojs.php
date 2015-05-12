@@ -52,7 +52,7 @@ session_start();
 			$remaining_time = $LIFETIMES[$_SESSION['album_lifetime']]['time']*60;
 	}
 
-	if (empty($files) && is_string($_GET['album'])) {
+	if (empty($files) && !empty($_GET['album']) && is_string($_GET['album'])) {
 		$album_id = strip_album_id($_GET['album']);
 		if (!empty($album_id)) {
 			$_a = explode(":", $album_id, 2);
