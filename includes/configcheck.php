@@ -5,7 +5,7 @@
 		|| !isset ($SIZE_LIMIT)
 		|| !isset ($LIFETIMES)
 	) {
-		include('error.php');
-		exit();
+		include ('error.php');
+		exit ();
 	}
 ?>

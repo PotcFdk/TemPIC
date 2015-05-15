@@ -29,7 +29,7 @@
 		<script src="js/fileinput.min.js"></script>
 	</head>
 	<body>
-		<?php include('copyrotate.php'); ?>
+		<?php include ('copyrotate.php'); ?>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
