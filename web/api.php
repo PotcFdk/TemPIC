@@ -26,6 +26,7 @@ $resp = array (
 function reply ()
 {
 	global $resp;
+	header ('Content-Type: application/json');
 	echo json_encode ($resp);
 	exit;
 }
