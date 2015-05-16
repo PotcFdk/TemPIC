@@ -15,17 +15,27 @@
 	limitations under the License.
 */
 
+define ('STATUS_SUCCESS', 'success');
+define ('STATUS_FAIL',    'fail');
+define ('STATUS_ERROR',   'error');
+
 $resp = array (
-	'status' => 'error'
+	'status' => STATUS_ERROR
 );
+
+function reply ()
+{
+	global $resp;
+	echo json_encode ($resp);
+	exit;
+}
 
 if (empty ($_REQUEST['action']) || !is_string ($_REQUEST['action']))
 {
 	http_response_code (400); // Bad Request
-	$resp['status'] = 'fail';
+	$resp['status'] = STATUS_FAIL;
 	$resp['data'] = array ('error' => 'Missing action.');
-	echo json_encode ($resp);
-	exit;
+	reply();
 }
 
 $action = $_REQUEST['action'];
@@ -33,15 +43,13 @@ $action = $_REQUEST['action'];
 if ($action == "test")
 {
 	$resp['status'] = 'success';
-	echo json_encode ($resp);
-	exit;
 }
 else
 {
 	http_response_code (400); // Bad Request
 	$resp['status'] = 'fail';
 	$resp['data'] = array ('error' => 'Invalid action.');
-	echo json_encode ($resp);
-	exit;
 }
+
+reply();
 ?>
