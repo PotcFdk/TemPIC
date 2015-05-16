@@ -42,12 +42,12 @@ $action = $_REQUEST['action'];
 
 if ($action == "test")
 {
-	$resp['status'] = 'success';
+	$resp['status'] = STATUS_SUCCESS;
 }
 else
 {
 	http_response_code (400); // Bad Request
-	$resp['status'] = 'fail';
+	$resp['status'] = STATUS_FAIL;
 	$resp['data'] = array ('error' => 'Invalid action.');
 }
 
