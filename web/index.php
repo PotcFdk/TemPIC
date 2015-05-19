@@ -193,7 +193,7 @@ session_start();
 
 				// Drag&Drop feature setup
 				
-				dropped_filelists = [];				
+				dropped_files = [];				
 				
 				$("html").on("dragenter", function(e){
 					e.preventDefault();
@@ -216,7 +216,7 @@ session_start();
 					var files = e.originalEvent.dataTransfer.files;
 					for (var x = 0; x < files.length; x++)
 					{
-						dropped_filelists.push(files[x]);
+						dropped_files.push(files[x]);
 					}
 				});
 
@@ -265,9 +265,9 @@ session_start();
 					xhr = new XMLHttpRequest();
 					var fd = new FormData($('#file-form')[0]);
 					fd.append('ajax', 'true');
-					for (var x = 0; x < dropped_filelists.length; x++)
+					for (var x = 0; x < dropped_files.length; x++)
 					{
-						fd.append('file', dropped_filelists[x]);
+						fd.append('file[]', dropped_files[x]);
 					}
 					
 					xhr.upload.addEventListener("progress", uploadProgress, false);
