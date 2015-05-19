@@ -213,11 +213,11 @@ session_start();
 				{
 					e.preventDefault();
 					$(this).removeClass("draghover");
-					for (var x = 0; x < e.dataTransfer.files.length; x++)
+					var files = e.originalEvent.dataTransfer.files;
+					for (var x = 0; x < files.length; x++)
 					{
-						dropped_filelists.push(e.dataTransfer.files[x]);
+						dropped_filelists.push(files[x]);
 					}
-					console.log(files);
 				});
 
 				var upload_started = 0;
@@ -265,7 +265,11 @@ session_start();
 					xhr = new XMLHttpRequest();
 					var fd = new FormData($('#file-form')[0]);
 					fd.append('ajax', 'true');
-	
+					for (var x = 0; x < dropped_filelists.length; x++)
+					{
+						fd.append('file', dropped_filelists[x]);
+					}
+					
 					xhr.upload.addEventListener("progress", uploadProgress, false);
 					xhr.addEventListener("load", uploadComplete, false);
 					xhr.addEventListener("error", uploadFailed, false);
