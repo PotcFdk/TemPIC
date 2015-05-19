@@ -263,7 +263,7 @@ session_start();
 				btn.on('click', function() {
 					if(xhr) xhr.abort();
 					xhr = new XMLHttpRequest();
-					var fd = new FormData($('#file-form')[0]);
+					var fd = new FormData($('#file-form')[0]);	//errors may occure when empty (e.g. no files selected via input) -> manually create FormData (file[], lifetime, album_name, album_description)
 					fd.append('ajax', 'true');
 					for (var x = 0; x < dropped_files.length; x++)
 					{
