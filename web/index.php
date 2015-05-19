@@ -193,6 +193,8 @@ session_start();
 
 				// Drag&Drop feature setup
 				
+				dropped_filelists = [];				
+				
 				$("html").on("dragenter", function(e){
 					e.preventDefault();
 					$(this).addClass("draghover");
@@ -211,10 +213,13 @@ session_start();
 				{
 					e.preventDefault();
 					$(this).removeClass("draghover");
-					var files = e.originalEvent.dataTransfer.files;
+					for (var x = 0; x < e.dataTransfer.files.length; x++)
+					{
+						dropped_filelists.push(e.dataTransfer.files[x]);
+					}
 					console.log(files);
 				});
-				
+
 				var upload_started = 0;
 				var xhr;
 				
