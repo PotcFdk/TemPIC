@@ -204,13 +204,13 @@ session_start();
 
 				$("html").on("dragend", function(e){
 					e.preventDefault();
-					$(this).removeClass("dragover");
+					$(this).removeClass("draghover");
 				});
 				
 				$("html").on("drop", function(e)
 				{
 					e.preventDefault();
-					$(this).removeClass("dragover");
+					$(this).removeClass("draghover");
 					var files = e.originalEvent.dataTransfer.files;
 					console.log(files);
 				});
