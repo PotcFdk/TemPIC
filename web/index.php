@@ -190,6 +190,30 @@ session_start();
 						$('#div_albumdescription_input').hide();
 					}
 				});
+
+				// Drag&Drop feature setup
+				
+				$("html").on("dragenter", function(e){
+					e.preventDefault();
+					$(this).addClass("draghover");
+				});
+
+				$("html").on("dragover", function(e){
+					e.preventDefault();
+				});
+
+				$("html").on("dragend", function(e){
+					e.preventDefault();
+					$(this).removeClass("dragover");
+				});
+				
+				$("html").on("drop", function(e)
+				{
+					e.preventDefault();
+					$(this).removeClass("dragover");
+					var files = e.originalEvent.dataTransfer.files;
+					console.log(files);
+				});
 				
 				var upload_started = 0;
 				var xhr;
