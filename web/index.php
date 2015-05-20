@@ -306,13 +306,14 @@ session_start();
 					
 					<div id="div_fileform" class="row">
 						<div class="col-md-12">
-							<form id="file-form" class="form-horizontal" method="post" action="<?php echo $URL_BASE; ?>/upload.php" enctype="multipart/form-data">
+							<form id="file-form" class="form-horizontal">
 								<div class="form-group">
 									<label for="file" class="col-md-1 control-label">Files</label>
 									<div class="col-md-8">
 										<span class="btn btn-primary btn-file">
 											Browse&hellip; <input class="file" type="file" name="file[]" id="file" multiple="multiple">
 										</span>
+										<input type="button" class="btn btn-success" value="Upload!" onclick="um.send(um.makePOSTData())">
 									</div>
 									<div class="col-md-3">
 										<select class="form-control" name="lifetime" id="lifetime">
