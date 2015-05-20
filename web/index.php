@@ -253,6 +253,11 @@ session_start();
 					e.preventDefault();
 					$(this).removeClass("draghover");
 				});
+
+				$("html").on("dragleave", function(e){
+					e.preventDefault();
+					$(this).removeClass("draghover");
+				});
 				
 				$("html").on("drop", function(e)
 				{
@@ -310,10 +315,22 @@ session_start();
 								<div class="form-group">
 									<label for="file" class="col-md-1 control-label">Files</label>
 									<div class="col-md-8">
-										<span class="btn btn-primary btn-file">
-											Browse&hellip; <input class="file" type="file" name="file[]" id="file" multiple="multiple">
-										</span>
-										<input type="button" class="btn btn-success" value="Upload!" onclick="um.send(um.makePOSTData())">
+										<div class="input-group">
+											<input class="form-control" type="text" readonly="">
+											<div class="input-group-btn">
+												<button class="btn btn-success" onclick="um.send(um.makePOSTData())">
+													<span class="glyphicon glyphicon-cloud-upload"></span>
+													<span>Upload</span>
+												</button>
+											</div>
+											<div class="input-group-btn">
+												<span class="btn btn-primary btn-file">
+													<span class="glyphicon glyphicon-file"></span>
+													Browse&hellip; <input class="file" type="file" name="file[]" id="file" multiple="multiple">
+												</span>
+											</div>
+										</div>
+										
 									</div>
 									<div class="col-md-3">
 										<select class="form-control" name="lifetime" id="lifetime">
