@@ -156,8 +156,8 @@ session_start();
 					}
 				});
 
-				function showAlbumForm(bool) {
-					if(bool) {
+				function showAlbumForm(files) {
+					if(files.length) {
 						$('#div_albumname_input').show();
 						$('#div_albumdescription_input').show();
 					}
@@ -225,6 +225,7 @@ session_start();
 				um = new UploadManager(<?php echo $SIZE_LIMIT; ?>, "<?php echo $URL_BASE; ?>", uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
 				um.registerFileObserver(updateFileOverview);
 				um.registerFileObserver(showFileWipeButton);
+				um.registerFileObserver(showAlbumForm);
 				
 				// File upload form setup.
 				
@@ -357,7 +358,7 @@ session_start();
 												</button>
 												<span class="btn btn-primary btn-file">
 													<span class="glyphicon glyphicon-folder-open"></span>
-													Browse &hellip; <input class="file" type="file" name="file[]" id="file" multiple="multiple">
+													Browse &nbsp; &hellip; <input class="file" type="file" name="file[]" id="file" multiple="multiple">
 												</span>
 											</div>
 										</div>
