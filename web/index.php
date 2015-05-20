@@ -241,26 +241,30 @@ session_start();
 				// Drag&Drop feature setup		
 				
 				$("html").on("dragenter", function(e){
+					e.stopPropagation();
 					e.preventDefault();
 					$(this).addClass("draghover");
 				});
 
 				$("html").on("dragover", function(e){
+					e.stopPropagation();
 					e.preventDefault();
 				});
 
 				$("html").on("dragend", function(e){
+					e.stopPropagation();
 					e.preventDefault();
 					$(this).removeClass("draghover");
 				});
 
 				$("html").on("dragleave", function(e){
+					e.stopPropagation();
 					e.preventDefault();
 					$(this).removeClass("draghover");
 				});
 				
-				$("html").on("drop", function(e)
-				{
+				$("html").on("drop", function(e){
+					e.stopPropagation();
 					e.preventDefault();
 					$(this).removeClass("draghover");
 					var files = e.originalEvent.dataTransfer.files;
@@ -316,14 +320,13 @@ session_start();
 									<label for="file" class="col-md-1 control-label">Files</label>
 									<div class="col-md-8">
 										<div class="input-group">
-											<input class="form-control" type="text" readonly="">
+											<div class="form-control" id="file-overview">
+											</div>
 											<div class="input-group-btn">
 												<button class="btn btn-success" onclick="um.send(um.makePOSTData())">
 													<span class="glyphicon glyphicon-cloud-upload"></span>
 													<span>Upload</span>
 												</button>
-											</div>
-											<div class="input-group-btn">
 												<span class="btn btn-primary btn-file">
 													<span class="glyphicon glyphicon-file"></span>
 													Browse&hellip; <input class="file" type="file" name="file[]" id="file" multiple="multiple">
