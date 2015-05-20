@@ -204,10 +204,20 @@ session_start();
 				  warn("The upload has been canceled by the user or the browser dropped the connection.");
 				}				
 
+				function updateFileOverview(files) {
+					if(files.length == 1)
+						$("#file-overview-text").text(files[0].name);
+					else if(files.length > 1)
+						$("#file-overview-text").text(files.length.toString().concat(" files ready to upload"));
+					else
+						$("#file-overview-text").text("");
+				}
+				
 				//UploadManager - global
 				
 				um = new UploadManager(<?php echo $SIZE_LIMIT; ?>, "<?php echo $URL_BASE; ?>", uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
-
+				um.registerFileObserver(updateFileOverview);
+				
 				// File upload form setup.
 				
 				$("[data-hide]").on("click", function(){
@@ -321,6 +331,8 @@ session_start();
 									<div class="col-md-8">
 										<div class="input-group">
 											<div class="form-control" id="file-overview">
+												<span class="glyphicon glyphicon-file"></span>
+												<span id="file-overview-text"></span>
 											</div>
 											<div class="input-group-btn">
 												<button class="btn btn-success" onclick="um.send(um.makePOSTData())">
