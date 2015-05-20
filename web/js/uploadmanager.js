@@ -87,14 +87,14 @@ UploadManager.prototype.makePOSTData = function()
 
 UploadManager.prototype.send = function(data)
 {
-	if(xhr) xhr.abort();
-	var xhr = new XMLHttpRequest();
+	if(this.xhr) this.xhr.abort();
+	this.xhr = new XMLHttpRequest();
 	
-	xhr.upload.addEventListener("progress", this.uploadProgress, false);
-	xhr.addEventListener("load", this.uploadComplete, false);
-	xhr.addEventListener("error", this.uploadFailed, false);
-	xhr.addEventListener("abort", this.uploadCanceled, false);
+	this.xhr.upload.addEventListener("progress", this.uploadProgress, false);
+	this.xhr.addEventListener("load", this.uploadComplete, false);
+	this.xhr.addEventListener("error", this.uploadFailed, false);
+	this.xhr.addEventListener("abort", this.uploadCanceled, false);
 	
-	xhr.open("POST", this.UPLOADPATH);
-	xhr.send(data);
+	this.xhr.open("POST", this.UPLOADPATH);
+	this.xhr.send(data);
 }

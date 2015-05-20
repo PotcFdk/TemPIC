@@ -83,7 +83,6 @@ session_start();
 			echo $INSTANCE_NAME; ?></title>
 
 		<link rel="stylesheet" href="<?php echo $URL_BASE; ?>/css/bootstrap.min.css">
-		<link href="<?php echo $URL_BASE; ?>/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="<?php echo $URL_BASE; ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="<?php echo $URL_BASE; ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
 		<?php if (!empty($CSS_OVERRIDE) && file_exists("css/".$CSS_OVERRIDE)) : ?>
@@ -92,7 +91,6 @@ session_start();
 
 		<script src="<?php echo $URL_BASE; ?>/js/jquery-2.1.0.min.js"></script>
 		<script src="<?php echo $URL_BASE; ?>/js/bootstrap.min.js"></script>
-		<script src="<?php echo $URL_BASE; ?>/js/fileinput.min.js"></script>
 		<script src="<?php echo $URL_BASE; ?>/js/tempic-helpers.js"></script>
 		<script src="<?php echo $URL_BASE; ?>/js/modernizr-p1.js"></script>
 		<script src="<?php echo $URL_BASE; ?>/js/uploadmanager.js"></script>
@@ -161,10 +159,6 @@ session_start();
 				
 				$("[data-hide]").on("click", function(){
 					$("." + $(this).attr("data-hide")).hide();
-				});
-				
-				$("#file").fileinput({
-				  "showPreview" : false
 				});
 				
 				$('#file').bind('change', function() {
@@ -326,7 +320,9 @@ session_start();
 								<div class="form-group">
 									<label for="file" class="col-md-1 control-label">Files</label>
 									<div class="col-md-8">
-										<input class="file" type="file" name="file[]" id="file" multiple="multiple">
+										<span class="btn btn-default btn-file">
+											<input class="file" type="file" name="file[]" id="file" multiple="multiple">
+										</span>
 									</div>
 									<div class="col-md-3">
 										<select class="form-control" name="lifetime" id="lifetime">
