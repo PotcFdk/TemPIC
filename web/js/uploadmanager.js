@@ -29,6 +29,7 @@ function UploadManager(fileSizeLimit, baseurl, uploadProgress, uploadComplete, u
 	this.uploadComplete = uploadComplete;
 	this.uploadFailed = uploadFailed;
 	this.uploadCanceled = uploadCanceled;
+	this.fileObserver = new Array(); //Observer pattern sucks in javascript
 }
 
 UploadManager.prototype.setAlbumName = function(name)
@@ -55,16 +56,25 @@ UploadManager.prototype.addFile = function(file)
 	}
 	else
 		this.files.push(file);
+	
+	this.notifyFileObserver();
 }
 
 UploadManager.prototype.delFile = function(i)
 {
 	this.files.splice(i,1);
+	this.notifyFileObserver();
 }
 
 UploadManager.prototype.wipeFiles = function()
 {
 	this.files = new Array();
+	this.notifyFileObserver();
+}
+
+UploadManager.prototype.getFiles = function()
+{
+	return this.files;
 }
 
 UploadManager.prototype.getNumberOfFiles = function()
@@ -75,6 +85,7 @@ UploadManager.prototype.getNumberOfFiles = function()
 UploadManager.prototype.reset = function()
 {
 	this.files = new Array();
+	this.notifyFileObserver();
 	this.lifetime = "";
 	this.album_name = "";
 	this.album_description = "";	
@@ -109,4 +120,26 @@ UploadManager.prototype.send = function(data)
 	
 	this.xhr.open("POST", this.UPLOADPATH);
 	this.xhr.send(data);
+}
+
+UploadManager.prototype.registerFileObserver = function(obs)
+{
+	this.fileObserver.push(obs);
+}
+
+UploadManager.prototype.removeFileObserver = function(obs)
+{
+	for(var x = 0; x < this.fileObserver.length; x++)
+	{
+		if(this.fileObserver[x] === obs)
+			this.fileObserver.splice(x,1);
+	}
+}
+
+UploadManager.prototype.notifyFileObserver = function()
+{
+	for(var x = 0; x < this.fileObserver.length; x++)
+	{
+		this.fileObserver[x](this.files);
+	}
 }
