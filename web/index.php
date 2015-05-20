@@ -122,6 +122,7 @@ session_start();
 				$('#progressbar').hide();
 				$('#div_progresstext').hide();
 				$(".checksum-field").hide();
+				$("#button-file-wipe").hide();
 				
 				<?php // Show album lifetime, if possible.
 					if (!empty($remaining_time)) : ?>									
@@ -212,11 +213,18 @@ session_start();
 					else
 						$("#file-overview-text").text("");
 				}
-				
+
+				function showFileWipeButton(files) {
+					if(files.length)
+						$("#button-file-wipe").show();
+					else
+						$("#button-file-wipe").hide();
+				}
 				//UploadManager - global
 				
 				um = new UploadManager(<?php echo $SIZE_LIMIT; ?>, "<?php echo $URL_BASE; ?>", uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
 				um.registerFileObserver(updateFileOverview);
+				um.registerFileObserver(showFileWipeButton);
 				
 				// File upload form setup.
 				
@@ -285,6 +293,10 @@ session_start();
 					if(um.getNumberOfFiles())
 						showAlbumForm(true);
 				});
+
+				$("#button-file-wipe").on("click", function(e){
+					um.wipeFiles();
+				});
 				
 				var btn = $('button[type=submit]');
 				btn.prop('type', 'button');
@@ -335,6 +347,10 @@ session_start();
 												<span id="file-overview-text"></span>
 											</div>
 											<div class="input-group-btn">
+												<button class="btn btn-default" type="button" id="button-file-wipe">
+													<span class="glyphicon glyphicon-trash"></span>
+													<span>Remove</span>
+												</button>
 												<button class="btn btn-success" type="submit">
 													<span class="glyphicon glyphicon-cloud-upload"></span>
 													<span>Upload</span>
