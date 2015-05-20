@@ -1,5 +1,5 @@
 /*
-	UploadManager for TemPIC - Copyright  2015; KeyLimePie (GitHub: TheKeyLimePie)
+	UploadManager for TemPIC - Copyright  2015; KeyLimePie (GitHub: TheKeyLimePie); based on work by PotcFdk
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -14,9 +14,10 @@
 	limitations under the License.
 */
 
-function UploadManager(baseurl, uploadProgress, uploadComplete, uploadFailed, uploadCanceled)
+function UploadManager(fileSizeLimit, baseurl, uploadProgress, uploadComplete, uploadFailed, uploadCanceled)
 {
 	this.UPLOADPATH = baseurl.concat("/upload.php");
+	this.SIZELIMIT = fileSizeLimit;
 	
 	this.files = new Array(); //contains objects of type "File"
 	this.lifetime = "";
@@ -47,7 +48,13 @@ UploadManager.prototype.setLifetime = function(lifetime)
 
 UploadManager.prototype.addFile = function(file)
 {
-	this.files.push(file);
+	if(file.size > this.SIZELIMIT)
+	{
+		var warning = "The file you added exceeds the file size limit:<br />";
+		warn(warning.concat(file.name));
+	}
+	else
+		this.files.push(file);
 }
 
 UploadManager.prototype.delFile = function(i)
@@ -58,6 +65,11 @@ UploadManager.prototype.delFile = function(i)
 UploadManager.prototype.wipeFiles = function()
 {
 	this.files = new Array();
+}
+
+UploadManager.prototype.getNumberOfFiles = function()
+{
+	return this.files.length;
 }
 
 UploadManager.prototype.reset = function()

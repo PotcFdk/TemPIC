@@ -154,29 +154,9 @@ session_start();
 						$('#checksums-toggle').text(base_text.replace("Show","Hide"));
 					}
 				});
-			
-				// File upload form setup.
-				
-				$("[data-hide]").on("click", function(){
-					$("." + $(this).attr("data-hide")).hide();
-				});
-				
-				$('#file').bind('change', function() {
-					var warning = "(At least) one of the files you added exceeds the file size limit:";
-					var show = false;
-					
-					for (var i = 0; i < this.files.length; ++i)
-					{
-						var file = this.files[i];
-						if (file.size > <?php echo $SIZE_LIMIT; ?>)
-						{
-							show = true;
-							warning += "<br />" + file.name;
-						}
-					}
-					
-					if (show) warn(warning);
-					else if (this.files.length > 0)	{
+
+				function showAlbumForm(bool) {
+					if(bool) {
 						$('#div_albumname_input').show();
 						$('#div_albumdescription_input').show();
 					}
@@ -184,8 +164,8 @@ session_start();
 						$('#div_albumname_input').hide();
 						$('#div_albumdescription_input').hide();
 					}
-				});
-
+				}
+				
 				var upload_started = 0;
 				var xhr;
 				
@@ -226,8 +206,14 @@ session_start();
 
 				//UploadManager - global
 				
-				um = new UploadManager("<?php echo $URL_BASE; ?>", uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
+				um = new UploadManager(<?php echo $SIZE_LIMIT; ?>, "<?php echo $URL_BASE; ?>", uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
 
+				// File upload form setup.
+				
+				$("[data-hide]").on("click", function(){
+					$("." + $(this).attr("data-hide")).hide();
+				});
+				
 				//Add eventListeners to <input> -> add values to UploadManager on change
 				
 				$("#file").on("change", function(e){
@@ -236,6 +222,8 @@ session_start();
 					{
 						um.addFile(files[x]);
 					}
+					if(um.getNumberOfFiles())
+						showAlbumForm(true);
 				});
 				
 				$("#lifetime").on("change", function(e){
@@ -275,6 +263,8 @@ session_start();
 					{
 						um.addFile(files[x]);
 					}
+					if(um.getNumberOfFiles())
+						showAlbumForm(true);
 				});
 				
 				var btn = $('button[type=submit]');
@@ -320,8 +310,8 @@ session_start();
 								<div class="form-group">
 									<label for="file" class="col-md-1 control-label">Files</label>
 									<div class="col-md-8">
-										<span class="btn btn-default btn-file">
-											<input class="file" type="file" name="file[]" id="file" multiple="multiple">
+										<span class="btn btn-primary btn-file">
+											Browse&hellip; <input class="file" type="file" name="file[]" id="file" multiple="multiple">
 										</span>
 									</div>
 									<div class="col-md-3">
