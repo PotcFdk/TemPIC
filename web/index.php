@@ -95,6 +95,7 @@ session_start();
 		<script src="<?php echo $URL_BASE; ?>/js/fileinput.min.js"></script>
 		<script src="<?php echo $URL_BASE; ?>/js/tempic-helpers.js"></script>
 		<script src="<?php echo $URL_BASE; ?>/js/modernizr-p1.js"></script>
+		<script src="<?php echo $URL_BASE; ?>/js/uploadmanager.js"></script>
 		
 		<style>
 			@font-face {
@@ -155,7 +156,7 @@ session_start();
 						$('#checksums-toggle').text(base_text.replace("Show","Hide"));
 					}
 				});
-
+			
 				// File upload form setup.
 				
 				$("[data-hide]").on("click", function(){
@@ -188,35 +189,6 @@ session_start();
 					else {
 						$('#div_albumname_input').hide();
 						$('#div_albumdescription_input').hide();
-					}
-				});
-
-				// Drag&Drop feature setup
-				
-				dropped_files = [];				
-				
-				$("html").on("dragenter", function(e){
-					e.preventDefault();
-					$(this).addClass("draghover");
-				});
-
-				$("html").on("dragover", function(e){
-					e.preventDefault();
-				});
-
-				$("html").on("dragend", function(e){
-					e.preventDefault();
-					$(this).removeClass("draghover");
-				});
-				
-				$("html").on("drop", function(e)
-				{
-					e.preventDefault();
-					$(this).removeClass("draghover");
-					var files = e.originalEvent.dataTransfer.files;
-					for (var x = 0; x < files.length; x++)
-					{
-						dropped_files.push(files[x]);
 					}
 				});
 
@@ -257,26 +229,65 @@ session_start();
 				function uploadCanceled(evt) {
 				  warn("The upload has been canceled by the user or the browser dropped the connection.");
 				}				
+
+				//UploadManager - global
+				
+				um = new UploadManager("<?php echo $URL_BASE; ?>", uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
+
+				//Add eventListeners to <input> -> add values to UploadManager on change
+				
+				$("#file").on("change", function(e){
+					var files = this.files;
+					for(var x = 0; x < files.length; x++)
+					{
+						um.addFile(files[x]);
+					}
+				});
+				
+				$("#lifetime").on("change", function(e){
+					um.setLifetime(this.value);
+				});
+				
+				$("#album_name").on("change", function(e){
+					um.setAlbumName(this.value);
+				});
+
+				$("#album_description").on("change", function(e){
+					um.setAlbumDescription(this.value);
+				});
+				
+				// Drag&Drop feature setup		
+				
+				$("html").on("dragenter", function(e){
+					e.preventDefault();
+					$(this).addClass("draghover");
+				});
+
+				$("html").on("dragover", function(e){
+					e.preventDefault();
+				});
+
+				$("html").on("dragend", function(e){
+					e.preventDefault();
+					$(this).removeClass("draghover");
+				});
+				
+				$("html").on("drop", function(e)
+				{
+					e.preventDefault();
+					$(this).removeClass("draghover");
+					var files = e.originalEvent.dataTransfer.files;
+					for (var x = 0; x < files.length; x++)
+					{
+						um.addFile(files[x]);
+					}
+				});
 				
 				var btn = $('button[type=submit]');
 				btn.prop('type', 'button');
 				btn.on('click', function() {
-					if(xhr) xhr.abort();
-					xhr = new XMLHttpRequest();
-					var fd = new FormData($('#file-form')[0]);	//errors may occure when empty (e.g. no files selected via input) -> manually create FormData (file[], lifetime, album_name, album_description)
-					fd.append('ajax', 'true');
-					for (var x = 0; x < dropped_files.length; x++)
-					{
-						fd.append('file[]', dropped_files[x]);
-					}
+					um.send(um.makePOSTData());
 					
-					xhr.upload.addEventListener("progress", uploadProgress, false);
-					xhr.addEventListener("load", uploadComplete, false);
-					xhr.addEventListener("error", uploadFailed, false);
-					xhr.addEventListener("abort", uploadCanceled, false);
-					
-					xhr.open("POST", "<?php echo $URL_BASE; ?>/upload.php");
-					xhr.send(fd);
 					upload_started = Date.now();
 					
 					$('#div_progressbar').show();
@@ -318,7 +329,7 @@ session_start();
 										<input class="file" type="file" name="file[]" id="file" multiple="multiple">
 									</div>
 									<div class="col-md-3">
-										<select class="form-control" name="lifetime">
+										<select class="form-control" name="lifetime" id="lifetime">
 										<?php foreach ($LIFETIMES as $id => $data) : ?>
 											<option value="<?php echo $id; ?>"<?php
 												if (isset($DEFAULT_LIFETIME) && $DEFAULT_LIFETIME == $id)
