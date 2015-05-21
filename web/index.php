@@ -320,7 +320,7 @@ session_start();
 				$("html").on("dragleave", function(e){
 					dragCounter--;
 					e.preventDefault();
-					if(counter == 0)
+					if(dragCounter == 0)
 						$(this).removeClass("draghover");
 				});
 				
