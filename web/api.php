@@ -31,26 +31,64 @@ function reply ()
 	exit;
 }
 
-if (empty ($_REQUEST['action']) || !is_string ($_REQUEST['action']))
+if (empty ($_SERVER['QUERY_STRING']))
 {
 	http_response_code (400); // Bad Request
 	$resp['status'] = STATUS_FAIL;
-	$resp['data'] = array ('error' => 'Missing action.');
+	$resp['data'] = array ('error' => 'Empty request.');
 	reply();
 }
 
-$action = $_REQUEST['action'];
+// Parse request.
 
-if ($action == "test")
+$output = array ();
+$chunks = explode ('/', $_SERVER['QUERY_STRING']);
+
+// / Parse request.
+
+switch ($chunks[0])
 {
-	$resp['status'] = STATUS_SUCCESS;
+	case 'v1':
+		array_shift ($chunks);
+		API_v1 ($chunks);
+		break;
+		
+	default:
+		http_response_code (400); // Bad Request
+		$resp['status'] = STATUS_FAIL;
+		$resp['data'] = array ('error' => 'Bad API version.');
 }
-else
+
+reply();
+
+// End of processing.
+
+// API handlers
+
+function API_v1_BAD_REQUEST()
 {
+	global $resp;
 	http_response_code (400); // Bad Request
 	$resp['status'] = STATUS_FAIL;
 	$resp['data'] = array ('error' => 'Invalid action.');
 }
 
-reply();
+function API_v1 (&$chunks)
+{
+	global $resp;
+	$resp['version'] = 'v1';
+	
+	switch ($chunks[0])
+	{
+		case 'system': {
+			switch ($chunks[1])
+			{
+				case 'test':
+					$resp['status'] = STATUS_SUCCESS;
+					break;
+				default: API_v1_BAD_REQUEST();
+			}
+		}
+	}
+}
 ?>
