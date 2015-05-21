@@ -88,6 +88,7 @@ function API_v1 (&$chunks)
 					break;
 				default: API_v1_BAD_REQUEST();
 			}
+			break;
 		}
 		default: API_v1_BAD_REQUEST();
 	}
