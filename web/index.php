@@ -195,7 +195,7 @@ session_start();
 				}				
 
 				function showAlbumForm(files) {
-					if(files) {
+					if(files.length) {
 						$('#div_albumname_input').show();
 						$('#div_albumdescription_input').show();
 					}
@@ -233,7 +233,7 @@ session_start();
 					$("." + $(this).attr("data-hide")).hide();
 				});
 				
-				//Add eventListeners to <input> -> add values to UploadManager on change
+				//Add eventListeners to input -> add values to UploadManager on change
 				
 				$("#file").on("change", function(e){
 					var files = this.files;
@@ -241,6 +241,9 @@ session_start();
 					{
 						um.addFile(files[x]);
 					}
+					//reset input with js hacks (input type=file is read only)
+					$(this).wrap('<form>').closest('form').get(0).reset();
+                    $(this).unwrap();
 				});
 				
 				$("#lifetime").on("change", function(e){
