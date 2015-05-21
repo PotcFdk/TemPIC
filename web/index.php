@@ -110,7 +110,7 @@ session_start();
 				if (!empty ($remaining_time)) : ?>
 					initRelainingLifetime (<?php echo($remaining_time); ?>);
 			<?php endif;
-			if (empty ($album_id) && is_string ($album_id)) : ?>
+			if (!empty ($album_id) && is_string ($album_id)) : ?>
 				var album_id = '<?php echo $album_id; ?>';
 			<?php endif; ?>
 			var album_url = '<?php echo get_album_url() ?>';
