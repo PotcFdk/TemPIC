@@ -300,11 +300,10 @@ session_start();
 				
 				// Drag&Drop feature setup		
 				
-				dragCounter = $(); //necessary for entering/leaving child elements of html while dragging stuff
+				dragCounter = 0; //necessary for entering/leaving child elements of html while dragging stuff
 				
 				$("html").on("dragenter", function(e){
-					if(e.target === e.relatedTarget) return;
-					dragCounter.add(e.target);
+					dragCounter++;
 					e.preventDefault();
 					$(this).addClass("draghover");
 				});
@@ -315,21 +314,20 @@ session_start();
 
 				$("html").on("dragend", function(e){
 					e.preventDefault();
-					dragCounter = $();
+					dragCounter = 0;
 					$(this).removeClass("draghover");
 				});
 
 				$("html").on("dragleave", function(e){
-					if(e.target === e.relatedTarget) return;
-					dragCounter.not(e.target);
+					dragCounter--;
 					e.preventDefault();
-					if(dragCounter.length == 0)
+					if(dragCounter == 0)
 						$(this).removeClass("draghover");
 				});
 				
 				$("html").on("drop", function(e){
 					e.preventDefault();
-					dragCounter = $();
+					dragCounter = 0;
 					$(this).removeClass("draghover");
 					var files = e.originalEvent.dataTransfer.files;
 					for (var x = 0; x < files.length; x++)
