@@ -300,10 +300,10 @@ session_start();
 				
 				// Drag&Drop feature setup		
 				
-				dragCounter = 0; //necessary for entering/leaving child elements of html while dragging stuff
+				dragCounter = $(); //necessary for entering/leaving child elements of html while dragging stuff
 				
 				$("html").on("dragenter", function(e){
-					dragCounter++;
+					dragCounter.add(e.target);
 					e.preventDefault();
 					$(this).addClass("draghover");
 				});
@@ -314,18 +314,20 @@ session_start();
 
 				$("html").on("dragend", function(e){
 					e.preventDefault();
+					dragCounter = $();
 					$(this).removeClass("draghover");
 				});
 
 				$("html").on("dragleave", function(e){
-					dragCounter--;
+					dragCounter.not(e.target);
 					e.preventDefault();
-					if(dragCounter == 0)
+					if(dragCounter.length == 0)
 						$(this).removeClass("draghover");
 				});
 				
 				$("html").on("drop", function(e){
 					e.preventDefault();
+					dragCounter = $();
 					$(this).removeClass("draghover");
 					var files = e.originalEvent.dataTransfer.files;
 					for (var x = 0; x < files.length; x++)
@@ -389,7 +391,7 @@ session_start();
 											<div class="input-group-btn">
 												<button class="btn btn-default" type="button" id="button-file-wipe">
 													<span class="glyphicon glyphicon-trash"></span>
-													<span>Remove</span>
+													<span>Remove all</span>
 												</button>
 												<button class="btn btn-success" type="submit">
 													<span class="glyphicon glyphicon-cloud-upload"></span>
