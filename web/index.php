@@ -156,17 +156,6 @@ session_start();
 					}
 				});
 
-				function showAlbumForm(files) {
-					if(files.length) {
-						$('#div_albumname_input').show();
-						$('#div_albumdescription_input').show();
-					}
-					else {
-						$('#div_albumname_input').hide();
-						$('#div_albumdescription_input').hide();
-					}
-				}
-				
 				var upload_started = 0;
 				var xhr;
 				
@@ -205,6 +194,17 @@ session_start();
 				  warn("The upload has been canceled by the user or the browser dropped the connection.");
 				}				
 
+				function showAlbumForm(files) {
+					if(files.length) {
+						$('#div_albumname_input').show();
+						$('#div_albumdescription_input').show();
+					}
+					else {
+						$('#div_albumname_input').hide();
+						$('#div_albumdescription_input').hide();
+					}
+				}
+				
 				function updateFileOverview(files) {
 					if(files.length == 1)
 						$("#file-overview-text").text(files[0].name);
@@ -358,7 +358,8 @@ session_start();
 												</button>
 												<span class="btn btn-primary btn-file">
 													<span class="glyphicon glyphicon-folder-open"></span>
-													Browse &nbsp; &hellip; <input class="file" type="file" name="file[]" id="file" multiple="multiple">
+													<span>Browse&nbsp;&hellip;</span>
+													<input class="file" type="file" name="file[]" id="file" multiple="multiple">
 												</span>
 											</div>
 										</div>
