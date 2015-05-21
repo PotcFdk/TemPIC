@@ -106,9 +106,10 @@ session_start();
 		</style>
 		
 		<script>
+			$(function() {
 			<?php // Show album lifetime, if possible.
 				if (!empty ($remaining_time)) : ?>
-					initRelainingLifetime (<?php echo($remaining_time); ?>);
+					initRemainingLifetime (<?php echo($remaining_time); ?>);
 			<?php endif;
 			if (!empty ($album_id) && is_string ($album_id)) : ?>
 				var album_id = '<?php echo $album_id; ?>';
@@ -125,6 +126,7 @@ session_start();
 			if (is_numeric($SIZE_LIMIT)) : ?>
 				var size_limit = <?php echo $SIZE_LIMIT; ?>;
 			<?php endif; ?>
+			});
 		</script>
 	</head>
 	<body>

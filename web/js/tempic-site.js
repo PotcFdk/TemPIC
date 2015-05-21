@@ -36,7 +36,7 @@ $(function() {
 	$(".checksum-field").hide();
 	$("#button-file-wipe").hide();
 	
-	function initRelainingLifetime (remaining)
+	function initRemainingLifetime (remaining)
 	{	
 		function updateRemainingLifetime () {
 			if (remaining > 0) {
