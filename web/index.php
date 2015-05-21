@@ -195,7 +195,7 @@ session_start();
 				}				
 
 				function showAlbumForm(files) {
-					if(files.length) {
+					if(files) {
 						$('#div_albumname_input').show();
 						$('#div_albumdescription_input').show();
 					}
@@ -241,8 +241,6 @@ session_start();
 					{
 						um.addFile(files[x]);
 					}
-					if(um.getNumberOfFiles())
-						showAlbumForm(true);
 				});
 				
 				$("#lifetime").on("change", function(e){
@@ -291,8 +289,6 @@ session_start();
 					{
 						um.addFile(files[x]);
 					}
-					if(um.getNumberOfFiles())
-						showAlbumForm(true);
 				});
 
 				$("#button-file-wipe").on("click", function(e){
