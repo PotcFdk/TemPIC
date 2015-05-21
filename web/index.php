@@ -303,6 +303,7 @@ session_start();
 				dragCounter = $(); //necessary for entering/leaving child elements of html while dragging stuff
 				
 				$("html").on("dragenter", function(e){
+					if(e.target === e.relatedTarget) return;
 					dragCounter.add(e.target);
 					e.preventDefault();
 					$(this).addClass("draghover");
@@ -319,6 +320,7 @@ session_start();
 				});
 
 				$("html").on("dragleave", function(e){
+					if(e.target === e.relatedTarget) return;
 					dragCounter.not(e.target);
 					e.preventDefault();
 					if(dragCounter.length == 0)
