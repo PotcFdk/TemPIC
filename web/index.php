@@ -397,7 +397,7 @@ session_start();
 													<span class="glyphicon glyphicon-cloud-upload"></span>
 													<span>Upload</span>
 												</button>
-												<span class="btn btn-primary btn-file">
+												<span class="btn btn-primary btn-file btn-file-browse">
 													<span class="glyphicon glyphicon-folder-open"></span>
 													<span>Browse&nbsp;&hellip;</span>
 													<input class="file" type="file" name="file[]" id="file" multiple="multiple">

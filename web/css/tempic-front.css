@@ -8,8 +8,7 @@ html {
 	background-size: cover;
 }
 
-.draghover
-{
+.draghover {
 	box-shadow: 0 0 30px 15px rgba(66,139,202,0.75) inset;
 	transition: box-shadow 0.2s;
 }
@@ -29,21 +28,18 @@ pre {
 	cursor: default;
 }
 
-h1 a
-{
+h1 a {
 	color: inherit;
 	cursor: inherit;
 	text-decoration: none;
 }
 
-h1 a:hover
-{
+h1 a:hover {
 	color: inherit;
 	cursor: inherit;
 }
 
-.album-name
-{
+.album-name {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -93,10 +89,15 @@ progress {
     padding-right: 0;
 }
 
-.btn-file {
+.btn-file  {
     position: relative;
     overflow: hidden;
 }
+
+.btn-file-browse {
+	margin-right: 3px;
+}
+
 .btn-file input[type=file] {
     position: absolute;
     top: 0;
@@ -115,5 +116,4 @@ progress {
 
 .filelist {
 	margin-bottom: 5px;
-}
 }
