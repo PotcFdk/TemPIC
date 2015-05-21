@@ -55,7 +55,21 @@ UploadManager.prototype.addFile = function(file)
 		warn(warning.concat(file.name));
 	}
 	else
-		this.files.push(file);
+	{
+		var duplicate = false;
+		for(var x = 0; x < this.getFiles().length; x++)
+		{
+			if(file.size == this.getFiles()[x].size && file.lastModified == this.getFiles()[x].lastModified && file.type == this.getFiles()[x].type)
+			{
+				duplicate = true;
+				break;
+			}
+		}
+		if(duplicate)
+			warn("Duplicate files are not allowed.");
+		else
+			this.files.push(file);
+	}	
 	
 	this.notifyFileObserver();
 }
