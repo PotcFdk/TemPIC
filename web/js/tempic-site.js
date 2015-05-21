@@ -17,7 +17,9 @@
 // Detect browser capabilities
 window.onload = function() {
 	if (!Modernizr.filereader || !Modernizr.partialflexbox || window.FormData === undefined)
-		document.getElementById("browser_warning_text").innerHTML = 'Your browser seems to be heavily outdated. Please consider updating. As a workaround you can use <a href="index_nojs.php<?php if (!empty($album_id)) echo '?album='.$album_id; ?>">the NoJS version</a>.';
+		document.getElementById("browser_warning_text").innerHTML = 'Your browser seems to be heavily outdated. Please consider updating. As a workaround you can use <a href="index_nojs.php'
+			+ (album_id ? '?album=' + album_id : '')
+			+ '">the NoJS version</a>.';
 	else
 		document.getElementById("browser_warning_text").style.display = 'none';
 }
@@ -34,23 +36,22 @@ $(function() {
 	$(".checksum-field").hide();
 	$("#button-file-wipe").hide();
 	
-	<?php // Show album lifetime, if possible.
-		if (!empty($remaining_time)) : ?>									
-			var remaining = <?php echo($remaining_time); ?>;
-			function updateRemainingLifetime () {
-				if (remaining > 0) {
-					$('#lifetime_text').html('<p><span class="label label-info">Album removal</span> Remaining time: '
-						+ millisecondsToAccurateStr(remaining*1000)+'</p>');
-					-- remaining;
-				} else {
-					$('#lifetime_text').html('<p><span class="label label-danger">Removed</span> '
-						+ 'This album has been removed.</p>');
-					setInterval(function() { window.location = "<?php echo $URL_BASE; ?>"; }, 1000);
-				}
+	function initRelainingLifetime (remaining)
+	{	
+		function updateRemainingLifetime () {
+			if (remaining > 0) {
+				$('#lifetime_text').html('<p><span class="label label-info">Album removal</span> Remaining time: '
+					+ millisecondsToAccurateStr (remaining*1000)+'</p>');
+				-- remaining;
+			} else {
+				$('#lifetime_text').html('<p><span class="label label-danger">Removed</span> '
+					+ 'This album has been removed.</p>');
+				setInterval (function() { window.location = url_base; }, 1000);
 			}
-			updateRemainingLifetime();
-			setInterval(updateRemainingLifetime, 1000);
-	<?php endif; ?>
+		}
+		updateRemainingLifetime();
+		setInterval (updateRemainingLifetime, 1000);
+	}
 
 	var base_text = $('#checksums-toggle').text();
 	var is_showing_checksums = false;
@@ -80,7 +81,7 @@ $(function() {
 				+ " @ " + humanFileSize((speed*1000).toFixed(2)) + " per second<br />"
 			+ "Elapsed: " + millisecondsToStr(duration) + "<br />"
 			+ 'ETA: ' + millisecondsToStr((evt.total - evt.loaded)/speed));
-		document.title = percentCompleteStr + " - <?php echo $INSTANCE_NAME; ?> (uploading)";
+		document.title = percentCompleteStr + " - " + instance_name + " (uploading)";
 	  }
 	  else {
 		$('#progressbar').removeAttr('value');
@@ -89,9 +90,9 @@ $(function() {
 
 	function uploadComplete(evt) {
 		if (evt.target.responseText) {
-			window.location = "<?php echo get_album_url(); ?>" + evt.target.responseText;
+			window.location = album_url + evt.target.responseText;
 		} else {
-			window.location = "<?php echo $URL_BASE; ?>";
+			window.location = url_base;
 		}
 	}
 
@@ -170,7 +171,7 @@ $(function() {
 	}
 	//UploadManager - global
 	
-	um = new UploadManager(<?php echo $SIZE_LIMIT; ?>, "<?php echo $URL_BASE; ?>", uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
+	um = new UploadManager(size_limit, url_base, uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
 	um.registerFileObserver(updateFileOverview);
 	um.registerFileObserver(showFileWipeButton);
 	um.registerFileObserver(showFilePreview)

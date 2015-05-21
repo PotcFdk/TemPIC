@@ -104,6 +104,28 @@ session_start();
 				src: local('Open Sans'), local('OpenSans'), url('<?php echo $URL_BASE; ?>/fonts/opensans.woff') format('woff');
 			}
 		</style>
+		
+		<script>
+			<?php // Show album lifetime, if possible.
+				if (!empty ($remaining_time)) : ?>
+					initRelainingLifetime (<?php echo($remaining_time); ?>);
+			<?php endif;
+			if (empty ($album_id) && is_string ($album_id)) : ?>
+				var album_id = '<?php echo $album_id; ?>';
+			<?php endif; ?>
+			var album_url = '<?php echo get_album_url() ?>';
+			<?php if (is_string ($URL_BASE)) : ?>
+				var url_base = '<?php echo $URL_BASE; ?>';
+			<?php endif;
+			if (is_string ($INSTANCE_NAME)) : ?>
+				var instance_name = '<?php echo $INSTANCE_NAME; ?>';
+			<?php else : ?>
+				var instance_name = 'TemPIC';
+			<?php endif;
+			if (is_numeric($SIZE_LIMIT)) : ?>
+				var size_limit = <?php echo $SIZE_LIMIT; ?>;
+			<?php endif; ?>
+		</script>
 	</head>
 	<body>
 		<?php include('../includes/copyrotate.php'); ?>
