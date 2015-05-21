@@ -24,6 +24,23 @@ window.onload = function() {
 		document.getElementById("browser_warning_text").style.display = 'none';
 }
 
+function initRemainingLifetime (remaining)
+{	
+	function updateRemainingLifetime () {
+		if (remaining > 0) {
+			$('#lifetime_text').html('<p><span class="label label-info">Album removal</span> Remaining time: '
+				+ millisecondsToAccurateStr (remaining*1000)+'</p>');
+			-- remaining;
+		} else {
+			$('#lifetime_text').html('<p><span class="label label-danger">Removed</span> '
+				+ 'This album has been removed.</p>');
+			setInterval (function() { window.location = url_base; }, 1000);
+		}
+	}
+	updateRemainingLifetime();
+	setInterval (updateRemainingLifetime, 1000);
+}
+
 $(function() {
 	$('#div_filelist_preview').hide();
 	$('#div_albumname_input').hide();
@@ -35,23 +52,6 @@ $(function() {
 	$('#div_progresstext').hide();
 	$(".checksum-field").hide();
 	$("#button-file-wipe").hide();
-	
-	function initRemainingLifetime (remaining)
-	{	
-		function updateRemainingLifetime () {
-			if (remaining > 0) {
-				$('#lifetime_text').html('<p><span class="label label-info">Album removal</span> Remaining time: '
-					+ millisecondsToAccurateStr (remaining*1000)+'</p>');
-				-- remaining;
-			} else {
-				$('#lifetime_text').html('<p><span class="label label-danger">Removed</span> '
-					+ 'This album has been removed.</p>');
-				setInterval (function() { window.location = url_base; }, 1000);
-			}
-		}
-		updateRemainingLifetime();
-		setInterval (updateRemainingLifetime, 1000);
-	}
 
 	var base_text = $('#checksums-toggle').text();
 	var is_showing_checksums = false;
