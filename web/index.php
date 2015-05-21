@@ -201,7 +201,7 @@ session_start();
 						for(var x = 0; x < files.length; x++)
 						{
 							var entry = document.createElement("div");
-								entry.setAttribute("class", "row");
+								entry.setAttribute("class", "row filelist");
 							var col1 = document.createElement("div");
 								col1.setAttribute("class", "col-md-2");
 							var col2 = document.createElement("div");
