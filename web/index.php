@@ -196,20 +196,22 @@ session_start();
 
 				function showFilePreview(files) {
 					if(files.length) {
-						$("#div_filelist_preview").empty();
+						$("#div_filelist_preview_box").empty();
 						
 						for(var x = 0; x < files.length; x++)
 						{
-							var entry = document.createElement(div);
-							entry.setAttribute("class", "row");
-							var col = document.createElement(div);
-							col.setAttribute("class", "col-md-12");
+							var entry = document.createElement("div");
+								entry.setAttribute("class", "row");
+							var col1 = document.createElement("div");
+								col1.setAttribute("class", "col-md-2");
+							var col2 = document.createElement("div");
+								col2.setAttribute("class", "col-md-10");
 							var button = document.createElement("button");
-							button.setAttribute("class", "btn btn-danger");
-							button.setAttribute("type", "button");
-							button.setAttribute("onclick", "um.delFile(".concat(x,")"));
+								button.setAttribute("class", "btn btn-danger");
+								button.setAttribute("type", "button");
+								button.setAttribute("onclick", "um.delFile(".concat(x,")"));
 							var span1 = document.createElement("span");
-							span1.setAttribute("class", "glyphicon glyphicon-trash");
+								span1.setAttribute("class", "glyphicon glyphicon-trash");
 							var span2 = document.createElement("span");
 							var txt = document.createTextNode("Remove");
 							var filename = document.createTextNode(files[x].name);
@@ -217,11 +219,12 @@ session_start();
 							span2.appendChild(txt);
 							button.appendChild(span1);
 							button.appendChild(span2);
-							col.appendChild(button);
-							col.appendChild(filename);
-							entry.appendChild(col);
+							col1.appendChild(button);
+							col2.appendChild(filename);
+							entry.appendChild(col1);
+							entry.appendChild(col2);
 
-							document.getElementById("div_filelist_preview").appendChild(entry);
+							document.getElementById("div_filelist_preview_box").appendChild(entry);
 						}
 
 						$("#div_filelist_preview").show();
