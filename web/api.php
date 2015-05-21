@@ -89,6 +89,7 @@ function API_v1 (&$chunks)
 				default: API_v1_BAD_REQUEST();
 			}
 		}
+		default: API_v1_BAD_REQUEST();
 	}
 }
 ?>
