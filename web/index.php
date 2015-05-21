@@ -114,6 +114,7 @@ session_start();
 			}
 			
 			$(function() {
+				$('#div_filelist_preview').hide();
 				$('#div_albumname_input').hide();
 				$('#div_albumdescription_input').hide();
 				$('#div_warn_element').hide();
@@ -157,7 +158,6 @@ session_start();
 				});
 
 				var upload_started = 0;
-				var xhr;
 				
 				function uploadProgress(evt) {
 				  if (evt.lengthComputable) {
@@ -194,6 +194,42 @@ session_start();
 				  warn("The upload has been canceled by the user or the browser dropped the connection.");
 				}				
 
+				function showFilePreview(files) {
+					if(files.length) {
+						$("#div_filelist_preview").empty();
+						
+						for(var x = 0; x < files.length; x++)
+						{
+							var entry = document.createElement(div);
+							entry.setAttribute("class", "row");
+							var col = document.createElement(div);
+							col.setAttribute("class", "col-md-12");
+							var button = document.createElement("button");
+							button.setAttribute("class", "btn btn-danger");
+							button.setAttribute("type", "button");
+							button.setAttribute("onclick", "um.delFile(".concat(x,")"));
+							var span1 = document.createElement("span");
+							span1.setAttribute("class", "glyphicon glyphicon-trash");
+							var span2 = document.createElement("span");
+							var txt = document.createTextNode("Remove");
+							var filename = document.createTextNode(files[x].name);
+							
+							span2.appendChild(txt);
+							button.appendChild(span1);
+							button.appendChild(span2);
+							col.appendChild(button);
+							col.appendChild(filename);
+							entry.appendChild(col);
+
+							document.getElementById("div_filelist_preview").appendChild(entry);
+						}
+
+						$("#div_filelist_preview").show();
+					}
+					else
+						$("#div_filelist_preview").hide();
+				}
+				
 				function showAlbumForm(files) {
 					if(files.length) {
 						$('#div_albumname_input').show();
@@ -225,6 +261,7 @@ session_start();
 				um = new UploadManager(<?php echo $SIZE_LIMIT; ?>, "<?php echo $URL_BASE; ?>", uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
 				um.registerFileObserver(updateFileOverview);
 				um.registerFileObserver(showFileWipeButton);
+				um.registerFileObserver(showFilePreview)
 				um.registerFileObserver(showAlbumForm);
 				
 				// File upload form setup.
@@ -373,6 +410,18 @@ session_start();
 											?>><?php echo $data['name']; ?></option>
 										<?php endforeach; ?>
 										</select>
+									</div>
+								</div>
+								<div class="row" id="div_filelist_preview">
+									<label for="file" class="col-md-1 control-label">Files added</label>
+									<div class="col-md-8">
+										<div class="panel-group">
+											<div class="panel panel-default">
+												<div class="panel-heading">Files to be uploaded</div>
+												<div class="panel-body" id="div_filelist_preview_box"></div>
+											</div>
+											
+										</div>
 									</div>
 								</div>
 								<div class="row" id="div_albumname_input">
