@@ -136,7 +136,7 @@ progress {
 	display: flex;
 }
 
-.file-overview {
+.input-group .file-overview {
 	display: inline-flex;
 	overflow: hidden;
 }
