@@ -138,6 +138,7 @@ progress {
 
 .input-group .file-overview {
 	display: inline-flex;
+	flex-shrink: 100;
 	overflow: hidden;
 }
 
