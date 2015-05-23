@@ -190,18 +190,6 @@ session_start();
 										</select>
 									</div>
 								</div>
-								<div class="row" id="div_filelist_preview">
-									<label for="file" class="col-md-1 control-label">Files added</label>
-									<div class="col-md-8">
-										<div class="panel-group">
-											<div class="panel panel-default">
-												<div class="panel-heading">Files to be uploaded</div>
-												<div class="panel-body" id="div_filelist_preview_box"></div>
-											</div>
-											
-										</div>
-									</div>
-								</div>
 								<div class="row" id="div_albumname_input">
 									<label for="file" class="col-md-1 control-label">Name</label>
 									<div class="col-md-8">
@@ -215,6 +203,12 @@ session_start();
 											name="album_description" id="album_description"
 											onkeyup="textAreaAutoResize(this);"
 											placeholder="Album Description"></textarea>
+									</div>
+								</div>
+								<div class="row file-preview-area" id="div_filelist_preview">
+									<label for="file" class="col-md-1 control-label">Files</label>
+									<div class="col-md-8">
+										<div id="div_filelist_preview_box"></div>
 									</div>
 								</div>
 							</form>

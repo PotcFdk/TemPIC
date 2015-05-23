@@ -106,47 +106,33 @@ $(function() {
 	}				
 
 	function showFilePreview(files) {
-		if(files.length) {
+		if (files.length) {
 			$("#div_filelist_preview_box").empty();
 			
-			for(var x = 0; x < files.length; x++)
+			for (var x = 0; x < files.length; x++)
 			{
 				var entry = document.createElement("div");
-					entry.setAttribute("class", "rows");
+					entry.setAttribute("class", "row");
 				var col = document.createElement("div");
 					col.setAttribute("class", "col-md-12");
-				var formgroup = document.createElement("div");
-					formgroup.setAttribute("class", "form-group");
-				var inputgroup = document.createElement("div");
-					inputgroup.setAttribute("class", "input-group");
-				var inputgroupbtn = document.createElement("div");
-					inputgroupbtn.setAttribute("class", "input-group-btn");
-				var formcontrol = document.createElement("div");
-					formcontrol.setAttribute("class", "form-control");
+				
+				var inner_entry = document.createElement("div")
+					inner_entry.setAttribute("class", "file-preview-entry");
 					
 				var button = document.createElement("button");
-					button.setAttribute("class", "btn btn-danger");
+					button.setAttribute("class", "close btn-file-remove");
 					button.setAttribute("type", "button");
 					button.setAttribute("onclick", "um.delFile(".concat(x,")"));
-				var span1 = document.createElement("span");
-					span1.setAttribute("class", "glyphicon glyphicon-trash");
-				var span2 = document.createElement("span");
-				var txt = document.createTextNode("Remove");
+				var txt = document.createTextNode("\u00D7");
+				button.appendChild(txt);
 				
 				var filename = document.createTextNode(files[x].name);
+
+				inner_entry.appendChild(button);
+				inner_entry.appendChild(filename);
 				
-				//Button
-				span2.appendChild(txt);
-				button.appendChild(span1);
-				button.appendChild(span2);
-				//text containing the file name
-				formcontrol.appendChild(filename);
-				
-				inputgroupbtn.appendChild(button);
-				inputgroup.appendChild(inputgroupbtn);
-				inputgroup.appendChild(formcontrol);
-				formgroup.appendChild(inputgroup);
-				col.appendChild(formgroup);
+				col.appendChild(inner_entry)
+
 				entry.appendChild(col);
 
 				document.getElementById("div_filelist_preview_box").appendChild(entry);

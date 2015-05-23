@@ -94,6 +94,27 @@ progress {
     overflow: hidden;
 }
 
+.file-preview-area {
+	margin-top: 15px;
+}
+
+.file-preview-entry {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    margin-top: 2px;
+    padding: 0 0.3em;
+}
+
+.btn-file-remove {
+    float: none;
+	margin-right: 0.2em;
+	color: red;
+}
+
+.btn-file-remove:hover, .btn-file-remove:focus {
+	color: red;
+}
+
 .btn-file-browse {
 	margin-right: 3px;
 }
