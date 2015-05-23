@@ -132,6 +132,24 @@ progress {
 	text-decoration: none;
 }
 
+.file-upload-form {
+	display: flex;
+}
+
+.file-overview {
+	display: inline-flex;
+	overflow: hidden;
+}
+
+.file-overview-text {
+	overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-upload-controls {
+	width: auto;
+}
+
 .btn-file-remove {
 	margin-right: 0.2em;
 	color: red;

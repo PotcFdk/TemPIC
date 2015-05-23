@@ -156,12 +156,12 @@ session_start();
 								<div class="form-group">
 									<label for="file" class="col-md-1 control-label">Files</label>
 									<div class="col-md-8">
-										<div class="input-group">
-											<div class="form-control" id="file-overview">
+										<div class="input-group" class="file-upload-form">
+											<div class="form-control file-overview" id="file-overview">
 												<span class="glyphicon glyphicon-file"></span>
-												<span id="file-overview-text"></span>
+												<span class="file-overview-text" id="file-overview-text"></span>
 											</div>
-											<div class="input-group-btn">
+											<div class="input-group-btn file-upload-controls">
 												<button class="btn btn-default" type="button" id="button-file-wipe">
 													<span class="glyphicon glyphicon-trash"></span>
 													<span>Remove all</span>
