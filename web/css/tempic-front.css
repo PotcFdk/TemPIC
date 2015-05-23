@@ -104,6 +104,9 @@ progress {
 	margin-top: 2px;
 	padding: 0.1em 0.3em;
 	cursor: pointer;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .file-preview-entry:hover, .file-preview-entry:focus {
