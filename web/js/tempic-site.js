@@ -118,11 +118,11 @@ $(function() {
 				
 				var inner_entry = document.createElement("div")
 					inner_entry.setAttribute("class", "file-preview-entry");
+					inner_entry.setAttribute("onclick", "um.delFile(".concat(x,")"));
 					
 				var button = document.createElement("button");
-					button.setAttribute("class", "close btn-file-remove");
+					button.setAttribute("class", "btn-file-remove-base btn-file-remove");
 					button.setAttribute("type", "button");
-					button.setAttribute("onclick", "um.delFile(".concat(x,")"));
 				var txt = document.createTextNode("\u00D7");
 				button.appendChild(txt);
 				
