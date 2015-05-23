@@ -160,6 +160,7 @@ session_start();
 											<div class="form-control file-overview" id="file-overview">
 												<span class="glyphicon glyphicon-file"></span>
 												<span class="file-overview-text" id="file-overview-text"></span>
+												<input class="file" type="file" name="file[]" id="file" multiple="multiple">
 											</div>
 											<div class="input-group-btn file-upload-controls">
 												<button class="btn btn-default" type="button" id="button-file-wipe">
@@ -170,10 +171,9 @@ session_start();
 													<span class="glyphicon glyphicon-cloud-upload"></span>
 													<span>Upload</span>
 												</button>
-												<span class="btn btn-primary btn-file">
+												<button class="btn btn-primary btn-file" id="button-browse">
 													<span class="glyphicon glyphicon-folder-open btn-file-browse"></span>
 													<span>Browse&nbsp;&hellip;</span>
-													<input class="file" type="file" name="file[]" id="file" multiple="multiple">
 												</span>
 											</div>
 										</div>
