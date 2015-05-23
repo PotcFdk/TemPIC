@@ -193,7 +193,8 @@ session_start();
 								<div class="row" id="div_albumname_input">
 									<label for="file" class="col-md-1 control-label">Name</label>
 									<div class="col-md-8">
-										<input type="text" class="form-control" name="album_name" id="album_name">
+										<input type="text" class="form-control" name="album_name"
+											id="album_name" placeholder="Album Name">
 									</div>
 								</div>
 								<div class="row" id="div_albumdescription_input">
