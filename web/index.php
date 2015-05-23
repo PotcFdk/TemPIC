@@ -156,7 +156,7 @@ session_start();
 								<div class="form-group">
 									<label for="file" class="col-md-1 control-label">Files</label>
 									<div class="col-md-8">
-										<div class="input-group" class="file-upload-form">
+										<div class="input-group file-upload-form">
 											<div class="form-control file-overview" id="file-overview">
 												<span class="glyphicon glyphicon-file"></span>
 												<span class="file-overview-text" id="file-overview-text"></span>
