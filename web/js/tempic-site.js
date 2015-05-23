@@ -67,6 +67,11 @@ $(function() {
 			$('#checksums-toggle').text(base_text.replace("Show","Hide"));
 		}
 	});
+	
+	var fileInput = $('#file');
+	function fileBrowse () {
+		fileInput.click();
+	}
 
 	var upload_started = 0;
 	
