@@ -159,6 +159,6 @@ progress {
 	margin-right: 3px;
 }
 
-.btn-file input[type=file] {
+.file-overview input[type="file"] {
 	display: none;
 }
