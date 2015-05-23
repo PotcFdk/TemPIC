@@ -41,6 +41,8 @@ function initRemainingLifetime (remaining)
 	setInterval (updateRemainingLifetime, 1000);
 }
 
+var fileBrowse;
+
 $(function() {
 	$('#div_filelist_preview').hide();
 	$('#div_albumname_input').hide();
@@ -69,7 +71,7 @@ $(function() {
 	});
 	
 	var fileInput = $('#file');
-	function fileBrowse () {
+	fileBrowse = function () {
 		fileInput.click();
 	}
 
