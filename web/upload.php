@@ -63,7 +63,6 @@ function rearrange ($arr) {
 }
 
 if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
-	session_start();
 	$files = array();
 	$file_paths = array();
 	
