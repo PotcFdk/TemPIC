@@ -29,28 +29,6 @@ function createZipFile ($name, $files) {
 	return $zip;
 }
 
-function getMimeType ($file) {
-	$finfo = finfo_open(FILEINFO_MIME_TYPE);
-	$err_lvl = error_reporting(E_ALL & ~E_WARNING);
-	$mime = finfo_file($finfo, $file);
-	error_reporting($err_lvl);
-	finfo_close($finfo);
-
-	return $mime;
-}
-
-function isImage ($file) {
-	$mime = getMimeType ($file);
-
-	return ($mime == 'image/gif')
-		|| ($mime == 'image/jpeg')
-		|| ($mime == 'image/jpg')
-		|| ($mime == 'image/pjpeg')
-		|| ($mime == 'image/x-png')
-		|| ($mime == 'image/png')
-		|| ($mime == 'image/svg+xml');
-}
-
 function mb_pathinfo($filepath) {
 	preg_match ('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m);
 	if (!empty($m[1])) $ret['dirname']   = $m[1];
