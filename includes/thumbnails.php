@@ -136,11 +136,14 @@ function createThumbnailImagick ($src, $dest, $postprocess = false) {
 	}
 	else
 	{
+		$is_animated = $image->getNumberImages() > 1;
+		
 		iterator_to_array($image)[0]->thumbnailImage($new_geometry['width'], $new_geometry['height']);
-		$image->compositeImage(new Imagick('img/info_animated.png'), imagick::COMPOSITE_DEFAULT, 0, 0);
+		if ($is_animated)
+			$image->compositeImage(new Imagick('img/info_animated.png'), imagick::COMPOSITE_DEFAULT, 0, 0);
 		iterator_to_array($image)[0]->writeImage($dest);
 		
-		if ($image->getNumberImages() > 1 && $THUMBNAIL_ENABLE_ANIMATED)
+		if ($is_animated && $THUMBNAIL_ENABLE_ANIMATED)
 		{ // We actually want animated thumbnails, but we are not the postprocessor.
 			$job_entry = array('src' => $src, 'dest' => $dest_orig);
 			$offset = rand(0,20);
