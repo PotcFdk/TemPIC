@@ -176,11 +176,15 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		
 		$album_data['files'] = array();
 
+		// Move contents from $files to the final $album_data
+		// Ignore all files with 'error', for now.
+		
 		foreach ($files as $filen => $file) {
 			if (!isset($file['error'])) { // no errors, file is ok
 				$album_data['files'][$filen] = $file;
 			}
 		}
+		
 		if (count($album_data['files']) >= 1) {
 			$album_bare_id = substr(md5(time()),12);
 			
