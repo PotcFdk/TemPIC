@@ -213,15 +213,17 @@ require_once('../includes/helpers.php');
 										<div class="panel panel-default">
 											<div class="panel-body">
 												<a href="<?php echo $file['url']; ?>">
-													<?php if (!empty($file['thumbnail'])) : ?>
-														<img src="<?php echo $file['thumbnail']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
+													<?php $file_ext_icon = $URL_BASE . '/img/filetypes/'
+															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
+															? $file['extension'] : '_blank') . '.png';
+													
+													if (!empty($file['thumbnail'])) : ?>
+														<img src="<?php echo $file['thumbnail']; ?>" alt="Uploaded Image" class="thumbnail img-responsive"
+															onerror="this.onerror = null; this.src = '<?php echo $file_ext_icon; ?>'">
 													<?php elseif ($file['image']) : ?>
 														<img src="<?php echo $file['url']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
 													<?php else: ?>
-														<?php $image = $URL_BASE . '/img/filetypes/'
-															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
-															? $file['extension'] : '_blank') . '.png'; ?>
-														<img src="<?php echo $image; ?>" alt="Uploaded File" class="img-responsive">
+														<img src="<?php echo $file_ext_icon; ?>" alt="Uploaded File" class="img-responsive">
 													<?php endif; ?>
 
 													<p><?php echo htmlspecialchars($name); ?></p>

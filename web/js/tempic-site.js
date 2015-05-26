@@ -41,6 +41,13 @@ function initRemainingLifetime (remaining)
 	setInterval (updateRemainingLifetime, 1000);
 }
 
+function onThumbnailError (obj, icon) {
+	obj = $(obj);
+	obj.parent().parent().attr('style', 'text-align: center');
+	obj.replaceWith("<img src='" + icon + "' alt='thumbnail unavailable' /><br />"
+		+ "<span style='font-size: 1.7em;'>[thumbnail unavailable]</span>");
+}
+
 var fileBrowse;
 
 $(function() {
