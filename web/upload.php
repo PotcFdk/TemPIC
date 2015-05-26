@@ -172,23 +172,25 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					$file_paths[$file['name']] = $path;
 
 					if (!empty($URL_UPLOAD)) // $URL_UPLOAD lifetime / uid / filename
-						$link_base = $URL_UPLOAD . $lifetime . '/' . $uid . '/';
+						$file_url_base = $URL_UPLOAD . $lifetime . '/' . $uid . '/';
 					else // $URL_BASE / (upload / lifetime / uid) / filename
-						$link_base = $URL_BASE . '/' . $path_destination . '/';
+						$file_url_base = $URL_BASE . '/' . $path_destination . '/';
 						
-					$link = $link_base . rawurlencode($fileinfo['basename']);
+					$file_url = $file_url_base . rawurlencode($fileinfo['basename']);
 						
-					$files[$file['name']]['link'] = $link;
+					$files[$file['name']]['url'] = $file_url;
 					$files[$file['name']]['image'] = isImage($path);
 					if (!empty($fileinfo['extension']))
 						$files[$file['name']]['extension'] = $fileinfo['extension'];
-					$files[$file['name']]['crc'] = hash_file('crc32b', $path);
-					$files[$file['name']]['md5'] = md5_file($path);
-					$files[$file['name']]['sha1'] = sha1_file($path);
+					$files[$file['name']]['checksums'] = array(
+						'crc'  => hash_file('crc32b', $path),
+						'md5'  => md5_file($path),
+						'sha1' => sha1_file($path)
+					);
 					
 					if (hasThumbnailSupport($path)) {
 						if (createThumbnail($path, $path_destination . '/' . $THUMBNAIL_PREFIX . $fileinfo['filename'] . '.jpg', $MAX_THUMBNAIL_WIDTH))
-							$files[$file['name']]['thumbnail'] = $link_base . $THUMBNAIL_PREFIX . rawurlencode($fileinfo['filename'] . '.jpg');
+							$files[$file['name']]['thumbnail'] = $file_url_base . $THUMBNAIL_PREFIX . rawurlencode($fileinfo['filename'] . '.jpg');
 					}
 				}
 			}
