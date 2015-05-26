@@ -103,7 +103,7 @@ function createThumbnailNative ($src, $dest) {
 }
 
 function createThumbnailImagick ($src, $dest, $postprocess = false) {
-	global $THUMBNAIL_ENABLE_ANIMATED, $THUMBNAIL_MAX_ANIMATED_RES, $THUMBNAIL_MAX_RES;
+	global $PATH_JOBQUEUE, $THUMBNAIL_ENABLE_ANIMATED, $THUMBNAIL_MAX_ANIMATED_RES, $THUMBNAIL_MAX_RES;
 	
 	if (exif_imagetype($src) == IMAGETYPE_GIF)
 		$ext = '.gif';
@@ -112,6 +112,7 @@ function createThumbnailImagick ($src, $dest, $postprocess = false) {
 	else
 		$ext = '.jpg';
 	
+	$dest_orig = $dest;
 	$dest = $dest.$ext;
 	
 	$image = new Imagick($src);
@@ -138,6 +139,14 @@ function createThumbnailImagick ($src, $dest, $postprocess = false) {
 		iterator_to_array($image)[0]->thumbnailImage($new_geometry['width'], $new_geometry['height']);
 		$image->compositeImage(new Imagick('img/info_animated.png'), imagick::COMPOSITE_DEFAULT, 0, 0);
 		iterator_to_array($image)[0]->writeImage($dest);
+		
+		if ($image->getNumberImages() > 1 && $THUMBNAIL_ENABLE_ANIMATED)
+		{ // We actually want animated thumbnails, but we are not the postprocessor.
+			$job_entry = array('src' => $src, 'dest' => $dest_orig);
+			$offset = rand(0,20);
+			$uid = substr(md5(time().mt_rand()), $offset, 12);
+			file_put_contents($PATH_JOBQUEUE.'/'.$uid.'.job', serialize($job_entry));
+		}
 	}
 	
 	return $ext;

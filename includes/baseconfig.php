@@ -18,6 +18,8 @@
 	$PATH_ALBUM  = 'album';
 	$PATH_UPLOAD = 'upload';
 	
+	$PATH_JOBQUEUE = '../internal/thumbnail_queue';
+	
 	$THUMBNAIL_PREFIX = '_thumb_';
 	$THUMBNAIL_MAX_RES = 500;
 	

@@ -14,9 +14,9 @@
 	limitations under the License.
 */
 
+require_once('../includes/baseconfig.php');
 @include_once('config.php');
 require_once('../includes/configcheck.php');
-require_once('../includes/baseconfig.php');
 require_once('../includes/thumbnails.php');
 
 function createZipFile ($name, $files) {
@@ -146,7 +146,10 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					
 					if (isset($ENABLE_THUMBNAILS) && $ENABLE_THUMBNAILS && hasThumbnailSupport($path)) {
 						if ($fext = createThumbnail($path, $path_destination . '/' . $THUMBNAIL_PREFIX . $fileinfo['filename']))
+						{
 							$files[$file['name']]['thumbnail'] = $file_url_base . $THUMBNAIL_PREFIX . rawurlencode($fileinfo['filename'] . $fext);
+							chmod($path_destination . '/' . $THUMBNAIL_PREFIX . $fileinfo['filename'] . $fext, 0664);
+						}
 					}
 				}
 			}
