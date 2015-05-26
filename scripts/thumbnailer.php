@@ -24,9 +24,9 @@
 		$err_msg = 'This thumbnail generator is for generating animated thumbnails, however ';
 	
 		if (!$THUMBNAIL_USE_IMAGICK)
-			die ($err_msg . 'Imagick is not enabled.');
+			die ($err_msg . 'Imagick is not enabled.\n');
 		if (!$THUMBNAIL_ENABLE_ANIMATED)
-			die ($err_msg . 'animated thumbnails are disabled.');
+			die ($err_msg . 'animated thumbnails are disabled.\n');
 	}
 	
 	//
