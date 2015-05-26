@@ -23,7 +23,7 @@ require_once('../includes/helpers.php');
 <?php
 	// Make sure $files, $album_id, $album_hash and $remaining_time contain the data we want.
 
-	if (empty($files) && !empty($_GET['album']) && is_string($_GET['album'])) {
+	if (!empty($_GET['album']) && is_string($_GET['album'])) {
 		$album_id = strip_album_id($_GET['album']);
 		if (!empty($album_id)) {
 			$_a = explode(":", $album_id, 2);
