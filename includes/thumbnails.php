@@ -83,7 +83,7 @@ function createThumbnailNative ($src, $dest) {
 }
 
 function createThumbnailImagick ($src, $dest, $postprocess = false) {
-	global $THUMBNAIL_MAX_ANIMATED_RES, $THUMBNAIL_MAX_RES;
+	global $THUMBNAIL_ENABLE_ANIMATED, $THUMBNAIL_MAX_ANIMATED_RES, $THUMBNAIL_MAX_RES;
 	
 	if (exif_imagetype($src) == IMAGETYPE_GIF)
 		$ext = '.gif';
@@ -103,7 +103,7 @@ function createThumbnailImagick ($src, $dest, $postprocess = false) {
 	
 	$image = $image->coalesceImages();
 
-	if ($postprocess)
+	if ($THUMBNAIL_ENABLE_ANIMATED && $postprocess)
 	{
 		foreach ($image as $frame) {
 			$frame->thumbnailImage($new_geometry['width'], $new_geometry['height']);
