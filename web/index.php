@@ -1,7 +1,7 @@
 <?php
+require_once('../includes/baseconfig.php');
 @include_once('config.php');
 require_once('../includes/configcheck.php');
-require_once('../includes/baseconfig.php');
 require_once('../includes/helpers.php');
 
 // Set the httpOnly flag.
