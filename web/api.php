@@ -73,17 +73,25 @@ function API_v1_BAD_REQUEST()
 	$resp['data'] = array ('error' => 'Invalid action.');
 }
 
+function API_v1_ALBUM_INFO ($album_id)
+{
+	global $resp;
+	http_response_code (501); // Not Implemented
+	$resp['status'] = STATUS_FAIL;
+	$resp['data'] = array ('error' => 'Album information unavailable.');
+}
+
 function API_v1 (&$chunks)
 {
 	global $resp;
 	$resp['version'] = 'v1';
 	
-	if (!empty($chunks[0]))
+	if (!empty ($chunks[0]))
 	{
 		switch ($chunks[0])
 		{
 			case 'system': {
-				if (!empty($chunks[1]))
+				if (!empty ($chunks[1]))
 				{
 					switch ($chunks[1])
 					{
@@ -97,10 +105,23 @@ function API_v1 (&$chunks)
 					API_v1_BAD_REQUEST();
 				break;
 			}
+			case 'albums': {
+				if (!empty ($chunks[1]) && !empty ($chunks[2]))
+				{
+					switch ($chunks[2])
+					{
+						case 'info':
+							API_v1_ALBUM_INFO ($chunks[1]);
+							break;
+						default: API_v1_BAD_REQUEST();
+					}
+				}
+				else API_v1_BAD_REQUEST();
+				break;
+			}
 			default: API_v1_BAD_REQUEST();
 		}
 	}
-	else
-		API_v1_BAD_REQUEST();
+	else API_v1_BAD_REQUEST();
 }
 ?>
