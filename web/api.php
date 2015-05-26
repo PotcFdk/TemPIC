@@ -81,7 +81,6 @@ function API_V1_BAD_REQUEST ($reason = NULL)
 function API_V1_ALBUM_INFO ($album_id)
 {
 	global $LIFETIMES, $PATH_ALBUM, $resp;
-	//http_response_code (501); // Not Implemented
 	
 	$album_id = strip_album_id($album_id);
 	if (empty($album_id)) return API_V1_BAD_REQUEST ("Invalid album ID");
@@ -98,7 +97,7 @@ function API_V1_ALBUM_INFO ($album_id)
 		return API_V1_BAD_REQUEST ("Album can not be found");
 	
 	$resp['status'] = STATUS_SUCCESS;
-	$resp['data'] = array ('rawdata', $album_data);
+	$resp['data'] = array ('albums' => array ($album_id => $album_data));
 }
 
 function API_V1 (&$chunks)
