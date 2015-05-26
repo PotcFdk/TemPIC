@@ -134,6 +134,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 						
 					$files[$file['name']]['url'] = $file_url;
 					$files[$file['name']]['image'] = isImage($path);
+					if ($files[$file['name']]['image']) // if isImage()
+						$files[$file['name']]['animated'] = isAnimated($path);
 					if (!empty($fileinfo['extension']))
 						$files[$file['name']]['extension'] = $fileinfo['extension'];
 					$files[$file['name']]['checksums'] = array(
