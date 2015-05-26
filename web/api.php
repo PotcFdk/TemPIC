@@ -78,19 +78,29 @@ function API_v1 (&$chunks)
 	global $resp;
 	$resp['version'] = 'v1';
 	
-	switch ($chunks[0])
+	if (!empty($chunks[0]))
 	{
-		case 'system': {
-			switch ($chunks[1])
-			{
-				case 'test':
-					$resp['status'] = STATUS_SUCCESS;
-					break;
-				default: API_v1_BAD_REQUEST();
+		switch ($chunks[0])
+		{
+			case 'system': {
+				if (!empty($chunks[1]))
+				{
+					switch ($chunks[1])
+					{
+						case 'test':
+							$resp['status'] = STATUS_SUCCESS;
+							break;
+						default: API_v1_BAD_REQUEST();
+					}
+				}
+				else
+					API_v1_BAD_REQUEST();
+				break;
 			}
-			break;
+			default: API_v1_BAD_REQUEST();
 		}
-		default: API_v1_BAD_REQUEST();
 	}
+	else
+		API_v1_BAD_REQUEST();
 }
 ?>
