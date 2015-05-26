@@ -27,31 +27,6 @@ session_start();
 <?php
 	// Make sure $files, $album_id, $album_hash and $remaining_time contain the data we want.
 
-	if (!empty($_SESSION['files'])) {
-		$files = $_SESSION['files'];
-		
-		if (!empty($_SESSION['album_name']))
-			$album_name = $_SESSION['album_name'];
-
-		if (!empty($_SESSION['album_description']))
-			$album_description = $_SESSION['album_description'];
-
-		if (!empty($_SESSION['album_id'])) {
-			$album_id = $_SESSION['album_id'];
-			$_a = explode(":", $album_id, 2);
-			$album_hash = $_a[1];
-		}
-		
-		if (!empty($_SESSION['album_lifetime'])) {
-			$album_lifetime = $_SESSION['album_lifetime'];
-			if (!empty($LIFETIMES[$album_lifetime]))
-				$remaining_time = $LIFETIMES[$_SESSION['album_lifetime']]['time']*60;
-		}
-		
-		if (!empty($album_lifetime) && !empty($LIFETIMES[$album_lifetime]))
-			$remaining_time = $LIFETIMES[$_SESSION['album_lifetime']]['time']*60;
-	}
-
 	if (empty($files) && !empty($_GET['album']) && is_string($_GET['album'])) {
 		$album_id = strip_album_id($_GET['album']);
 		if (!empty($album_id)) {
@@ -351,11 +326,3 @@ session_start();
 		</div>
 	</body>
 </html>
-
-<?php
-	unset($_SESSION['files']);
-	unset($_SESSION['album_name']);
-	unset($_SESSION['album_description']);
-	unset($_SESSION['album_id']);
-	unset($_SESSION['album_lifetime']);
-?>

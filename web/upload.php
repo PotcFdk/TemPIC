@@ -96,8 +96,6 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 				$files[$file['name']]['error'] = 'Disallowed file type!';
 			} elseif ($file['error'] > 0) {
 				$files[$file['name']]['error'] = 'Return Code: ' . $file['error'];
-			} elseif (!isset($lifetime) || !array_key_exists($lifetime, $LIFETIMES)) {
-				$files[$file['name']]['error'] = 'Invalid or no file lifetime specified.';
 			} else {
 				$path_destination = $PATH_UPLOAD . '/' . $lifetime;
 				
@@ -203,29 +201,22 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 			
 			file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($album_data));
 			
-			if (!empty($album_data['name']))
-				$_SESSION['album_name'] = $album_data['name'];
-			if (!empty($album_data['description']))
-				$_SESSION['album_description'] = $album_data['description'];
-			$_SESSION['album_lifetime'] = $lifetime;
-			$_SESSION['album_id'] = $lifetime.':'.$album_bare_id;
+			$album_id = $lifetime.':'.$album_bare_id;
 		}
 	}
-
-	$_SESSION['files'] = $files;
 }
 
 if (isset($_POST['nojs'])) {
-	if (!empty($_SESSION['album_id']))
-		header('Location: '.$URL_BASE.'/index_nojs.php?album='.$_SESSION['album_id']);
+	if (!empty($album_id))
+		header('Location: '.$URL_BASE.'/index_nojs.php?album='.$album_id);
 	else
 		header('Location: '. $URL_BASE.'/index_nojs.php');
 } elseif (isset($_POST['ajax'])) {
-	if (!empty($_SESSION['album_id']))
-		echo ($_SESSION['album_id']);
+	if (!empty($album_id))
+		echo ($album_id);
 } else {
-	if (!empty($_SESSION['album_id']))
-		header('Location: '.$URL_BASE.'?album='.$_SESSION['album_id']);
+	if (!empty($album_id))
+		header('Location: '.$URL_BASE.'?album='.$album_id);
 	else
 		header('Location: '.$URL_BASE);
 }
