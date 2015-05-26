@@ -28,43 +28,122 @@ function createZipFile ($name, $files) {
 	return $zip;
 }
 
-function createThumbnail ($src, $dest, $new_width) {
+function getThumbnailTargetSize ($src_x, $src_y, $target_max) {
+	$src_max = max ($src_x, $src_y);
+	if ($src_max <= $target_max) return false;
+	
+	$scale_factor = $target_max / $src_max;
+	return array (
+		'width' => $scale_factor * $src_x,
+		'height' => $scale_factor * $src_y
+	);
+}
+
+function createThumbnailNative ($src, $dest) {
 	$type = exif_imagetype($src);
+	$limit = $THUMBNAIL_MAX_RES;
 	
 	switch ($type) {
-        case 1:
+        case IMAGETYPE_GIF:
+			$ext = '.gif';
             $image = imagecreatefromgif($src);
-        break;
-        case 2:
+			break;
+        case IMAGETYPE_JPEG:
+			$ext = '.jpg';
 			$image = imagecreatefromjpeg($src);
-        break;
-        case 3:
+			break;
+        case IMAGETYPE_PNG:
+			$ext = '.png';
             $image = imagecreatefrompng($src);
-        break;
+			break;
 		default:
 			return false;
     }
 	
+	$dest = $dest.$ext;
+	
 	$width = imagesx($image);
 	$height = imagesy($image);
 	
-	$new_width = min($width, $new_width);
-	
-	$new_height = floor($height * ($new_width / $width));
+	$new_geometry = getThumbnailTargetSize ($width, $height, $limit);
+	$new_width = $new_geometry['width'];
+	$new_height = $new_geometry['height'];
 	
 	$target = imagecreatetruecolor($new_width, $new_height);
+	imagealphablending($target, false);
+	imagesavealpha($target, true);
+	$transparent = imagecolorallocatealpha($target, 255, 255, 255, 127);
+	imagefilledrectangle($target, 0, 0, $nWidth, $nHeight, $transparent);
 	
 	imagecopyresampled($target, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-	imagejpeg($target, $dest);
-	return true;
+	
+	switch ($type) {
+        case IMAGETYPE_GIF:
+			imagegif($target, $dest);
+			break;
+        case IMAGETYPE_JPEG:
+			imagejpeg($target, $dest);
+			break;
+        case IMAGETYPE_PNG:
+			imagepng($target, $dest);
+			break;
+		default:
+			return false;
+    }
+	
+	return $ext;
 }
 
-function isImage ($file) {
+function createThumbnailImagick ($src, $dest) {
+	global $THUMBNAIL_MAX_ANIMATED_RES, $THUMBNAIL_MAX_RES;
+	
+	if (exif_imagetype($src) == IMAGETYPE_GIF)
+		$ext = '.gif';
+	elseif (exif_imagetype($src) == IMAGETYPE_PNG)
+		$ext = '.png';
+	else
+		$ext = '.jpg';
+	
+	$dest = $dest.$ext;
+	
+	$image = new Imagick($src);
+	
+	$limit = $image->getNumberImages() > 1 ? $THUMBNAIL_MAX_ANIMATED_RES : $THUMBNAIL_MAX_RES;
+
+	$geometry = $image->getImageGeometry();
+	$new_geometry = getThumbnailTargetSize($geometry['width'], $geometry['height'], $limit);
+	
+	$image = $image->coalesceImages();
+
+	foreach ($image as $frame) {
+		$frame->thumbnailImage($new_geometry['width'], $new_geometry['height']);
+		$frame->setImagePage($new_geometry['width'], $new_geometry['height'], 0, 0);
+	}
+
+	$image = $image->deconstructImages();
+	$image->writeImages($dest, true);
+	return $ext;
+}
+
+function createThumbnail ($src, $dest) {
+	if (extension_loaded('imagick'))
+		return createThumbnailImagick ($src, $dest);
+	else
+		return createThumbnailNative  ($src, $dest);
+}
+
+function getMimeType ($file) {
 	$finfo = finfo_open(FILEINFO_MIME_TYPE);
 	$err_lvl = error_reporting(E_ALL & ~E_WARNING);
 	$mime = finfo_file($finfo, $file);
 	error_reporting($err_lvl);
 	finfo_close($finfo);
+
+	return $mime;
+}
+
+function isImage ($file) {
+	$mime = getMimeType ($file);
 
 	return ($mime == 'image/gif')
 		|| ($mime == 'image/jpeg')
@@ -189,8 +268,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					);
 					
 					if (isset($ENABLE_THUMBNAILS) && $ENABLE_THUMBNAILS && hasThumbnailSupport($path)) {
-						if (createThumbnail($path, $path_destination . '/' . $THUMBNAIL_PREFIX . $fileinfo['filename'] . '.jpg', $MAX_THUMBNAIL_WIDTH))
-							$files[$file['name']]['thumbnail'] = $file_url_base . $THUMBNAIL_PREFIX . rawurlencode($fileinfo['filename'] . '.jpg');
+						if ($fext = createThumbnail($path, $path_destination . '/' . $THUMBNAIL_PREFIX . $fileinfo['filename']))
+							$files[$file['name']]['thumbnail'] = $file_url_base . $THUMBNAIL_PREFIX . rawurlencode($fileinfo['filename'] . $fext);
 					}
 				}
 			}
