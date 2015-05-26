@@ -193,6 +193,14 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 				chmod($path_destination, 0775);
 			}
 			
+			// create album zip file
+			if (isset($ENABLE_ALBUM_ZIP) && $ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
+				$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
+				$zip_file = createZipFile($zip_path, $file_paths);
+				
+				$album_data['zip'] = $URL_BASE . '/' . $zip_path;
+			}
+			
 			file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($album_data));
 			
 			if (!empty($album_data['name']))
@@ -201,12 +209,6 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 				$_SESSION['album_description'] = $album_data['description'];
 			$_SESSION['album_lifetime'] = $lifetime;
 			$_SESSION['album_id'] = $lifetime.':'.$album_bare_id;
-			
-			// create album zip file
-			if (isset($ENABLE_ALBUM_ZIP) && $ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
-				$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
-				$zip_file = createZipFile($zip_path, $file_paths);
-			}
 		}
 	}
 
