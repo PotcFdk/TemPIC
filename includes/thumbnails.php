@@ -26,6 +26,8 @@ function getThumbnailTargetSize ($src_x, $src_y, $target_max) {
 }
 
 function createThumbnailNative ($src, $dest) {
+	global $THUMBNAIL_MAX_RES;
+	
 	$type = exif_imagetype($src);
 	$limit = $THUMBNAIL_MAX_RES;
 	
@@ -80,7 +82,7 @@ function createThumbnailNative ($src, $dest) {
 	return $ext;
 }
 
-function createThumbnailImagick ($src, $dest) {
+function createThumbnailImagick ($src, $dest, $postprocess = false) {
 	global $THUMBNAIL_MAX_ANIMATED_RES, $THUMBNAIL_MAX_RES;
 	
 	if (exif_imagetype($src) == IMAGETYPE_GIF)
@@ -101,19 +103,39 @@ function createThumbnailImagick ($src, $dest) {
 	
 	$image = $image->coalesceImages();
 
-	foreach ($image as $frame) {
-		$frame->thumbnailImage($new_geometry['width'], $new_geometry['height']);
-		$frame->setImagePage($new_geometry['width'], $new_geometry['height'], 0, 0);
+	if ($postprocess)
+	{
+		foreach ($image as $frame) {
+			$frame->thumbnailImage($new_geometry['width'], $new_geometry['height']);
+			$frame->setImagePage($new_geometry['width'], $new_geometry['height'], 0, 0);
+		}
+		$image = $image->deconstructImages();
+		$image->writeImages($dest, true);
 	}
-
-	$image = $image->deconstructImages();
-	$image->writeImages($dest, true);
+	else
+	{
+		iterator_to_array($image)[0]->thumbnailImage($new_geometry['width'], $new_geometry['height']);
+		$image->compositeImage(new Imagick('img/info_animated.png'), imagick::COMPOSITE_DEFAULT, 0, 0);
+		iterator_to_array($image)[0]->writeImage($dest);
+	}
+	
 	return $ext;
 }
 
 function createThumbnail ($src, $dest) {
-	if (extension_loaded('imagick'))
+	global $THUMBNAIL_USE_IMAGICK;
+	
+	if ($THUMBNAIL_USE_IMAGICK && extension_loaded('imagick'))
 		return createThumbnailImagick ($src, $dest);
+	else
+		return createThumbnailNative  ($src, $dest);
+}
+
+function createThumbnailPostProcess ($src, $dest) {
+	global $THUMBNAIL_USE_IMAGICK;
+	
+	if ($THUMBNAIL_USE_IMAGICK && extension_loaded('imagick'))
+		return createThumbnailImagick ($src, $dest, true);
 	else
 		return createThumbnailNative  ($src, $dest);
 }
