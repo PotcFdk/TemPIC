@@ -16,11 +16,18 @@
 
 	require_once ('config.php');
 	require_once ($PATH_INCLUDES . '/baseconfig.php');
-	require_once ($PATH_TEMPIC . '/config.php');
+	require_once ($PATH_TEMPIC   . '/config.php');
 	require_once ($PATH_INCLUDES . '/helpers.php');
 	require_once ($PATH_INCLUDES . '/thumbnails.php');
 	
-	$time  = time ();
+	{
+		$err_msg = 'This thumbnail generator is for generating animated thumbnails, however ';
+	
+		if (!$THUMBNAIL_USE_IMAGICK)
+			die ($err_msg . 'Imagick is not enabled.');
+		if (!$THUMBNAIL_ENABLE_ANIMATED)
+			die ($err_msg . 'animated thumbnails are disabled.');
+	}
 	
 	//
 	
@@ -50,13 +57,13 @@
 	}
 	
 	chdir ($PATH_TEMPIC);
-	echo "Generating thumbnails...";
+	echo "Generating thumbnails...\n";
 	
 	foreach ($jobs as $job_file => $job)
 	{
 		if (file_exists($job['src']))
 			createThumbnailImagick ($job['src'], $job['dest'], true);
-		echo " * Generated new thumbnail, by job " . $job_file;
+		echo " * Generated new thumbnail, by job " . $job_file . "\n";
 		unlink ($job_file);
 	}
 ?>
