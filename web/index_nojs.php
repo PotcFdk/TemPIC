@@ -60,7 +60,6 @@ session_start();
 			echo $INSTANCE_NAME; ?></title>
 
 		<link rel="stylesheet" href="<?php echo $URL_BASE; ?>/css/bootstrap.min.css">
-		<link href="<?php echo $URL_BASE; ?>/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="<?php echo $URL_BASE; ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="<?php echo $URL_BASE; ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
 		<?php if (!empty($CSS_OVERRIDE) && file_exists("css/".$CSS_OVERRIDE)) : ?>
@@ -159,7 +158,7 @@ session_start();
 							</div>
 						</div>
 					<?php endif; ?>
-
+					
 					<div id="div_infoarea" class="row infoarea">
 						<div id="div_infoarea_left" class="col-md-6">
 							<div class="row">
