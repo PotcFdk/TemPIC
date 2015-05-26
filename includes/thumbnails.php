@@ -35,23 +35,18 @@ function createThumbnailNative ($src, $dest) {
 	
 	switch ($type) {
         case IMAGETYPE_GIF:
-			$ext = '.gif';
             $image = imagecreatefromgif($src);
 			$is_animated = isAnimated($src);
 			break;
         case IMAGETYPE_JPEG:
-			$ext = '.jpg';
 			$image = imagecreatefromjpeg($src);
 			break;
         case IMAGETYPE_PNG:
-			$ext = '.png';
             $image = imagecreatefrompng($src);
 			break;
 		default:
 			return false;
     }
-	
-	$dest = $dest.$ext;
 	
 	$width = imagesx($image);
 	$height = imagesy($image);
@@ -99,21 +94,11 @@ function createThumbnailNative ($src, $dest) {
 			return false;
     }
 	
-	return $ext;
+	return true;
 }
 
-function createThumbnailImagick ($src, $dest, $postprocess = false) {
+function createThumbnailImagick ($src, $dest) {
 	global $PATH_JOBQUEUE, $THUMBNAIL_ENABLE_ANIMATED, $THUMBNAIL_MAX_ANIMATED_RES, $THUMBNAIL_MAX_RES;
-	
-	if (exif_imagetype($src) == IMAGETYPE_GIF)
-		$ext = '.gif';
-	elseif (exif_imagetype($src) == IMAGETYPE_PNG)
-		$ext = '.png';
-	else
-		$ext = '.jpg';
-	
-	$dest_orig = $dest;
-	$dest = $dest.$ext;
 	
 	$image = new Imagick($src);
 	
@@ -125,7 +110,7 @@ function createThumbnailImagick ($src, $dest, $postprocess = false) {
 	
 	$image = $image->coalesceImages();
 
-	if ($THUMBNAIL_ENABLE_ANIMATED && $postprocess)
+	if ($THUMBNAIL_ENABLE_ANIMATED)
 	{
 		foreach ($image as $frame) {
 			$frame->thumbnailImage($new_geometry['width'], $new_geometry['height']);
@@ -142,17 +127,9 @@ function createThumbnailImagick ($src, $dest, $postprocess = false) {
 		if ($is_animated)
 			$image->compositeImage(new Imagick('img/info_animated.png'), imagick::COMPOSITE_DEFAULT, 0, 0);
 		iterator_to_array($image)[0]->writeImage($dest);
-		
-		if ($is_animated && $THUMBNAIL_ENABLE_ANIMATED)
-		{ // We actually want animated thumbnails, but we are not the postprocessor.
-			$job_entry = array('src' => $src, 'dest' => $dest_orig);
-			$offset = rand(0,20);
-			$uid = substr(md5(time().mt_rand()), $offset, 12);
-			file_put_contents($PATH_JOBQUEUE.'/'.$uid.'.job', serialize($job_entry));
-		}
 	}
 	
-	return $ext;
+	return true;
 }
 
 function createThumbnail ($src, $dest) {
@@ -164,13 +141,13 @@ function createThumbnail ($src, $dest) {
 		return createThumbnailNative  ($src, $dest);
 }
 
-function createThumbnailPostProcess ($src, $dest) {
-	global $THUMBNAIL_USE_IMAGICK;
-	
-	if ($THUMBNAIL_USE_IMAGICK && extension_loaded('imagick'))
-		return createThumbnailImagick ($src, $dest, true);
-	else
-		return createThumbnailNative  ($src, $dest);
+function createThumbnailJob ($src, $dest) {
+	global $PATH_JOBQUEUE;
+	$job_entry = array ('src' => $src, 'dest' => $dest);
+	$offset = rand(0,20);
+	$uid = substr (md5(time().mt_rand()), $offset, 12);
+	file_put_contents ($PATH_JOBQUEUE.'/'.$uid.'.job', serialize ($job_entry));
+	return true;
 }
 
 function getMimeType ($file) {
@@ -179,7 +156,6 @@ function getMimeType ($file) {
 	$mime = finfo_file($finfo, $file);
 	error_reporting($err_lvl);
 	finfo_close($finfo);
-
 	return $mime;
 }
 

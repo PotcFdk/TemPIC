@@ -142,10 +142,9 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					);
 					
 					if (isset($ENABLE_THUMBNAILS) && $ENABLE_THUMBNAILS && hasThumbnailSupport($path)) {
-						if ($fext = createThumbnail($path, $path_destination . '/' . $THUMBNAIL_PREFIX . $fileinfo['filename']))
+						if (createThumbnailJob($path, $path_destination . '/' . $THUMBNAIL_PREFIX . $fileinfo['basename']))
 						{
-							$files[$file['name']]['thumbnail'] = $file_url_base . $THUMBNAIL_PREFIX . rawurlencode($fileinfo['filename'] . $fext);
-							chmod($path_destination . '/' . $THUMBNAIL_PREFIX . $fileinfo['filename'] . $fext, 0664);
+							$files[$file['name']]['thumbnail'] = $file_url_base . $THUMBNAIL_PREFIX . rawurlencode($fileinfo['basename']);
 						}
 					}
 				}
