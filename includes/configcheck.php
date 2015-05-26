@@ -20,6 +20,14 @@
 		|| !isset ($DISALLOWED_EXTS)
 		|| !isset ($SIZE_LIMIT)
 		|| !isset ($LIFETIMES)
+		|| !isset ($PATH_ALBUM)
+		|| !isset ($PATH_UPLOAD)
+		
+		|| !isset ($THUMBNAIL_PREFIX)
+		|| !isset ($THUMBNAIL_MAX_RES)
+		
+		|| !isset ($MAX_ALBUM_NAME_LENGTH)
+		|| !isset ($MAX_ALBUM_DESCRIPTION_LENGTH)
 	) {
 		include ('error.php');
 		exit ();
