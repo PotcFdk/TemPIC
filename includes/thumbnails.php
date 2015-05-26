@@ -31,10 +31,13 @@ function createThumbnailNative ($src, $dest) {
 	$type = exif_imagetype($src);
 	$limit = $THUMBNAIL_MAX_RES;
 	
+	$is_animated = false;
+	
 	switch ($type) {
         case IMAGETYPE_GIF:
 			$ext = '.gif';
             $image = imagecreatefromgif($src);
+			$is_animated = isAnimated($src);
 			break;
         case IMAGETYPE_JPEG:
 			$ext = '.jpg';
@@ -54,19 +57,36 @@ function createThumbnailNative ($src, $dest) {
 	$height = imagesy($image);
 	
 	$new_geometry = getThumbnailTargetSize ($width, $height, $limit);
-	$new_width = $new_geometry['width'];
-	$new_height = $new_geometry['height'];
+	
+	if (!$new_geometry && !$is_animated) // If the gif is animated, proceed even if it's too small.
+		return false;
+	elseif ($new_geometry)
+	{
+		$new_width = $new_geometry['width'];
+		$new_height = $new_geometry['height'];
+	}
+	else // In case it was animated; see above. We just want to strip the animation here.
+	{
+		$new_width = $width;
+		$new_height = $height;
+	}
 	
 	$target = imagecreatetruecolor($new_width, $new_height);
 	imagealphablending($target, false);
 	imagesavealpha($target, true);
 	$transparent = imagecolorallocatealpha($target, 255, 255, 255, 127);
-	imagefilledrectangle($target, 0, 0, $nWidth, $nHeight, $transparent);
+	imagefilledrectangle($target, 0, 0, $new_width, $new_height, $transparent);
 	
 	imagecopyresampled($target, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
 	
 	switch ($type) {
         case IMAGETYPE_GIF:
+			if ($is_animated)
+			{
+				$overlay = imagecreatefrompng('img/info_animated.png');
+				imagealphablending($target, true);
+				imagecopy($target, $overlay, 0, 0, 0, 0, imagesx($overlay), imagesy($overlay));
+			}
 			imagegif($target, $dest);
 			break;
         case IMAGETYPE_JPEG:
@@ -100,6 +120,7 @@ function createThumbnailImagick ($src, $dest, $postprocess = false) {
 
 	$geometry = $image->getImageGeometry();
 	$new_geometry = getThumbnailTargetSize($geometry['width'], $geometry['height'], $limit);
+	if (!$new_geometry) return false;
 	
 	$image = $image->coalesceImages();
 
@@ -160,5 +181,32 @@ function isImage ($file) {
 		|| ($mime == 'image/x-png')
 		|| ($mime == 'image/png')
 		|| ($mime == 'image/svg+xml');
+}
+
+function isAnimated ($file) { // Thanks to ZeBadger ( http://it.php.net/manual/en/function.imagecreatefromgif.php#59787 )
+	$filecontents=file_get_contents($file);
+
+	$str_loc = 0;
+	$count = 0;
+	while ($count < 2)
+	{
+		$where1 = strpos ($filecontents, "\x00\x21\xF9\x04", $str_loc);
+		if ($where1 === false)
+			break;
+		else
+		{
+			$str_loc = $where1 + 1;
+			$where2 = strpos ($filecontents, "\x00\x2C", $str_loc);
+			if ($where2 === false)
+				break;
+			else
+			{
+				if ($where1 + 8 == $where2)
+					$count ++;
+				$str_loc = $where2 + 1;
+			}
+		}
+	}
+	return $count > 1;
 }
 ?>
