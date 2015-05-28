@@ -1,4 +1,4 @@
 <?php
-	$PATH_TEMPIC   = "../web";
-	$PATH_INCLUDES = "../includes";
+	define ('PATH_TEMPIC',   '../web');
+	define ('PATH_INCLUDES', '../includes');
 ?>
