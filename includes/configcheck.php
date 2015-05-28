@@ -15,12 +15,12 @@
 	limitations under the License.
 */
 
-function req_is_array   (o) { return isset (o) && is_array    (o); }
-function req_is_bool    (o) { return isset (o) && is_bool     (o); }
-function req_is_numeric (o) { return isset (o) && is_numeric  (o); }
-function req_is_string  (o) { return isset (o) && is_string   (o); }
+function req_is_array   ($o) { return isset ($o) && is_array    ($o); }
+function req_is_bool    ($o) { return isset ($o) && is_bool     ($o); }
+function req_is_numeric ($o) { return isset ($o) && is_numeric  ($o); }
+function req_is_string  ($o) { return isset ($o) && is_string   ($o); }
 
-function opt_is_string  (o) { return isset (o) ? is_string (o) : true; }
+function opt_is_string  ($o) { return (isset ($o) ? is_string ($o) : true); }
 
 	if (// instance config
 		   !req_is_string  ($INSTANCE_NAME)
