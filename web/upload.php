@@ -63,13 +63,33 @@ function rearrange ($arr) {
 }
 
 if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
-	$files = array();
-	$file_paths = array();
-	
 	if (!empty($_POST['lifetime']))
-		$lifetime = $_POST['lifetime'];
-	elseif (!empty($DEFAULT_LIFETIME))
+	{
+		if (is_string ($_POST['lifetime']) && array_key_exists ($_POST['lifetime'], $LIFETIMES)) // OK
+			$lifetime = $_POST['lifetime'];
+		elseif ($_POST['lifetime'] == 'default')
+		{
+			if (!empty($DEFAULT_LIFETIME)) // Using the default lifetime.
+				$lifetime = $DEFAULT_LIFETIME;
+			else // Client wanted the default lifetime, but DEFAULT_LIFETIME is empty.
+			{
+				http_response_code (400); // Bad Request
+				exit;
+			}
+		}
+		else // Unknown lifetime.
+		{
+			http_response_code (400); // Bad Request
+			exit;
+		}
+	}
+	elseif (!empty($DEFAULT_LIFETIME)) // Try the default lifetime.
 		$lifetime = $DEFAULT_LIFETIME;
+	else
+	{
+		http_response_code (400); // Bad Request
+		exit;
+	}
 	
 	if (!empty($_POST['album_name']))
 		$album_name = trim($_POST['album_name']);
@@ -85,6 +105,9 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	// Because PHP structures the array in a retarded format
 	$_FILES['file'] = rearrange($_FILES['file']);
 
+	$files = array();
+	$file_paths = array();
+	
 	foreach ($_FILES['file'] as $file) {
 		$files[$file['name']] = array();
 
@@ -156,55 +179,53 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	
 	// generate album
 	
-	if (isset($lifetime) && array_key_exists($lifetime, $LIFETIMES)) {
-		$album_data = array();
+	$album_data = array();
+	
+	if (isset($album_name)) {
+		$album_data['name'] = $album_name;
+	
+		if (mb_strlen($album_data['name']) > $MAX_ALBUM_NAME_LENGTH)
+			$album_data['name'] = mb_substr($album_data['name'], 0, $MAX_ALBUM_NAME_LENGTH);
+	}
+	
+	if (isset($album_description)) {
+		$album_data['description'] = $album_description;
 		
-		if (isset($album_name)) {
-			$album_data['name'] = $album_name;
-		
-			if (mb_strlen($album_data['name']) > $MAX_ALBUM_NAME_LENGTH)
-				$album_data['name'] = mb_substr($album_data['name'], 0, $MAX_ALBUM_NAME_LENGTH);
-		}
-		
-		if (isset($album_description)) {
-			$album_data['description'] = $album_description;
-			
-			if (mb_strlen($album_data['description']) > $MAX_ALBUM_DESCRIPTION_LENGTH)
-				$album_data['description'] = mb_substr($album_data['description'], 0, $MAX_ALBUM_DESCRIPTION_LENGTH);
-		}
-		
-		$album_data['files'] = array();
+		if (mb_strlen($album_data['description']) > $MAX_ALBUM_DESCRIPTION_LENGTH)
+			$album_data['description'] = mb_substr($album_data['description'], 0, $MAX_ALBUM_DESCRIPTION_LENGTH);
+	}
+	
+	$album_data['files'] = array();
 
-		// Move contents from $files to the final $album_data
-		// Ignore all files with 'error', for now.
+	// Move contents from $files to the final $album_data
+	// Ignore all files with 'error', for now.
+	
+	foreach ($files as $filen => $file) {
+		if (!isset($file['error'])) { // no errors, file is ok
+			$album_data['files'][$filen] = $file;
+		}
+	}
+	
+	if (count($album_data['files']) >= 1) {
+		$album_bare_id = substr(md5(time()),12);
 		
-		foreach ($files as $filen => $file) {
-			if (!isset($file['error'])) { // no errors, file is ok
-				$album_data['files'][$filen] = $file;
-			}
+		$path_destination = $PATH_ALBUM.'/'.$lifetime;
+		if (!file_exists($path_destination)) {
+			mkdir($path_destination, 0775);
+			chmod($path_destination, 0775);
 		}
 		
-		if (count($album_data['files']) >= 1) {
-			$album_bare_id = substr(md5(time()),12);
+		// create album zip file
+		if (isset($ENABLE_ALBUM_ZIP) && $ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
+			$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
+			$zip_file = createZipFile($zip_path, $file_paths);
 			
-			$path_destination = $PATH_ALBUM.'/'.$lifetime;
-			if (!file_exists($path_destination)) {
-				mkdir($path_destination, 0775);
-				chmod($path_destination, 0775);
-			}
-			
-			// create album zip file
-			if (isset($ENABLE_ALBUM_ZIP) && $ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
-				$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
-				$zip_file = createZipFile($zip_path, $file_paths);
-				
-				$album_data['zip'] = $URL_BASE . '/' . $zip_path;
-			}
-			
-			file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($album_data));
-			
-			$album_id = $lifetime.':'.$album_bare_id;
+			$album_data['zip'] = $URL_BASE . '/' . $zip_path;
 		}
+		
+		file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($album_data));
+		
+		$album_id = $lifetime.':'.$album_bare_id;
 	}
 }
 
