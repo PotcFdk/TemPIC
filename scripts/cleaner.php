@@ -43,7 +43,7 @@
 					$empty = true;
 					foreach ($files as $file) {
 						$file = $subdir . '/' . $file;
-						if (is_file ($file)) {
+						if (is_file ($file) || is_link ($file)) {
 							$remaining = $data['time']*60 - ($time - filemtime ($file));
 							echo ' - found: ' . $file;
 							if ($remaining < 0) {
