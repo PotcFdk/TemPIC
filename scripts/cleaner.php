@@ -15,9 +15,9 @@
 */
 
 	@include_once('config.php');
-	require_once ($PATH_INCLUDES . '/config.php');
-	require_once ($PATH_TEMPIC . '/config.php');
-	require_once ($PATH_INCLUDES . '/helpers.php');
+	require_once (PATH_INCLUDES . '/config.php');
+	require_once (PATH_TEMPIC   . '/config.php');
+	require_once (PATH_INCLUDES . '/helpers.php');
 	
 	$time  = time ();
 	
@@ -31,8 +31,8 @@
 	
 	echo "FILE CLEANUP\n";
 	
-	foreach ($LIFETIMES as $lifetime => $data) {
-		$basedir = $PATH_TEMPIC . '/' . $PATH_UPLOAD . '/' . $lifetime;
+	foreach (LIFETIMES as $lifetime => $data) {
+		$basedir = $PATH_TEMPIC . '/' . PATH_UPLOAD . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
 			$subdirs = safe_scandir ($basedir);
@@ -69,8 +69,8 @@
 	
 	echo "ALBUM CLEANUP\n";
 	
-	foreach ($LIFETIMES as $lifetime => $data) {
-		$basedir = $PATH_TEMPIC . '/' . $PATH_ALBUM . '/' . $lifetime;
+	foreach (LIFETIMES as $lifetime => $data) {
+		$basedir = $PATH_TEMPIC . '/' . PATH_ALBUM . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
 			$files = safe_scandir($basedir);

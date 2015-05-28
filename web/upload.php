@@ -65,12 +65,12 @@ function rearrange ($arr) {
 if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	if (!empty($_POST['lifetime']))
 	{
-		if (is_string ($_POST['lifetime']) && array_key_exists ($_POST['lifetime'], $LIFETIMES)) // OK
+		if (is_string ($_POST['lifetime']) && array_key_exists ($_POST['lifetime'], LIFETIMES)) // OK
 			$lifetime = $_POST['lifetime'];
 		elseif ($_POST['lifetime'] == 'default')
 		{
-			if (!empty($DEFAULT_LIFETIME)) // Using the default lifetime.
-				$lifetime = $DEFAULT_LIFETIME;
+			if (!empty(DEFAULT_LIFETIME)) // Using the default lifetime.
+				$lifetime = DEFAULT_LIFETIME;
 			else // Client wanted the default lifetime, but DEFAULT_LIFETIME is empty.
 			{
 				http_response_code (400); // Bad Request
@@ -83,8 +83,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 			exit;
 		}
 	}
-	elseif (!empty($DEFAULT_LIFETIME)) // Try the default lifetime.
-		$lifetime = $DEFAULT_LIFETIME;
+	elseif (!empty(DEFAULT_LIFETIME)) // Try the default lifetime.
+		$lifetime = DEFAULT_LIFETIME;
 	else
 	{
 		http_response_code (400); // Bad Request
@@ -111,15 +111,15 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	foreach ($_FILES['file'] as $file) {
 		$files[$file['name']] = array();
 
-		if ($file['size'] <= $SIZE_LIMIT) {
+		if ($file['size'] <= SIZE_LIMIT) {
 			$fileinfo = mb_pathinfo($file['name']);
 
-			if (!empty($fileinfo['extension']) && in_array($fileinfo['extension'], $DISALLOWED_EXTS)) {
+			if (!empty($fileinfo['extension']) && in_array($fileinfo['extension'], DISALLOWED_EXTS)) {
 				$files[$file['name']]['error'] = 'Disallowed file type!';
 			} elseif ($file['error'] > 0) {
 				$files[$file['name']]['error'] = 'Return Code: ' . $file['error'];
 			} else {
-				$path_destination = $PATH_UPLOAD . '/' . $lifetime;
+				$path_destination = PATH_UPLOAD . '/' . $lifetime;
 				
 				if (!file_exists($path_destination)) {
 					mkdir($path_destination, 0775);
@@ -145,10 +145,10 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					chmod($path, 0664);
 					$file_paths[$file['name']] = $path;
 
-					if (!empty($URL_UPLOAD)) // $URL_UPLOAD lifetime / uid / filename
-						$file_url_base = $URL_UPLOAD . $lifetime . '/' . $uid . '/';
-					else // $URL_BASE / (upload / lifetime / uid) / filename
-						$file_url_base = $URL_BASE . '/' . $path_destination . '/';
+					if (!empty(URL_UPLOAD)) // URL_UPLOAD lifetime / uid / filename
+						$file_url_base = URL_UPLOAD . $lifetime . '/' . $uid . '/';
+					else // URL_BASE / (upload / lifetime / uid) / filename
+						$file_url_base = URL_BASE . '/' . $path_destination . '/';
 						
 					$file_url = $file_url_base . rawurlencode($fileinfo['basename']);
 						
@@ -164,10 +164,10 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 						'sha1' => sha1_file($path)
 					);
 					
-					if (isset($ENABLE_THUMBNAILS) && $ENABLE_THUMBNAILS && hasThumbnailSupport($path)) {
-						if (createThumbnailJob($path, $path_destination . '/' . $THUMBNAIL_PREFIX . $fileinfo['basename']))
+					if (isset(ENABLE_THUMBNAILS) && ENABLE_THUMBNAILS && hasThumbnailSupport($path)) {
+						if (createThumbnailJob($path, $path_destination . '/' . THUMBNAIL_PREFIX . $fileinfo['basename']))
 						{
-							$files[$file['name']]['thumbnail'] = $file_url_base . $THUMBNAIL_PREFIX . rawurlencode($fileinfo['basename']);
+							$files[$file['name']]['thumbnail'] = $file_url_base . THUMBNAIL_PREFIX . rawurlencode($fileinfo['basename']);
 						}
 					}
 				}
@@ -184,15 +184,15 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	if (isset($album_name)) {
 		$album_data['name'] = $album_name;
 	
-		if (mb_strlen($album_data['name']) > $MAX_ALBUM_NAME_LENGTH)
-			$album_data['name'] = mb_substr($album_data['name'], 0, $MAX_ALBUM_NAME_LENGTH);
+		if (mb_strlen($album_data['name']) > MAX_ALBUM_NAME_LENGTH)
+			$album_data['name'] = mb_substr($album_data['name'], 0, MAX_ALBUM_NAME_LENGTH);
 	}
 	
 	if (isset($album_description)) {
 		$album_data['description'] = $album_description;
 		
-		if (mb_strlen($album_data['description']) > $MAX_ALBUM_DESCRIPTION_LENGTH)
-			$album_data['description'] = mb_substr($album_data['description'], 0, $MAX_ALBUM_DESCRIPTION_LENGTH);
+		if (mb_strlen($album_data['description']) > MAX_ALBUM_DESCRIPTION_LENGTH)
+			$album_data['description'] = mb_substr($album_data['description'], 0, MAX_ALBUM_DESCRIPTION_LENGTH);
 	}
 	
 	$album_data['files'] = array();
@@ -209,18 +209,18 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	if (count($album_data['files']) >= 1) {
 		$album_bare_id = substr(md5(time()),12);
 		
-		$path_destination = $PATH_ALBUM.'/'.$lifetime;
+		$path_destination = PATH_ALBUM.'/'.$lifetime;
 		if (!file_exists($path_destination)) {
 			mkdir($path_destination, 0775);
 			chmod($path_destination, 0775);
 		}
 		
 		// create album zip file
-		if (isset($ENABLE_ALBUM_ZIP) && $ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
+		if (isset(ENABLE_ALBUM_ZIP) && ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
 			$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
 			$zip_file = createZipFile($zip_path, $file_paths);
 			
-			$album_data['zip'] = $URL_BASE . '/' . $zip_path;
+			$album_data['zip'] = URL_BASE . '/' . $zip_path;
 		}
 		
 		file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($album_data));
@@ -231,16 +231,16 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 
 if (isset($_POST['nojs'])) {
 	if (!empty($album_id))
-		header('Location: '.$URL_BASE.'/index_nojs.php?album='.$album_id);
+		header('Location: '.URL_BASE.'/index_nojs.php?album='.$album_id);
 	else
-		header('Location: '. $URL_BASE.'/index_nojs.php');
+		header('Location: '. URL_BASE.'/index_nojs.php');
 } elseif (isset($_POST['ajax'])) {
 	if (!empty($album_id))
 		echo ($album_id);
 } else {
 	if (!empty($album_id))
-		header('Location: '.$URL_BASE.'?album='.$album_id);
+		header('Location: '.URL_BASE.'?album='.$album_id);
 	else
-		header('Location: '.$URL_BASE);
+		header('Location: '.URL_BASE);
 }
 ?>

@@ -80,7 +80,7 @@ function API_V1_BAD_REQUEST ($reason = NULL)
 
 function API_V1_ALBUM_INFO ($album_id)
 {
-	global $LIFETIMES, $PATH_ALBUM, $resp;
+	global LIFETIMES, PATH_ALBUM, $resp;
 	
 	$album_id = strip_album_id($album_id);
 	if (empty($album_id)) return API_V1_BAD_REQUEST ("Invalid album ID");
@@ -91,8 +91,8 @@ function API_V1_ALBUM_INFO ($album_id)
 	if (!empty ($_a[1]))
 		$album_hash = $_a[1];
 	
-	if (!empty ($LIFETIMES[$album_lifetime]) && file_exists ($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'))
-		$album_data = unserialize(file_get_contents($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
+	if (!empty (LIFETIMES[$album_lifetime]) && file_exists (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'))
+		$album_data = unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
 	else
 		return API_V1_BAD_REQUEST ("Album can not be found");
 	

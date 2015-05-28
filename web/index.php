@@ -32,9 +32,9 @@ require_once('../includes/helpers.php');
 			if (!empty($_a[1]))
 				$album_hash = $_a[1];
 			
-			if (!empty($LIFETIMES[$album_lifetime]) && file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')) {
+			if (!empty(LIFETIMES[$album_lifetime]) && file_exists(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')) {
 				$time  = time ();
-				$album_data = unserialize(file_get_contents($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
+				$album_data = unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
 				if (!empty($album_data) && !empty($album_data['files'])) {
 					if (!empty($album_data['name']))
 						$album_name = $album_data['name'];
@@ -42,7 +42,7 @@ require_once('../includes/helpers.php');
 						$album_description = $album_data['description'];
 					$files = $album_data['files'];
 				}
-				$remaining_time = $LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime ($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
+				$remaining_time = LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
 			}
 		}
 	}
@@ -51,28 +51,28 @@ require_once('../includes/helpers.php');
 	<head>
 		<meta charset="utf-8">
 		<title><?php if (!empty($album_name)) { echo htmlspecialchars($album_name, ENT_QUOTES).' - '; }
-			echo $INSTANCE_NAME; ?></title>
+			echo INSTANCE_NAME; ?></title>
 
-		<link rel="stylesheet" href="<?php echo $URL_BASE; ?>/css/bootstrap.min.css">
-		<link href="<?php echo $URL_BASE; ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="<?php echo $URL_BASE; ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
-		<?php if (!empty($CSS_OVERRIDE) && file_exists("css/".$CSS_OVERRIDE)) : ?>
-		<link href="<?php echo $URL_BASE; ?>/css/<?php echo $CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="<?php echo URL_BASE; ?>/css/bootstrap.min.css">
+		<link href="<?php echo URL_BASE; ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="<?php echo URL_BASE; ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
+		<?php if (!empty(CSS_OVERRIDE) && file_exists("css/".CSS_OVERRIDE)) : ?>
+		<link href="<?php echo URL_BASE; ?>/css/<?php echo CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
-		<script src="<?php echo $URL_BASE; ?>/js/jquery-2.1.0.min.js"></script>
-		<script src="<?php echo $URL_BASE; ?>/js/bootstrap.min.js"></script>
-		<script src="<?php echo $URL_BASE; ?>/js/tempic-helpers.js"></script>
-		<script src="<?php echo $URL_BASE; ?>/js/modernizr-p1.js"></script>
-		<script src="<?php echo $URL_BASE; ?>/js/uploadmanager.js"></script>
-		<script src="<?php echo $URL_BASE; ?>/js/tempic-site.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/jquery-2.1.0.min.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/bootstrap.min.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/tempic-helpers.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/modernizr-p1.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/uploadmanager.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/tempic-site.js"></script>
 		
 		<style>
 			@font-face {
 				font-family: 'Open Sans';
 				font-style: normal;
 				font-weight: 400;
-				src: local('Open Sans'), local('OpenSans'), url('<?php echo $URL_BASE; ?>/fonts/opensans.woff') format('woff');
+				src: local('Open Sans'), local('OpenSans'), url('<?php echo URL_BASE; ?>/fonts/opensans.woff') format('woff');
 			}
 		</style>
 		
@@ -85,16 +85,16 @@ require_once('../includes/helpers.php');
 				var album_id = '<?php echo $album_id; ?>';
 			<?php endif; ?>
 			var album_url = '<?php echo get_album_url() ?>';
-			<?php if (is_string ($URL_BASE)) : ?>
-				var url_base = '<?php echo $URL_BASE; ?>';
+			<?php if (is_string (URL_BASE)) : ?>
+				var url_base = '<?php echo URL_BASE; ?>';
 			<?php endif;
-			if (is_string ($INSTANCE_NAME)) : ?>
-				var instance_name = '<?php echo $INSTANCE_NAME; ?>';
+			if (is_string (INSTANCE_NAME)) : ?>
+				var instance_name = '<?php echo INSTANCE_NAME; ?>';
 			<?php else : ?>
 				var instance_name = 'TemPIC';
 			<?php endif;
-			if (is_numeric($SIZE_LIMIT)) : ?>
-				var size_limit = <?php echo $SIZE_LIMIT; ?>;
+			if (is_numeric(SIZE_LIMIT)) : ?>
+				var size_limit = <?php echo SIZE_LIMIT; ?>;
 			<?php endif; ?>
 		</script>
 	</head>
@@ -104,9 +104,9 @@ require_once('../includes/helpers.php');
 			<div class="row">
 				<div class="col-md-12">
 					<div class="page-header">
-						<h1><a href="<?php echo $URL_BASE; ?>"><?php echo $INSTANCE_NAME; ?></a></h1>
-						<?php if (!empty($INSTANCE_DESCRIPTION)): ?>
-						<h4><?php echo $INSTANCE_DESCRIPTION; ?></h4>
+						<h1><a href="<?php echo URL_BASE; ?>"><?php echo INSTANCE_NAME; ?></a></h1>
+						<?php if (!empty(INSTANCE_DESCRIPTION)): ?>
+						<h4><?php echo INSTANCE_DESCRIPTION; ?></h4>
 						<?php endif; ?>
 					</div>
 
@@ -123,7 +123,7 @@ require_once('../includes/helpers.php');
 					
 					<div id="div_fileform" class="row">
 						<div class="col-md-12">
-							<form id="file-form" class="form-horizontal" method="post" action="<?php echo $URL_BASE; ?>/upload.php" enctype="multipart/form-data">
+							<form id="file-form" class="form-horizontal" method="post" action="<?php echo URL_BASE; ?>/upload.php" enctype="multipart/form-data">
 								<div class="form-group">
 									<label for="file" class="col-md-1 control-label">Files</label>
 									<div class="col-md-8">
@@ -153,9 +153,9 @@ require_once('../includes/helpers.php');
 									</div>
 									<div class="col-md-3">
 										<select class="form-control" name="lifetime" id="lifetime">
-										<?php foreach ($LIFETIMES as $id => $data) : ?>
+										<?php foreach (LIFETIMES as $id => $data) : ?>
 											<option value="<?php echo $id; ?>"<?php
-												if (isset($DEFAULT_LIFETIME) && $DEFAULT_LIFETIME == $id)
+												if (isset(DEFAULT_LIFETIME) && DEFAULT_LIFETIME == $id)
 													echo ' selected';
 											?>><?php echo $data['name']; ?></option>
 										<?php endforeach; ?>
@@ -250,9 +250,9 @@ require_once('../includes/helpers.php');
 							<div class="pull-right">
 								<?php if (!empty($files)) : ?><button id="checksums-toggle" class="btn btn-default">Show file checksums</button><?php endif; ?>
 								<?php if (!empty($album_lifetime) && !empty($album_hash)
-									&& file_exists($PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip')) : ?>
+									&& file_exists(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip')) : ?>
 									<a href="<?php
-										echo $URL_BASE.'/'.$PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip';
+										echo URL_BASE.'/'.PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip';
 									?>" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-download"></span> Download entire album</a>
 								<?php endif; ?>
 							</div>
@@ -295,7 +295,7 @@ require_once('../includes/helpers.php');
 										<div class="panel panel-default">
 											<div class="panel-body">
 												<a href="<?php echo $file['url']; ?>">
-													<?php $file_ext_icon = $URL_BASE . '/img/filetypes/'
+													<?php $file_ext_icon = URL_BASE . '/img/filetypes/'
 															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
 															? $file['extension'] : '_blank') . '.png';
 													

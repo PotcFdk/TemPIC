@@ -15,10 +15,10 @@
 */
 
 	@include_once('config.php');
-	require_once ($PATH_INCLUDES . '/config.php');
-	require_once ($PATH_TEMPIC   . '/config.php');
-	require_once ($PATH_INCLUDES . '/helpers.php');
-	require_once ($PATH_INCLUDES . '/thumbnails.php');
+	require_once (PATH_INCLUDES . '/config.php');
+	require_once (PATH_TEMPIC   . '/config.php');
+	require_once (PATH_INCLUDES . '/helpers.php');
+	require_once (PATH_INCLUDES . '/thumbnails.php');
 	
 	//
 	
@@ -32,10 +32,10 @@
 	
 	$jobs = array();
 	
-	if (is_dir ($PATH_JOBQUEUE)) {
-		$files = safe_scandir($PATH_JOBQUEUE);
+	if (is_dir (PATH_JOBQUEUE)) {
+		$files = safe_scandir(PATH_JOBQUEUE);
 		foreach ($files as $file) {
-			$file = $PATH_JOBQUEUE . '/' . $file;
+			$file = PATH_JOBQUEUE . '/' . $file;
 			if (is_file ($file)) {
 				echo ' - found: ' . $file;
 				$job = unserialize(file_get_contents($file));
