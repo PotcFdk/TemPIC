@@ -54,6 +54,8 @@ $(function() {
 	$('#div_filelist_preview').hide();
 	$('#div_albumname_input').hide();
 	$('#div_albumdescription_input').hide();
+	$('#div_info_element').hide();
+	$('#info_element').hide();
 	$('#div_warn_element').hide();
 	$('#warn_element').hide();
 	$('#div_progressbar').hide();

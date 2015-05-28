@@ -1,3 +1,11 @@
+function info(text) {
+	$("#div_info_element").show();
+	var info_element = $("#info_element");
+	var info_element_text = $("#info_element_text");
+	info_element_text.html(text);
+	info_element.show();
+}
+
 function warn(text) {
 	$("#div_warn_element").show();
 	var warn_element = $("#warn_element");

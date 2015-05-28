@@ -209,6 +209,15 @@ require_once('../includes/helpers.php');
 						</div>
 					</div>
 					
+					<div class="row" id="div_info_element">
+						<div class="col-md-6 col-md-offset-3">
+							<div id="info_element" class="std-hide alert alert-info alert-dismissable">
+								<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
+								<p id="info_element_text"></p>
+							</div>
+						</div>
+					</div>
+					
 					<?php if (isset($_GET['404']) || (!empty($album_id) && empty($files))) : // 404 or bad album id ?>
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3">
