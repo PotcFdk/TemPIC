@@ -14,8 +14,8 @@
 	limitations under the License.
 */
 
-	require_once ($PATH_INCLUDES . '/config.php');
 	@include_once('config.php');
+	require_once ($PATH_INCLUDES . '/config.php');
 	require_once ($PATH_TEMPIC . '/config.php');
 	require_once ($PATH_INCLUDES . '/helpers.php');
 	
