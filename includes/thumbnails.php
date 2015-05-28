@@ -53,14 +53,12 @@ function createThumbnailNative ($src, $dest) {
 	
 	$new_geometry = getThumbnailTargetSize ($width, $height, $limit);
 	
-	if (!$new_geometry && !$is_animated) // If the gif is animated, proceed even if it's too small.
-		return false;
-	elseif ($new_geometry)
+	if ($new_geometry)
 	{
 		$new_width = $new_geometry['width'];
 		$new_height = $new_geometry['height'];
 	}
-	else // In case it was animated; see above. We just want to strip the animation here.
+	else
 	{
 		$new_width = $width;
 		$new_height = $height;
@@ -76,7 +74,7 @@ function createThumbnailNative ($src, $dest) {
 	
 	switch ($type) {
         case IMAGETYPE_GIF:
-			if ($is_animated)
+			if ($is_animated && $new_width >= 100 && $new_height >= 100)
 			{
 				$overlay = imagecreatefrompng('img/info_animated.png');
 				imagealphablending($target, true);
@@ -105,8 +103,7 @@ function createThumbnailImagick ($src, $dest) {
 	$limit = $image->getNumberImages() > 1 ? $THUMBNAIL_MAX_ANIMATED_RES : $THUMBNAIL_MAX_RES;
 
 	$geometry = $image->getImageGeometry();
-	$new_geometry = getThumbnailTargetSize($geometry['width'], $geometry['height'], $limit);
-	if (!$new_geometry) return false;
+	$new_geometry = getThumbnailTargetSize($geometry['width'], $geometry['height'], $limit) ?: $geometry;
 	
 	$image = $image->coalesceImages();
 
@@ -124,7 +121,7 @@ function createThumbnailImagick ($src, $dest) {
 		$is_animated = $image->getNumberImages() > 1;
 		
 		iterator_to_array($image)[0]->thumbnailImage($new_geometry['width'], $new_geometry['height']);
-		if ($is_animated)
+		if ($is_animated && $new_geometry['width'] >= 100 && $new_geometry['height'] >= 100)
 			$image->compositeImage(new Imagick('img/info_animated.png'), imagick::COMPOSITE_DEFAULT, 0, 0);
 		iterator_to_array($image)[0]->writeImage($dest);
 	}
@@ -136,9 +133,19 @@ function createThumbnail ($src, $dest) {
 	global $THUMBNAIL_USE_IMAGICK;
 	
 	if ($THUMBNAIL_USE_IMAGICK && extension_loaded('imagick'))
-		return createThumbnailImagick ($src, $dest);
+		$ret = createThumbnailImagick ($src, $dest);
 	else
-		return createThumbnailNative  ($src, $dest);
+		$ret = createThumbnailNative  ($src, $dest);
+	
+	if ($ret && file_exists ($dest))
+	{
+		if (filesize ($dest) >= filesize ($src)) // It's not worth saving.
+		{
+			return unlink ($dest) && symlink (basename ($src), $dest);
+		}
+		return true;
+	}
+	return false;
 }
 
 function createThumbnailJob ($src, $dest) {
