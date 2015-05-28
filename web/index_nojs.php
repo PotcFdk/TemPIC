@@ -100,7 +100,7 @@ require_once('../includes/helpers.php');
 										<select class="form-control" name="lifetime">
 										<?php foreach (LIFETIMES as $id => $data) : ?>
 											<option value="<?php echo $id; ?>"<?php
-												if (isset(DEFAULT_LIFETIME) && DEFAULT_LIFETIME == $id)
+												if ($id == DEFAULT_LIFETIME)
 													echo ' selected';
 											?>><?php echo $data['name']; ?></option>
 										<?php endforeach; ?>
