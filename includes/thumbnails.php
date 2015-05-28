@@ -102,10 +102,10 @@ function createThumbnailImagick ($src, $dest) {
 	
 	$limit = $image->getNumberImages() > 1 ? $THUMBNAIL_MAX_ANIMATED_RES : $THUMBNAIL_MAX_RES;
 
+	$image = $image->coalesceImages();
+	
 	$geometry = $image->getImageGeometry();
 	$new_geometry = getThumbnailTargetSize($geometry['width'], $geometry['height'], $limit) ?: $geometry;
-	
-	$image = $image->coalesceImages();
 
 	if ($THUMBNAIL_ENABLE_ANIMATED)
 	{
