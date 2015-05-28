@@ -46,6 +46,7 @@ function onThumbnailError (obj, icon) {
 	obj.parent().parent().attr('style', 'text-align: center');
 	obj.replaceWith("<img src='" + icon + "' alt='thumbnail unavailable' /><br />"
 		+ "<span style='font-size: 1.7em;'>[thumbnail unavailable]</span>");
+	info ('Some thumbnails have not yet been generated.');
 }
 
 var fileBrowse;
