@@ -15,8 +15,8 @@
 	limitations under the License.
 */
 
-require_once('../includes/config.php');
 @include_once('config.php');
+require_once('../includes/config.php');
 
 require_once('../includes/helpers.php');
 
