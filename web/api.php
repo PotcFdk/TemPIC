@@ -80,7 +80,7 @@ function API_V1_BAD_REQUEST ($reason = NULL)
 
 function API_V1_ALBUM_INFO ($album_id)
 {
-	global $resp;
+	global $LIFETIMES, $resp;
 	
 	$album_id = strip_album_id($album_id);
 	if (empty($album_id)) return API_V1_BAD_REQUEST ("Invalid album ID");
