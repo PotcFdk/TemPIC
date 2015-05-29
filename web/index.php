@@ -224,7 +224,7 @@ require_once('../includes/helpers.php');
 								<div id="404_element" class="alert alert-danger alert-dismissable">
 									<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
 									<p id="404_element_text">The requested file could not be found!<br />
-									It may have been removed or it never existed in first place.</p>
+									It may have been removed or it never existed in the first place.</p>
 								</div>
 							</div>
 						</div>
