@@ -142,11 +142,11 @@ require_once('../includes/helpers.php');
 													<span class="glyphicon glyphicon-cloud-upload"></span>
 													<span>Upload</span>
 												</button>
-													<button class="btn btn-primary btn-file" type="button" id="button-browse"
+												<button class="btn btn-primary btn-file" type="button" id="button-browse"
 														onclick="fileBrowse()">
 													<span class="glyphicon glyphicon-folder-open btn-file-browse"></span>
 													<span>Browse&nbsp;&hellip;</span>
-												</span>
+												</button>
 											</div>
 										</div>
 										
