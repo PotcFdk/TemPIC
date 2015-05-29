@@ -56,7 +56,7 @@ require_once('../includes/helpers.php');
 		<link rel="stylesheet" href="<?php echo URL_BASE; ?>/css/bootstrap.min.css">
 		<link href="<?php echo URL_BASE; ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="<?php echo URL_BASE; ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
-		<?php if (!empty(CSS_OVERRIDE) && file_exists("css/".CSS_OVERRIDE)) : ?>
+		<?php if (defined ('CSS_OVERRIDE') && !empty(CSS_OVERRIDE) && file_exists("css/".CSS_OVERRIDE)) : ?>
 		<link href="<?php echo URL_BASE; ?>/css/<?php echo CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
@@ -105,7 +105,7 @@ require_once('../includes/helpers.php');
 				<div class="col-md-12">
 					<div class="page-header">
 						<h1><a href="<?php echo URL_BASE; ?>"><?php echo INSTANCE_NAME; ?></a></h1>
-						<?php if (!empty(INSTANCE_DESCRIPTION)): ?>
+						<?php if (defined ('INSTANCE_DESCRIPTION') && !empty (INSTANCE_DESCRIPTION)): ?>
 						<h4><?php echo INSTANCE_DESCRIPTION; ?></h4>
 						<?php endif; ?>
 					</div>

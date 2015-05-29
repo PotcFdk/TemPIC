@@ -57,10 +57,9 @@
 	}
 	
 	function get_album_url ($album_id = "") {
-		if (empty (URL_ALBUM)) {
+		if (defined ('URL_ALBUM'))
+			URL_ALBUM.$album_id;
+		else
 			return URL_BASE.'/?album='.$album_id; 
-		} else {
-			return URL_ALBUM.$album_id; 
-		}
 	}
 ?>

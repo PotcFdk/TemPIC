@@ -145,7 +145,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					chmod($path, 0664);
 					$file_paths[$file['name']] = $path;
 
-					if (!empty(URL_UPLOAD)) // URL_UPLOAD lifetime / uid / filename
+					if (defined ('URL_UPLOAD') && !empty (URL_UPLOAD)) // URL_UPLOAD lifetime / uid / filename
 						$file_url_base = URL_UPLOAD . $lifetime . '/' . $uid . '/';
 					else // URL_BASE / (upload / lifetime / uid) / filename
 						$file_url_base = URL_BASE . '/' . $path_destination . '/';
