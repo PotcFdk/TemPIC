@@ -16,7 +16,7 @@
 	// Here you can disallow files with the specified extensions.
 	// SECURITY WARNING: You should take additional steps to prevent accidents,
 	// like running PHP files uploaded by users!
-	define ('DISALLOWED_EXTS', array('php', 'html', 'htm', 'htaccess', 'htpasswd'));
+	$DISALLOWED_EXTS = array('php', 'html', 'htm', 'htaccess', 'htpasswd');
 
 	// The maximum album size allowed, used in serverside post-upload and clientside pre-upload checks.
 	// This is 20e6 (20000000) bytes / 20 megabytes by default.
@@ -28,7 +28,7 @@
 	// The indices (30m, 1h etc.) are directory names and are going to appear in the generated links.
 	// `name` specifies actual entries in the album lifetime selection drop-down box.
 	// `time` is the time, in minutes, that the album will be available after uploading.
-	define ('LIFETIMES', array(
+	$LIFETIMES = array(
 		'30m' => array('name' => '30 Minutes', 'time' => 30),
 		'1h'  => array('name' => '1 Hour',     'time' => 60),
 		'2h'  => array('name' => '2 Hours',    'time' => 2*60),
@@ -36,10 +36,10 @@
 		'10h' => array('name' => '10 Hours',   'time' => 10*60),
 		'1d'  => array('name' => '1 Day',      'time' => 24*60),
 		'3d'  => array('name' => '3 Days',     'time' => 3*24*60),
-	));
+	);
 
 	// This setting specifies the default lifetime.
-	// Must be a key in LIFETIMES.
+	// Must be a key in $LIFETIMES.
 	// The chosen lifetime will be the default selection in the dropdown-box on the web page
 	// and an alias in upload requests.
 	define ('DEFAULT_LIFETIME', '30m');

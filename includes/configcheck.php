@@ -19,9 +19,9 @@
 		   !(defined ('INSTANCE_NAME')                &&  is_string  (INSTANCE_NAME))
 		||  (defined ('INSTANCE_DESCRIPTION')         && !is_string  (INSTANCE_DESCRIPTION))
 		|| !(defined ('URL_BASE')                     &&  is_string  (URL_BASE))
-		|| !(defined ('DISALLOWED_EXTS')              &&  is_array   (DISALLOWED_EXTS))
+		|| !(isset   ($DISALLOWED_EXTS)               &&  is_array   ($DISALLOWED_EXTS))
 		|| !(defined ('SIZE_LIMIT')                   &&  is_numeric (SIZE_LIMIT))
-		|| !(defined ('LIFETIMES')                    &&  is_array   (LIFETIMES))
+		|| !(isset   ($LIFETIMES)                     &&  is_array   ($LIFETIMES))
 		|| !(defined ('DEFAULT_LIFETIME')             &&  is_string  (DEFAULT_LIFETIME))
 		|| !(defined ('ENABLE_ALBUM_ZIP')             &&  is_bool    (ENABLE_ALBUM_ZIP))
 		

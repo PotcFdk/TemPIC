@@ -26,8 +26,6 @@ function getThumbnailTargetSize ($src_x, $src_y, $target_max) {
 }
 
 function createThumbnailNative ($src, $dest) {
-	global THUMBNAIL_MAX_RES;
-	
 	$type = exif_imagetype($src);
 	$limit = THUMBNAIL_MAX_RES;
 	
@@ -96,8 +94,6 @@ function createThumbnailNative ($src, $dest) {
 }
 
 function createThumbnailImagick ($src, $dest) {
-	global PATH_JOBQUEUE, THUMBNAIL_ENABLE_ANIMATED, THUMBNAIL_MAX_ANIMATED_RES, THUMBNAIL_MAX_RES;
-	
 	$image = new Imagick($src);
 	
 	$limit = $image->getNumberImages() > 1 ? THUMBNAIL_MAX_ANIMATED_RES : THUMBNAIL_MAX_RES;
@@ -130,8 +126,6 @@ function createThumbnailImagick ($src, $dest) {
 }
 
 function createThumbnail ($src, $dest) {
-	global THUMBNAIL_USE_IMAGICK;
-	
 	if (THUMBNAIL_USE_IMAGICK && extension_loaded('imagick'))
 		$ret = createThumbnailImagick ($src, $dest);
 	else
@@ -149,7 +143,6 @@ function createThumbnail ($src, $dest) {
 }
 
 function createThumbnailJob ($src, $dest) {
-	global PATH_JOBQUEUE;
 	$job_entry = array ('src' => $src, 'dest' => $dest);
 	$offset = rand(0,20);
 	$uid = substr (md5(time().mt_rand()), $offset, 12);
