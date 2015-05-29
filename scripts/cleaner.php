@@ -32,7 +32,7 @@
 	echo "FILE CLEANUP\n";
 	
 	foreach ($LIFETIMES as $lifetime => $data) {
-		$basedir = $PATH_TEMPIC . '/' . PATH_UPLOAD . '/' . $lifetime;
+		$basedir = PATH_TEMPIC . '/' . PATH_UPLOAD . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
 			$subdirs = safe_scandir ($basedir);
@@ -70,7 +70,7 @@
 	echo "ALBUM CLEANUP\n";
 	
 	foreach ($LIFETIMES as $lifetime => $data) {
-		$basedir = $PATH_TEMPIC . '/' . PATH_ALBUM . '/' . $lifetime;
+		$basedir = PATH_TEMPIC . '/' . PATH_ALBUM . '/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
 			$files = safe_scandir($basedir);

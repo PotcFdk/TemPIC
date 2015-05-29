@@ -47,7 +47,7 @@
 		}
 	}
 	
-	chdir ($PATH_TEMPIC);
+	chdir (PATH_TEMPIC);
 	echo "Generating thumbnails...\n";
 	
 	foreach ($jobs as $job_file => $job)
