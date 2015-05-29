@@ -32,7 +32,7 @@ require_once('../includes/helpers.php');
 			if (!empty($_a[1]))
 				$album_hash = $_a[1];
 			
-			if (!empty(LIFETIMES[$album_lifetime]) && file_exists(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')) {
+			if (!empty($LIFETIMES[$album_lifetime]) && file_exists(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')) {
 				$time  = time ();
 				$album_data = unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
 				if (!empty($album_data) && !empty($album_data['files'])) {
@@ -42,7 +42,7 @@ require_once('../includes/helpers.php');
 						$album_description = $album_data['description'];
 					$files = $album_data['files'];
 				}
-				$remaining_time = LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
+				$remaining_time = $LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
 			}
 		}
 	}
@@ -153,7 +153,7 @@ require_once('../includes/helpers.php');
 									</div>
 									<div class="col-md-3">
 										<select class="form-control" name="lifetime" id="lifetime">
-										<?php foreach (LIFETIMES as $id => $data) : ?>
+										<?php foreach ($LIFETIMES as $id => $data) : ?>
 											<option value="<?php echo $id; ?>"<?php
 												if ($id == DEFAULT_LIFETIME)
 													echo ' selected';

@@ -65,7 +65,7 @@ function rearrange ($arr) {
 if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 	if (!empty($_POST['lifetime']))
 	{
-		if (is_string ($_POST['lifetime']) && array_key_exists ($_POST['lifetime'], LIFETIMES)) // OK
+		if (is_string ($_POST['lifetime']) && array_key_exists ($_POST['lifetime'], $LIFETIMES)) // OK
 			$lifetime = $_POST['lifetime'];
 		elseif ($_POST['lifetime'] == 'default')
 		{
