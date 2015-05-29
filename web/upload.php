@@ -216,7 +216,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		}
 		
 		// create album zip file
-		if (isset(ENABLE_ALBUM_ZIP) && ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
+		if (ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
 			$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
 			$zip_file = createZipFile($zip_path, $file_paths);
 			
