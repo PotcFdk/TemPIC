@@ -70,6 +70,27 @@ reply();
 
 // API handlers
 
+// Shared internal logic
+function _API_V1_GET_ALBUM_DATA ($album_id)
+{
+	global $LIFETIMES;
+	
+	$album_id = strip_album_id ($album_id);
+	if (empty($album_id)) return array (false, "Invalid album ID");
+	
+	$_a = explode (":", $album_id, 2);
+	if (!empty ($_a[0]))
+		$album_lifetime = $_a[0];
+	if (!empty ($_a[1]))
+		$album_hash = $_a[1];
+	
+	if (!empty ($LIFETIMES[$album_lifetime]) && file_exists (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'))
+		return array (true, unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')));
+	else
+		return array (false, "Album can not be found");
+}
+// -
+
 function API_V1_BAD_REQUEST ($reason = NULL)
 {
 	global $resp;
@@ -80,21 +101,13 @@ function API_V1_BAD_REQUEST ($reason = NULL)
 
 function API_V1_ALBUM_INFO ($album_id)
 {
-	global $LIFETIMES, $resp;
+	global $resp;
 	
-	$album_id = strip_album_id($album_id);
-	if (empty($album_id)) return API_V1_BAD_REQUEST ("Invalid album ID");
-	
-	$_a = explode (":", $album_id, 2);
-	if (!empty ($_a[0]))
-		$album_lifetime = $_a[0];
-	if (!empty ($_a[1]))
-		$album_hash = $_a[1];
-	
-	if (!empty ($LIFETIMES[$album_lifetime]) && file_exists (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'))
-		$album_data = unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
+	$adata_resp = _API_V1_GET_ALBUM_DATA ($album_id);
+	if ($adata_resp[0])
+		$album_data = $adata_resp[1];
 	else
-		return API_V1_BAD_REQUEST ("Album can not be found");
+		return API_V1_BAD_REQUEST ($adata_resp[1]);
 	
 	$resp['status'] = STATUS_SUCCESS;
 	$resp['data'] = array ('albums' => array ($album_id => $album_data));
