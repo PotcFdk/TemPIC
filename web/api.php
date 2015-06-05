@@ -123,7 +123,7 @@ function API_V1_ALBUM_FILES ($album_id, $filename, $action = NULL)
 	else
 		return API_V1_BAD_REQUEST ($adata_resp[1]);
 	
-	if (!array_key_exists ('files', $album_data) || !array_key_exists ($filename, $album_data))
+	if (!array_key_exists ('files', $album_data) || !array_key_exists ($filename, $album_data['files']))
 	{
 		API_V1_BAD_REQUEST ('File not found in album.');
 		return;
