@@ -133,12 +133,16 @@ function API_V1_ALBUM_FILES ($album_id, $filename, $action = NULL)
 	
 	switch ($action)
 	{
+		case 'info':
+			$resp['status'] = STATUS_SUCCESS;
+			$resp['data'] = array ($filename => $file_info);
+			break;
 		case 'url':
 			$resp['status'] = STATUS_SUCCESS;
 			$resp['data'] = array ($filename => array ('url' => $file_info['url']));
 			break;
 		default:
-			API_V1_BAD_REQUEST ('Invalid album/file action.');
+			API_V1_BAD_REQUEST ('Invalid albums/files action.');
 	}
 }
 
