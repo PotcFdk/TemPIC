@@ -113,6 +113,29 @@ function API_V1_ALBUM_INFO ($album_id)
 	$resp['data'] = array ('albums' => array ($album_id => $album_data));
 }
 
+function API_V1_ALBUM_FILES ($album_id, $filename, $action = NULL)
+{
+	global $resp;
+	
+	$adata_resp = _API_V1_GET_ALBUM_DATA ($album_id);
+	if ($adata_resp[0])
+		$album_data = $adata_resp[1];
+	else
+		return API_V1_BAD_REQUEST ($adata_resp[1]);
+	
+	$file_info = $album_data['files'][$filename];
+	
+	switch ($action)
+	{
+		case 'url':
+			$resp['status'] = STATUS_SUCCESS;
+			$resp['data'] = array ($filename => array ('url' => $file_info['url']));
+			break;
+		default:
+			API_V1_BAD_REQUEST ('Invalid album/file action.');
+	}
+}
+
 function API_V1 (&$chunks)
 {
 	global $resp;
@@ -144,6 +167,17 @@ function API_V1 (&$chunks)
 					{
 						case 'info':
 							API_V1_ALBUM_INFO ($chunks[1]);
+							break;
+						case 'files':
+							if (!empty ($chunks[3]))
+							{
+								if (!empty ($chunks[4]))
+									API_V1_ALBUM_FILES ($chunks[1], $chunks[3], $chunks[4]);
+								else
+									API_V1_ALBUM_FILES ($chunks[1], $chunks[3]);
+							}
+							else
+								API_V1_BAD_REQUEST();
 							break;
 						default: API_V1_BAD_REQUEST();
 					}
