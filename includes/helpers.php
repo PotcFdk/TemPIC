@@ -47,7 +47,7 @@
 
 		return $ret;
 	}
-	
+
 	function strip_album_id ($string) {
 	  preg_match_all ("/[^0-9^a-z^:]/", $string, $matches);
 	  foreach ($matches[0] as $value) {
@@ -55,10 +55,10 @@
 	  }
 	  return $string;
 	}
-	
+
 	function get_album_url ($album_id = "") {
 		if (defined ('URL_ALBUM'))
-			URL_ALBUM.$album_id;
+			return URL_ALBUM.$album_id;
 		else
 			return URL_BASE.'/?album='.$album_id; 
 	}
