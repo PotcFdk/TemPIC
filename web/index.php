@@ -60,6 +60,22 @@ require_once('../includes/helpers.php');
 		<link href="<?php echo URL_BASE; ?>/css/<?php echo CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
+		<script src="<?php echo URL_BASE; ?>/js/jquery-2.1.0.min.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/bootstrap.min.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/tempic-helpers.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/modernizr-p1.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/uploadmanager.js"></script>
+		<script src="<?php echo URL_BASE; ?>/js/tempic-site.js"></script>
+		
+		<style>
+			@font-face {
+				font-family: 'Open Sans';
+				font-style: normal;
+				font-weight: 400;
+				src: local('Open Sans'), local('OpenSans'), url('<?php echo URL_BASE; ?>/fonts/opensans.woff') format('woff');
+			}
+		</style>
+		
 		<script>
 			<?php // Show album lifetime, if possible.
 				if (!empty ($remaining_time)) : ?>
@@ -81,22 +97,6 @@ require_once('../includes/helpers.php');
 				var size_limit = <?php echo SIZE_LIMIT; ?>;
 			<?php endif; ?>
 		</script>
-
-		<script src="<?php echo URL_BASE; ?>/js/jquery-2.1.0.min.js"></script>
-		<script src="<?php echo URL_BASE; ?>/js/bootstrap.min.js"></script>
-		<script src="<?php echo URL_BASE; ?>/js/tempic-helpers.js"></script>
-		<script src="<?php echo URL_BASE; ?>/js/modernizr-p1.js"></script>
-		<script src="<?php echo URL_BASE; ?>/js/uploadmanager.js"></script>
-		<script src="<?php echo URL_BASE; ?>/js/tempic-site.js"></script>
-
-		<style>
-			@font-face {
-				font-family: 'Open Sans';
-				font-style: normal;
-				font-weight: 400;
-				src: local('Open Sans'), local('OpenSans'), url('<?php echo URL_BASE; ?>/fonts/opensans.woff') format('woff');
-			}
-		</style>
 	</head>
 	<body>
 		<?php include('../includes/copyrotate.php'); ?>
