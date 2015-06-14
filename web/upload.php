@@ -116,6 +116,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 
 			if (!empty($fileinfo['extension']) && in_array($fileinfo['extension'], $DISALLOWED_EXTS)) {
 				$files[$file['name']]['error'] = 'Disallowed file type!';
+			} elseif (empty ($fileinfo['basename'])) {
+				$files[$file['name']]['error'] = 'No file name!';
 			} elseif ($file['error'] > 0) {
 				$files[$file['name']]['error'] = 'Return Code: ' . $file['error'];
 			} else {
