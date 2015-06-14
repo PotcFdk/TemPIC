@@ -35,7 +35,7 @@ function mb_pathinfo($filepath) {
 	if (!empty($m[2])) $ret['basename']  = $m[2];
 	if (!empty($m[5])) $ret['extension'] = $m[5];
 	if (!empty($m[3])) $ret['filename']  = $m[3];
-	return $ret;
+	return isset ($ret) ? $ret : array ();
 }
 
 function hasThumbnailSupport ($file) {
