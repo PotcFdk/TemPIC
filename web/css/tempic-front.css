@@ -163,3 +163,7 @@ progress {
 .file-overview input[type="file"] {
 	display: none;
 }
+
+.qrcode {
+	width: 100%;
+}
