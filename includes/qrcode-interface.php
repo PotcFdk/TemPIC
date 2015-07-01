@@ -6,12 +6,10 @@
 		$qr = new QRCode();
 		$qr->setErrorCorrectLevel (QR_ERROR_CORRECT_LEVEL_L);
 		$qr->setTypeNumber (3);
-		$qr->addData ("Test");
+		$qr->addData ($data);
 		$qr->make();
 
-		//$qr = QRCode::getMinimumQRCode("QRR[h", QR_ERROR_CORRECT_LEVEL_L);
-
-		$im = $qr->createImage (2, 4);
+		$im = $qr->createImage (20, 4);
 
 		ob_start();
 		imagepng ($im);
