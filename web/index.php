@@ -287,12 +287,12 @@ require_once('../includes/qrcode-interface.php');
 							</div>
 						<?php endif; ?>
 
-						<div class="modal fade" id="modal_qrcode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						<div class="modal fade" id="modal_qrcode" tabindex="-1" role="dialog" aria-labelledby="label_modal_qrcode">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<h4 class="modal-title" id="myModalLabel">QR Code</h4>
+										<h4 class="modal-title" id="label_modal_qrcode">QR Code</h4>
 									</div>
 									<div class="modal-body">
 										<img class="qrcode" src='data:image/png;base64,<?php echo getQRCode (get_album_url ($album_id)); ?>' />
