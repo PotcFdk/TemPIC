@@ -98,7 +98,7 @@ require_once('../includes/helpers.php');
 			<?php endif; ?>
 		</script>
 	</head>
-	<body>
+	<body onload="tempicOnLoad();">
 		<?php include('../includes/copyrotate.php'); ?>
 		<div class="container">
 			<div class="row">
@@ -117,7 +117,11 @@ require_once('../includes/helpers.php');
 								If you don't want to turn on JavaScript, please use
 								<a href="index_nojs.php<?php if (!empty($album_id)) echo '?album='.$album_id; ?>">the NoJS version</a>.</p>
 							</noscript>
-							<p id="browser_warning_text"></p>
+							<p id="browser_warning_text">Your browser seems to be heavily outdated.
+								Please consider updating.
+								As a workaround you can use <a href="index_nojs.php<?php if (!empty($album_id)) echo '?album='.$album_id; ?>">
+								the NoJS version</a>.
+							</p>
 						</div>
 					</div>
 					

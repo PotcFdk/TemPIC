@@ -15,12 +15,8 @@
 */
 
 // Detect browser capabilities
-window.onload = function() {
-	if (!Modernizr.filereader || !Modernizr.partialflexbox || window.FormData === undefined)
-		document.getElementById("browser_warning_text").innerHTML = 'Your browser seems to be heavily outdated. Please consider updating. As a workaround you can use <a href="index_nojs.php'
-			+ (album_id ? '?album=' + album_id : '')
-			+ '">the NoJS version</a>.';
-	else
+tempicOnLoad = function() {
+	if (Modernizr.filereader && Modernizr.flexbox && window.FormData !== undefined)
 		document.getElementById("browser_warning_text").style.display = 'none';
 }
 
