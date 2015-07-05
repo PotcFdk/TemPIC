@@ -3,6 +3,7 @@
 require_once('../includes/config.php');
 require_once('../includes/configcheck.php');
 require_once('../includes/helpers.php');
+require_once('../includes/qrcode-interface.php');
 ?>
 <!doctype html>
 <!--
@@ -48,6 +49,7 @@ require_once('../includes/helpers.php');
 	}
 	
 	$display_checksums = !empty($_POST['checksums']);
+	$display_qrcode    = !empty($_POST['qrcode']);
 ?>
 <html>
 	<head>
@@ -167,10 +169,20 @@ require_once('../includes/helpers.php');
 							<div class="pull-right">
 								<?php if (!empty($files)) : ?>
 									<div class="pull-left">
-									<form method="post">
-										<input type="hidden" name="checksums" value="<?php echo $display_checksums ? "" : "true"; ?>">
-										<input class="btn btn-default" type="submit" value="<?php echo $display_checksums ? "Hide" : "Show"; ?> file checksums">
-									</form>
+										<div class="pull-left">
+											<form method="post">
+												<input type="hidden" name="qrcode" value="<?php echo $display_qrcode ? "" : "true"; ?>">
+												<input type="hidden" name="checksums" value="<?php echo $display_checksums ? "true" : ""; ?>">
+												<input class="btn btn-default" type="submit" value="<?php echo $display_qrcode ? "Hide" : "Show"; ?> QR Code">
+											</form>
+										</div>
+										<div class="pull-right">
+											<form method="post">
+												<input type="hidden" name="qrcode" value="<?php echo $display_qrcode ? "true" : ""; ?>">
+												<input type="hidden" name="checksums" value="<?php echo $display_checksums ? "" : "true"; ?>">
+												<input class="btn btn-default" type="submit" value="<?php echo $display_checksums ? "Hide" : "Show"; ?> file checksums">
+											</form>
+										</div>
 									</div>
 								<?php endif;
 								if (!empty($album_lifetime) && !empty($album_hash)
@@ -182,6 +194,14 @@ require_once('../includes/helpers.php');
 							</div>
 						</div>
 					</div>
+					
+					<?php if ($display_qrcode) : ?>
+						<div class="row infoarea">
+							<div class="col-md-4 col-md-offset-4">
+								<img class="qrcode" src='data:image/png;base64,<?php echo getQRCode (get_album_url ($album_id)); ?>' />
+							</div>
+						</div>
+					<?php endif; ?>
 					
 					<?php if (!empty($files)) : ?>
 						<?php if (!empty($album_description)) : ?>

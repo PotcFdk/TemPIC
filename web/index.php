@@ -3,6 +3,7 @@
 require_once('../includes/config.php');
 require_once('../includes/configcheck.php');
 require_once('../includes/helpers.php');
+require_once('../includes/qrcode-interface.php');
 ?>
 <!doctype html>
 <!--
@@ -252,7 +253,10 @@ require_once('../includes/helpers.php');
 						</div>
 						<div id="div_infoarea_right" class="col-md-6">
 							<div class="pull-right">
-								<?php if (!empty($files)) : ?><button id="checksums-toggle" class="btn btn-default">Show file checksums</button><?php endif; ?>
+								<?php if (!empty($files)) : ?>
+									<button id="qrcode-toggle" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_qrcode">QR Code</button>
+									<button id="checksums-toggle" class="btn btn-default">Show file checksums</button>
+								<?php endif; ?>
 								<?php if (!empty($album_lifetime) && !empty($album_hash)
 									&& file_exists(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip')) : ?>
 									<a href="<?php
@@ -286,6 +290,24 @@ require_once('../includes/helpers.php');
 								</div>
 							</div>
 						<?php endif; ?>
+
+						<div class="modal fade" id="modal_qrcode" tabindex="-1" role="dialog" aria-labelledby="label_modal_qrcode">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<h4 class="modal-title" id="label_modal_qrcode">QR Code</h4>
+									</div>
+									<div class="modal-body">
+										<img class="qrcode" src='data:image/png;base64,<?php echo getQRCode (get_album_url ($album_id)); ?>' />
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
 						<?php $count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
 							<?php if ($count % 3 == 0) : ?><div class="row"><?php endif; ?>
