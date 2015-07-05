@@ -132,8 +132,10 @@ $(function() {
 	function uploadCanceled(evt) {
 	  warn("The upload has been canceled by the user or the browser dropped the connection.");
 	}				
-
-	function showFilePreview(files) {
+	
+	// UploadManager observers
+	
+	function observerFilePreview(files) {
 		if (files.length) {
 			$("#div_filelist_preview_box").empty();
 			
@@ -172,7 +174,7 @@ $(function() {
 			$("#div_filelist_preview").hide();
 	}
 	
-	function showAlbumForm(files) {
+	function observerAlbumForm(files) {
 		if(files.length) {
 			$('#div_albumname_input').show();
 			$('#div_albumdescription_input').show();
@@ -183,7 +185,7 @@ $(function() {
 		}
 	}
 	
-	function updateFileOverview(files) {
+	function observerFileOverview(files) {
 		if(files.length == 1)
 			$("#file-overview-text").text(files[0].name);
 		else if(files.length > 1)
@@ -191,28 +193,29 @@ $(function() {
 		else
 			$("#file-overview-text").text("");
 	}
-
-	function showFileWipeButton(files) {
+	
+	function observerFileWipeButton(files) {
 		if(files.length)
 			$("#button-file-wipe").show();
 		else
 			$("#button-file-wipe").hide();
 	}
 	
-	function showUploadButton(files) {
+	function observerUploadButton(files) {
 		if(files.length)
 			$("#button-upload").show();
 		else
 			$("#button-upload").hide();
 	}
-	//UploadManager - global
+	
+	// UploadManager - global
 	
 	um = new UploadManager(size_limit, url_base, uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
-	um.registerFileObserver(updateFileOverview);
-	um.registerFileObserver(showFileWipeButton);
-	um.registerFileObserver(showUploadButton);
-	um.registerFileObserver(showFilePreview)
-	um.registerFileObserver(showAlbumForm);
+	um.registerFileObserver(observerFileOverview);
+	um.registerFileObserver(observerFileWipeButton);
+	um.registerFileObserver(observerUploadButton);
+	um.registerFileObserver(observerFilePreview)
+	um.registerFileObserver(observerAlbumForm);
 	
 	// File upload form setup.
 	
