@@ -291,6 +291,10 @@ $(function() {
 		um.wipeFiles();
 	});
 	
+	$("#button-abort").on("click", function(e){
+		um.abort();
+	});
+	
 	var btn = $('button[type=submit]');
 	btn.prop('type', 'button');
 	btn.on('click', function() {

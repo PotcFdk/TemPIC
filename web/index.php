@@ -143,6 +143,10 @@ require_once('../includes/qrcode-interface.php');
 													<span class="glyphicon glyphicon-trash"></span>
 													<span>Remove all</span>
 												</button>
+												<button class="btn btn-default" type="button" id="button-abort">
+													<span class="glyphicon glyphicon-trash"></span>
+													<span>Cancel</span>
+												</button>
 												<button class="btn btn-success" type="submit" id="button-upload">
 													<span class="glyphicon glyphicon-cloud-upload"></span>
 													<span>Upload</span>
