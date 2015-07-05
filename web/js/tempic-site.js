@@ -82,7 +82,14 @@ $(function() {
 	
 	var fileInput = $('#file');
 	fileBrowse = function () {
+		// fileInput show()/hide():
+		//  compatibility hack (e.g. older android devices)
+
+		if (!isUpToDate ())
+			fileInput.show ();
 		fileInput.click();
+		if (!isUpToDate ())
+			fileInput.hide ();
 	}
 
 	var upload_started = 0;
