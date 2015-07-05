@@ -1,12 +1,21 @@
 /*
-	UploadManager for TemPIC - Copyright  2015; KeyLimePie (GitHub: TheKeyLimePie); based on work by PotcFdk
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2015
+
+	TemPIC UploadManager (c) PotcFdk, 2015
+	TemPIC UploadManager (c) KeyLimePie, 2015
+
+	This file is based on uploadmanager.js ('UploadManager for TemPIC')
+	by KeyLimePie, with some later modifications by PotcFdk.
+
+	Original copyright notice:
+	 UploadManager for TemPIC - Copyright  2015; KeyLimePie (GitHub: TheKeyLimePie); based on work by PotcFdk
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -124,7 +133,7 @@ UploadManager.prototype.makePOSTData = function()
 
 UploadManager.prototype.send = function(data)
 {
-	if(this.xhr) this.xhr.abort();
+	this.abort();
 	this.xhr = new XMLHttpRequest();
 	
 	this.xhr.upload.addEventListener("progress", this.uploadProgress, false);
@@ -134,6 +143,11 @@ UploadManager.prototype.send = function(data)
 	
 	this.xhr.open("POST", this.UPLOADPATH);
 	this.xhr.send(data);
+}
+
+UploadManager.prototype.abort = function()
+{
+	if(this.xhr) this.xhr.abort();
 }
 
 UploadManager.prototype.registerFileObserver = function(obs)
