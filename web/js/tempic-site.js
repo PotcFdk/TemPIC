@@ -19,6 +19,10 @@ function isUpToDate () {
 	return Modernizr.filereader && Modernizr.flexbox && window.FormData !== undefined
 }
 
+function canUseFormData () {
+	return window.FormData !== undefined
+}
+
 function tempicOnLoad () {
 	if (isUpToDate ())
 		document.getElementById("browser_warning_text").style.display = 'none';
@@ -224,9 +228,13 @@ $(function() {
 		{
 			um.addFile(files[x]);
 		}
-		//reset input with js hacks (input type=file is read only)
-		$(this).wrap('<form>').closest('form').get(0).reset();
-		$(this).unwrap();
+		
+		// reset input, as input type=file is read only
+		// (!) compatibility hack: don't do this when FormData doesn't work
+		if (canUseFormData ()) {
+			$(this).wrap('<form>').closest('form').get(0).reset();
+			$(this).unwrap();
+		}
 	});
 	
 	$("#lifetime").on("change", function(e){
