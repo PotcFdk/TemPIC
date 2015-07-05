@@ -69,6 +69,7 @@ $(function() {
 	$(".checksum-field").hide();
 	$("#button-file-wipe").hide();
 	$("#button-upload").hide();
+	$("#button-abort").hide();
 
 	var base_text = $('#checksums-toggle').text();
 	var is_showing_checksums = false;
@@ -116,6 +117,30 @@ $(function() {
 		$('#progressbar').removeAttr('value');
 	  }
 	}
+	
+	function uploadBegin() {
+		$("#button-file-wipe").hide();
+		$("#button-upload").hide();
+		$("#button-abort").show();
+		
+		$('#div_progressbar').show();
+		$('#progressbar').show();
+		$('#div_progresstext').show();
+		
+		$('#div_filelist_preview').slideUp(1000, "swing");
+	}
+	
+	function uploadEnd() {
+		$("#button-file-wipe").show();
+		$("#button-upload").show();
+		$("#button-abort").hide();
+		
+		$('#div_progressbar').hide();
+		$('#progressbar').hide();
+		$('#div_progresstext').hide();
+		
+		$('#div_filelist_preview').slideDown(100, "swing");
+	}
 
 	function uploadComplete(evt) {
 		if (evt.target.responseText) {
@@ -126,11 +151,13 @@ $(function() {
 	}
 
 	function uploadFailed(evt) {
-	  warn("There was an error attempting to upload the file.");
+		warn("There was an error attempting to upload the file.");
+		uploadEnd();
 	}
 
 	function uploadCanceled(evt) {
-	  warn("The upload has been canceled by the user or the browser dropped the connection.");
+		warn("The upload has been canceled by the user or the browser dropped the connection.");
+		uploadEnd();
 	}				
 	
 	// UploadManager observers
@@ -305,8 +332,6 @@ $(function() {
 		
 		upload_started = Date.now();
 		
-		$('#div_progressbar').show();
-		$('#progressbar').show();
-		$('#div_progresstext').show();
+		uploadBegin();
 	});
 });
