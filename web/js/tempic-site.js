@@ -15,8 +15,12 @@
 */
 
 // Detect browser capabilities
-tempicOnLoad = function() {
-	if (Modernizr.filereader && Modernizr.flexbox && window.FormData !== undefined)
+function isUpToDate () {
+	return Modernizr.filereader && Modernizr.flexbox && window.FormData !== undefined
+}
+
+function tempicOnLoad () {
+	if (isUpToDate ())
 		document.getElementById("browser_warning_text").style.display = 'none';
 }
 
