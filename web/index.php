@@ -303,7 +303,7 @@ require_once('../includes/qrcode-interface.php');
 										<h4 class="modal-title" id="label_modal_qrcode">QR Code</h4>
 									</div>
 									<div class="modal-body">
-										<img class="qrcode" src='data:image/png;base64,<?php echo getQRCode (get_album_url ($album_id)); ?>' />
+										<img class="qrcode" alt="QR Code" src='data:image/png;base64,<?php echo getQRCode (get_album_url ($album_id)); ?>' />
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

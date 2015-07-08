@@ -198,7 +198,7 @@ require_once('../includes/qrcode-interface.php');
 					<?php if ($display_qrcode) : ?>
 						<div class="row infoarea">
 							<div class="col-md-4 col-md-offset-4">
-								<img class="qrcode" src='data:image/png;base64,<?php echo getQRCode (get_album_url ($album_id)); ?>' />
+								<img class="qrcode" alt="QR Code" src='data:image/png;base64,<?php echo getQRCode (get_album_url ($album_id)); ?>' />
 							</div>
 						</div>
 					<?php endif; ?>
