@@ -7,11 +7,19 @@ function info(text) {
 }
 
 function warn(text) {
-	$("#div_warn_element").show();
-	var warn_element = $("#warn_element");
-	var warn_element_text = $("#warn_element_text");
-	warn_element_text.html(text);
-	warn_element.show();
+	if (text)
+	{
+		$("#div_warn_element").show();
+		var warn_element = $("#warn_element");
+		var warn_element_text = $("#warn_element_text");
+		warn_element_text.html(text);
+		warn_element.show();
+	}
+	else
+	{
+		$('#div_warn_element').hide();
+		$('#warn_element').hide();
+	}
 }
 
 // humanFileSize by Mark - http://stackoverflow.com/a/14919494
