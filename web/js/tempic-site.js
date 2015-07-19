@@ -328,10 +328,10 @@ $(function() {
 	var btn = $('button[type=submit]');
 	btn.prop('type', 'button');
 	btn.on('click', function() {
+		warn(); // Close the current warning, if applicable.
+		
 		um.send(um.makePOSTData());
-		
 		upload_started = Date.now();
-		
 		uploadBegin();
 	});
 });
