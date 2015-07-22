@@ -171,41 +171,45 @@ require_once('../includes/qrcode-interface.php');
 										</select>
 									</div>
 								</div>
-								<div class="row" id="div_albumname_input">
-									<label for="file" class="col-md-1 control-label">Name</label>
-									<div class="col-md-8">
-										<input type="text" class="form-control" name="album_name"
-											id="album_name" placeholder="Album Name">
+								<div id="div_upload_data">
+									<div class="row" id="div_albumname_input">
+										<label for="file" class="col-md-1 control-label">Name</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="album_name"
+												id="album_name" placeholder="Album Name">
+										</div>
 									</div>
-								</div>
-								<div class="row" id="div_albumdescription_input">
-									<label for="file" class="col-md-1 control-label">Info</label>
-									<div class="col-md-8">
-										<textarea class="verticalresizing noscroll form-control"
-											name="album_description" id="album_description"
-											onkeyup="textAreaAutoResize(this);"
-											placeholder="Album Description"></textarea>
+									<div class="row" id="div_albumdescription_input">
+										<label for="file" class="col-md-1 control-label">Info</label>
+										<div class="col-md-8">
+											<textarea class="verticalresizing noscroll form-control"
+												name="album_description" id="album_description"
+												onkeyup="textAreaAutoResize(this);"
+												placeholder="Album Description"></textarea>
+										</div>
 									</div>
-								</div>
-								<div class="row file-preview-area" id="div_filelist_preview">
-									<label for="file" class="col-md-1 control-label">Files</label>
-									<div class="col-md-8">
-										<div id="div_filelist_preview_box"></div>
+									<div class="row file-preview-area" id="div_filelist_preview">
+										<label for="file" class="col-md-1 control-label">Files</label>
+										<div class="col-md-8">
+											<div id="div_filelist_preview_box"></div>
+										</div>
 									</div>
 								</div>
 							</form>
 						</div>
 					</div>
 
-					<div class="row" id="div_progressbar">
-						<div class="col-md-8 col-md-offset-1">
-							<progress id="progressbar" max="100" value="0"></progress>
+					<div id="div_progress">
+						<div class="row" id="div_progressbar">
+							<div class="col-md-8 col-md-offset-1">
+								<progress id="progressbar" max="100" value="0"></progress>
+							</div>
 						</div>
-					</div>
-					
-					<div class="row" id="div_progresstext">
-						<div class="col-md-8 col-md-offset-1">
-							<p id="progresstext"></p>
+						
+						<div class="row" id="div_progresstext">
+							<div class="col-md-8 col-md-offset-1">
+								<p id="progresstext"></p>
+							</div>
 						</div>
 					</div>
 					
