@@ -123,6 +123,8 @@ $(function() {
 		$("#button-upload").hide();
 		$("#button-abort").show();
 		
+		$('#lifetime').prop('disabled', true);
+		
 		$('#div_progress').hide();
 		
 		$('#div_progressbar').show();
@@ -138,6 +140,8 @@ $(function() {
 		$("#button-file-wipe").show();
 		$("#button-upload").show();
 		$("#button-abort").hide();
+		
+		$('#lifetime').prop('disabled', false);
 		
 		$('#div_progress').slideUp(200, 'swing', function() {
 			$('#div_progressbar').hide();
