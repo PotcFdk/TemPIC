@@ -123,11 +123,15 @@ $(function() {
 		$("#button-upload").hide();
 		$("#button-abort").show();
 		
+		$('#div_progress').hide();
+		
 		$('#div_progressbar').show();
 		$('#progressbar').show();
 		$('#div_progresstext').show();
 		
-		$('#div_filelist_preview').slideUp(1000, "swing");
+		$('#div_upload_data').slideUp(400, 'swing', function() {
+			$('#div_progress').slideDown(400, 'swing');
+		});
 	}
 	
 	function uploadEnd() {
@@ -135,11 +139,13 @@ $(function() {
 		$("#button-upload").show();
 		$("#button-abort").hide();
 		
-		$('#div_progressbar').hide();
-		$('#progressbar').hide();
-		$('#div_progresstext').hide();
+		$('#div_progress').slideUp(200, 'swing', function() {
+			$('#div_progressbar').hide();
+			$('#progressbar').hide();
+			$('#div_progresstext').hide();
+		});
 		
-		$('#div_filelist_preview').slideDown(100, "swing");
+		$('#div_upload_data').slideDown(200, 'swing');
 	}
 
 	function uploadComplete(evt) {
