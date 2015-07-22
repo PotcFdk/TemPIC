@@ -17,8 +17,7 @@ function warn(text) {
 	}
 	else
 	{
-		$('#div_warn_element').hide();
-		$('#warn_element').hide();
+		$('#div_warn_element').slideUp(1000, "swing");
 	}
 }
 
