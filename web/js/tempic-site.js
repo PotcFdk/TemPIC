@@ -28,6 +28,13 @@ function tempicOnLoad () {
 		document.getElementById("browser_warning_text").style.display = 'none';
 }
 
+function resetTitle () {
+	if ($.type(album_name) == 'string')
+		document.title = album_name + " - " + instance_name;
+	else
+		document.title = instance_name;
+}
+
 function initRemainingLifetime (remaining)
 {	
 	function updateRemainingLifetime () {
@@ -137,6 +144,8 @@ $(function() {
 	}
 	
 	function uploadEnd() {
+		resetTitle();
+		
 		$("#button-file-wipe").show();
 		$("#button-upload").show();
 		$("#button-abort").hide();
