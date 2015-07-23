@@ -84,6 +84,9 @@ require_once('../includes/qrcode-interface.php');
 			<?php endif;
 			if (!empty ($album_id) && is_string ($album_id)) : ?>
 				var album_id = '<?php echo $album_id; ?>';
+			<?php endif;
+			if (!empty($album_name) && is_string ($album_name)) : ?>
+				var album_name = <?php echo json_encode($album_name); ?>;
 			<?php endif; ?>
 				var album_url = '<?php echo get_album_url() ?>';
 			<?php if (is_string (URL_BASE)) : ?>
