@@ -79,13 +79,13 @@ require_once('../includes/qrcode-interface.php');
 		
 		<script>
 			<?php // Show album lifetime, if possible.
-				if (!empty ($remaining_time)) : ?>
-					$(function() { initRemainingLifetime (<?php echo($remaining_time); ?>); });
+			if (!empty ($remaining_time)) : ?>
+				$(function() { initRemainingLifetime (<?php echo($remaining_time); ?>); });
 			<?php endif;
 			if (!empty ($album_id) && is_string ($album_id)) : ?>
 				var album_id = '<?php echo $album_id; ?>';
 			<?php endif; ?>
-			var album_url = '<?php echo get_album_url() ?>';
+				var album_url = '<?php echo get_album_url() ?>';
 			<?php if (is_string (URL_BASE)) : ?>
 				var url_base = '<?php echo URL_BASE; ?>';
 			<?php endif;
