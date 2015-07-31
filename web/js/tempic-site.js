@@ -52,12 +52,33 @@ function initRemainingLifetime (remaining)
 	setInterval (updateRemainingLifetime, 1000);
 }
 
-function onThumbnailError (obj, icon) {
+function retryThumbnail (obj) {
+	var src = obj.data('src');
+
+	if (!src)
+		throw new Error('Cannot retry thumbnail: Object has no src!');
+
+	obj.data('loading', false);
+	obj.removeClass('no-thumbnail');
+	obj.attr('alt', 'Uploaded Image');
+	obj.attr('src', src);
+}
+
+function onThumbnailError (obj) {
 	obj = $(obj);
-	obj.parent().parent().attr('style', 'text-align: center');
-	obj.replaceWith("<img src='" + icon + "' alt='thumbnail unavailable' /><br />"
-		+ "<span style='font-size: 1.7em;'>[thumbnail unavailable]</span>");
-	info ('Some thumbnails have not yet been generated.');
+
+	if (!obj.data('src'))
+		obj.data('src', obj.attr('src'));
+	
+	if (!obj.data('loading')) {
+		obj.addClass('no-thumbnail');
+		obj.attr('src', 'img/ico_loading.gif');
+		obj.data('loading', true);
+		obj.attr('alt', 'Thumbnail currently unavailable.');
+		setTimeout(retryThumbnail, 30000, obj);
+	}
+
+	info('Some thumbnails have not yet been generated.');
 }
 
 var fileBrowse;
