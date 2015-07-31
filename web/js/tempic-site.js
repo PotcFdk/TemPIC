@@ -58,10 +58,16 @@ function retryThumbnail (obj) {
 	if (!src)
 		throw new Error('Cannot retry thumbnail: Object has no src!');
 
-	obj.data('loading', false);
-	obj.removeClass('no-thumbnail');
-	obj.attr('alt', 'Uploaded Image');
+	obj.data('failure', false);
 	obj.attr('src', src);
+}
+
+function onThumbnailLoad (obj) {
+	obj = $(obj);
+	if (!obj.data('failure')) {
+		obj.removeClass('no-thumbnail');
+		obj.attr('alt', 'Uploaded Image');
+	}
 }
 
 function onThumbnailError (obj) {
@@ -70,11 +76,11 @@ function onThumbnailError (obj) {
 	if (!obj.data('src'))
 		obj.data('src', obj.attr('src'));
 	
-	if (!obj.data('loading')) {
+	if (!obj.data('failure')) {
+		obj.data('failure', true);
+		obj.attr('alt', 'Thumbnail currently unavailable.');
 		obj.addClass('no-thumbnail');
 		obj.attr('src', 'img/ico_loading.gif');
-		obj.data('loading', true);
-		obj.attr('alt', 'Thumbnail currently unavailable.');
 		setTimeout(retryThumbnail, 30000, obj);
 	}
 

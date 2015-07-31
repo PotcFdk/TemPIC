@@ -338,7 +338,7 @@ require_once('../includes/qrcode-interface.php');
 													
 													if (!empty($file['thumbnail'])) : ?>
 														<img src="<?php echo $file['thumbnail']; ?>" alt="Uploaded Image" class="thumbnail img-responsive"
-															onerror="onThumbnailError(this);">
+															onerror="onThumbnailError(this);" onload="onThumbnailLoad(this);">
 													<?php elseif ($file['image']) : ?>
 														<img src="<?php echo $file['url']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
 													<?php else: ?>
