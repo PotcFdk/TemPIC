@@ -52,9 +52,12 @@
 	
 	foreach ($jobs as $job_file => $job)
 	{
-		if (file_exists($job['src']))
-			createThumbnail ($job['src'], $job['dest'], true);
-		echo " * Generated new thumbnail, by job " . $job_file . "\n";
 		unlink ($job_file);
+		if (file_exists($job['src'])) {
+			createThumbnail ($job['src'], $job['dest'], true);
+			echo " * Generated new thumbnail, by job $job_file\n";
+		}
+		else
+			echo " ! Couldn't generate thumbnail: $job_file: src missing\n";
 	}
 ?>
