@@ -16,7 +16,7 @@
 	// Here you can disallow files with the specified extensions.
 	// SECURITY WARNING: You should take additional steps to prevent accidents,
 	// like running PHP files uploaded by users!
-	$DISALLOWED_EXTS = array('php', 'html', 'htm', 'htaccess', 'htpasswd');
+	$DISALLOWED_EXTS = array('php', 'html', 'htm', 'xhtml', 'htaccess', 'htpasswd');
 
 	// The maximum album size allowed, used in serverside post-upload and clientside pre-upload checks.
 	// This is 20e6 (20000000) bytes / 20 megabytes by default.
