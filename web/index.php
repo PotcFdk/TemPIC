@@ -79,7 +79,7 @@ require_once('../includes/qrcode-interface.php');
 		
 		<script>
 			<?php // Show album lifetime, if possible.
-			if (!empty ($remaining_time)) : ?>
+			if (isset ($remaining_time)) : ?>
 				$(function() { initRemainingLifetime (<?php echo($remaining_time); ?>); });
 			<?php endif;
 			if (!empty ($album_id) && is_string ($album_id)) : ?>
