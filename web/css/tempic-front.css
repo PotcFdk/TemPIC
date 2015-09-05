@@ -164,6 +164,24 @@ progress {
 	display: none;
 }
 
+@media (min-width: 768px) {
+	.modal-qrcode {
+		width: 50%;
+	}
+}
+
+@media (min-width: 992px) {
+	.modal-qrcode {
+		width: 35%;
+	}
+}
+
+@media (min-width: 1200px) {
+	.modal-qrcode {
+		width: 25%;
+	}
+}
+
 .qrcode {
 	width: 100%;
 }
