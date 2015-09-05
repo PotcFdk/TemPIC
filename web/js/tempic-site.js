@@ -102,6 +102,8 @@ $(function() {
 	$("#button-file-wipe").hide();
 	$("#button-upload").hide();
 	$("#button-abort").hide();
+	
+	var upload_in_progress = false;
 
 	var base_text = $('#checksums-toggle').text();
 	var is_showing_checksums = false;
@@ -151,6 +153,8 @@ $(function() {
 	}
 	
 	function uploadBegin() {
+		upload_in_progress = true;
+		
 		$("#button-file-wipe").hide();
 		$("#button-upload").hide();
 		$("#button-abort").show();
@@ -170,6 +174,8 @@ $(function() {
 	}
 	
 	function uploadEnd() {
+		upload_in_progress = false;
+		
 		resetTitle();
 		
 		$("#button-file-wipe").show();
@@ -332,6 +338,7 @@ $(function() {
 	$("html").on("dragenter", function(e){
 		dragCounter++;
 		e.preventDefault();
+		if (upload_in_progress) return;
 		$(this).addClass("draghover");
 	});
 
@@ -356,6 +363,7 @@ $(function() {
 		e.preventDefault();
 		dragCounter = 0;
 		$(this).removeClass("draghover");
+		if (upload_in_progress) return;
 		var files = e.originalEvent.dataTransfer.files;
 		for (var x = 0; x < files.length; x++)
 		{
