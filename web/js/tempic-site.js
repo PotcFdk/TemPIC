@@ -154,6 +154,7 @@ $(function() {
 		$("#button-file-wipe").hide();
 		$("#button-upload").hide();
 		$("#button-abort").show();
+		$('#button-browse').prop('disabled', true);
 		
 		$('#lifetime').prop('disabled', true);
 		
@@ -174,6 +175,7 @@ $(function() {
 		$("#button-file-wipe").show();
 		$("#button-upload").show();
 		$("#button-abort").hide();
+		$('#button-browse').prop('disabled', false);
 		
 		$('#lifetime').prop('disabled', false);
 		
