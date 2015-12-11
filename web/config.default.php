@@ -89,7 +89,7 @@
 	// The file path (relative to the upload path) will be appended to this string.
 	// This requires your web-server to be configured to use the domain correctly.
 	// SECURITY WARNING: If you want to prevent possible attacks caused by user-generated
-	// content to be accessible through your normal domain (e.g. stealing cookies using
+	// content being accessible through your normal domain (e.g. stealing cookies using
 	// javascript code that the user uploaded to your domain), make sure to disallow
 	// access to the upload directory on your main domain and only allow access through
 	// your usercontent (sub-)domain (the one that you set up here).
