@@ -160,11 +160,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 						$files[$file['name']]['animated'] = isAnimated($path);
 					if (!empty($fileinfo['extension']))
 						$files[$file['name']]['extension'] = $fileinfo['extension'];
-					$files[$file['name']]['checksums'] = array(
-						'crc'  => hash_file('crc32b', $path),
-						'md5'  => md5_file($path),
-						'sha1' => sha1_file($path)
-					);
+					
+					createChecksumJob($path);
 					
 					if (ENABLE_THUMBNAILS && hasThumbnailSupport($path)) {
 						if (createThumbnailJob($path, $path_destination . '/' . THUMBNAIL_PREFIX . $fileinfo['basename']))

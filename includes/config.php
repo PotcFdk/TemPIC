@@ -1,6 +1,6 @@
 <?php
 	/*
-		TemPIC - Copyright (c) PotcFdk, 2014 - 2015
+		TemPIC - Copyright (c) PotcFdk, 2014 - 2016
 
 		Licensed under the Apache License, Version 2.0 (the "License");
 		you may not use this file except in compliance with the License.
@@ -25,8 +25,11 @@
 	if (!defined('PATH_UPLOAD'))
 		define ('PATH_UPLOAD', 'upload');
 
-	if (!defined('PATH_JOBQUEUE'))
-		define ('PATH_JOBQUEUE', '../internal/thumbnail_queue');
+	if (!defined('PATH_JOBQUEUE_THUMBNAILS'))
+		define ('PATH_JOBQUEUE', '../internal/thumbnail_queue'))
+
+	if (!defined('PATH_JOBQUEUE_CHECKSUMS'))
+		define ('PATH_JOBQUEUE', '../internal/checksum_queue');
 
 	if (!defined('THUMBNAIL_PREFIX'))
 		define ('THUMBNAIL_PREFIX', '_thumb_');

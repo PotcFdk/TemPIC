@@ -1,5 +1,5 @@
 <?php /*
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2015
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2016
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -146,7 +146,7 @@ function createThumbnailJob ($src, $dest) {
 	$job_entry = array ('src' => $src, 'dest' => $dest);
 	$offset = rand(0,20);
 	$uid = substr (md5(time().mt_rand()), $offset, 12);
-	file_put_contents (PATH_JOBQUEUE.'/'.$uid.'.job', serialize ($job_entry));
+	file_put_contents (PATH_JOBQUEUE_THUMBNAILS.'/'.$uid.'.job', serialize ($job_entry));
 	return true;
 }
 

@@ -1,5 +1,5 @@
 <?php /*
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2015
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2016
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 	require_once (PATH_INCLUDES . '/config.php');
 	require_once (PATH_TEMPIC   . '/config.php');
 	require_once (PATH_INCLUDES . '/helpers.php');
-	require_once (PATH_INCLUDES . '/thumbnails.php');
+	require_once (PATH_INCLUDES . '/checksums.php');
 	
 	//
 	
@@ -32,14 +32,14 @@
 	
 	$jobs = array();
 	
-	if (is_dir (PATH_JOBQUEUE_THUMBNAILS)) {
-		$files = safe_scandir(PATH_JOBQUEUE_THUMBNAILS);
+	if (is_dir (PATH_JOBQUEUE_CHECKSUMS)) {
+		$files = safe_scandir(PATH_JOBQUEUE_CHECKSUMS);
 		foreach ($files as $file) {
-			$file = PATH_JOBQUEUE_THUMBNAILS . '/' . $file;
+			$file = PATH_JOBQUEUE_CHECKSUMS . '/' . $file;
 			if (is_file ($file)) {
 				echo ' - found: ' . $file;
 				$job = unserialize(file_get_contents($file));
-				if (!empty($job) && !empty($job['src']) && !empty($job['dest'])) {
+				if (!empty($job) && !empty($job['src'])) {
 					$jobs[$file] = $job;
 				}
 				echo "\n";
@@ -48,16 +48,16 @@
 	}
 	
 	chdir (PATH_TEMPIC);
-	echo "Generating thumbnails...\n";
+	echo "Generating checksums...\n";
 	
 	foreach ($jobs as $job_file => $job)
 	{
 		unlink ($job_file);
 		if (file_exists($job['src'])) {
-			createThumbnail ($job['src'], $job['dest'], true);
-			echo " * Generated new thumbnail, by job $job_file\n";
+			createChecksums ($job['src']);
+			echo " * Generated checksums, by job $job_file\n";
 		}
 		else
-			echo " ! Couldn't generate thumbnail: $job_file: src missing\n";
+			echo " ! Couldn't generate checksums: $job_file: src missing\n";
 	}
 ?>

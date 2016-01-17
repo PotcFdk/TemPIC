@@ -1,6 +1,6 @@
 <?php
 /*
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2015
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2016
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -40,7 +40,8 @@
 		// internal config
 		|| !(defined ('PATH_ALBUM')                   && is_string  (PATH_ALBUM))
 		|| !(defined ('PATH_UPLOAD')                  && is_string  (PATH_UPLOAD))
-		|| !(defined ('PATH_JOBQUEUE')                && is_string  (PATH_JOBQUEUE))
+		|| !(defined ('PATH_JOBQUEUE_THUMBNAILS')     && is_string  (PATH_JOBQUEUE_THUMBNAILS))
+		|| !(defined ('PATH_JOBQUEUE_CHECKSUMS')      && is_string  (PATH_JOBQUEUE_CHECKSUMS))
 		|| !(defined ('THUMBNAIL_PREFIX')             && is_string  (THUMBNAIL_PREFIX))
 		|| !(defined ('MAX_ALBUM_NAME_LENGTH')        && is_numeric (MAX_ALBUM_NAME_LENGTH))
 		|| !(defined ('MAX_ALBUM_DESCRIPTION_LENGTH') && is_numeric (MAX_ALBUM_DESCRIPTION_LENGTH))
