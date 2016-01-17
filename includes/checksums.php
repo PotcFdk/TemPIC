@@ -15,8 +15,8 @@
 */
 
 function createChecksums ($path) {
-	$albumdata = unserialize(file_get_contents($path));
-	foreach ($albumdata['files'] as $filen => $filed)
+	$album_data = unserialize(file_get_contents($path));
+	foreach ($album_data['files'] as $filen => $filed)
 	{
 		$filed['checksums'] = array(
 			'crc'  => hash_file('crc32b', $filed['internal_path']),
@@ -24,7 +24,7 @@ function createChecksums ($path) {
 			'sha1' => sha1_file($filed['internal_path'])
 		);
 	}
-	return true;
+	return file_put_contents($path, serialize($album_data)) !== FALSE;
 }
 
 function createChecksumJob ($path) {
