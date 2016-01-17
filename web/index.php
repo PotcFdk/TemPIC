@@ -7,7 +7,7 @@ require_once('../includes/qrcode-interface.php');
 ?>
 <!doctype html>
 <!--
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2015
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2016
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -348,12 +348,17 @@ require_once('../includes/qrcode-interface.php');
 													<p><?php echo htmlspecialchars($name); ?></p>
 												</a>
 												<pre class="checksum-field"><?php
-													if (!empty($file['checksums']['crc']))
-														echo "CRC32: " . $file['checksums']['crc'] . "\n";
-													if (!empty($file['checksums']['md5']))
-														echo "MD5  : " . $file['checksums']['md5'] . "\n";
-													if (!empty($file['checksums']['sha1']))
-														echo "SHA-1: " . $file['checksums']['sha1'] . "\n";
+													if (empty($file['checksums']))
+														echo "Checksums unavailable. Try reloading the page."
+													else
+													{
+														if (!empty($file['checksums']['crc']))
+															echo "CRC32: " . $file['checksums']['crc'] . "\n";
+														if (!empty($file['checksums']['md5']))
+															echo "MD5  : " . $file['checksums']['md5'] . "\n";
+														if (!empty($file['checksums']['sha1']))
+															echo "SHA-1: " . $file['checksums']['sha1'] . "\n";
+													}
 												?></pre>
 											</div>
 										</div>
