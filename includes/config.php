@@ -26,10 +26,10 @@
 		define ('PATH_UPLOAD', 'upload');
 
 	if (!defined('PATH_JOBQUEUE_THUMBNAILS'))
-		define ('PATH_JOBQUEUE', '../internal/thumbnail_queue'))
+		define ('PATH_JOBQUEUE_THUMBNAILS', '../internal/thumbnail_queue');
 
 	if (!defined('PATH_JOBQUEUE_CHECKSUMS'))
-		define ('PATH_JOBQUEUE', '../internal/checksum_queue');
+		define ('PATH_JOBQUEUE_CHECKSUMS', '../internal/checksum_queue');
 
 	if (!defined('THUMBNAIL_PREFIX'))
 		define ('THUMBNAIL_PREFIX', '_thumb_');
