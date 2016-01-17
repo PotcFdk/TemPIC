@@ -18,6 +18,7 @@
 require_once('../includes/config.php');
 require_once('../includes/configcheck.php');
 require_once('../includes/thumbnails.php');
+require_once('../includes/checksums.php');
 
 function createZipFile ($name, $files) {
 	$zip = new ZipArchive;
