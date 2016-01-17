@@ -14,26 +14,21 @@
 	limitations under the License.
 */
 
-function createCRC  ($path) {
-	return file_put_contents ($path.'.crc', hash_file('crc32b', $path));
-}
-
-function createMD5  ($path) {
-	return file_put_contents ($path.'.md5', md5_file($path));
-}
-
-function createSHA1 ($path) {
-	return file_put_contents ($path.'.sha1', sha1_file($path));
-}
-
 function createChecksums ($path) {
-	return createCRC  ($path)
-		&& createMD5  ($path)
-		&& createSHA1 ($path);
+	$albumdata = unserialize(file_get_contents($path));
+	foreach ($albumdata['files'] as $filen => $filed)
+	{
+		$filed['checksums'] = array(
+			'crc'  => hash_file('crc32b', $filed['internal_path']),
+			'md5'  => md5_file($filed['internal_path']),
+			'sha1' => sha1_file($filed['internal_path'])
+		);
+	}
+	return true;
 }
 
 function createChecksumJob ($path) {
-	$job_entry = array ('src' => $path);
+	$job_entry = array('albumdata' => $path);
 	$offset = rand(0,20);
 	$uid = substr (md5(time().mt_rand()), $offset, 12);
 	file_put_contents (PATH_JOBQUEUE_CHECKSUMS.'/'.$uid.'.job', serialize ($job_entry));

@@ -156,13 +156,12 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 					$file_url = $file_url_base . rawurlencode($fileinfo['basename']);
 						
 					$files[$file['name']]['url'] = $file_url;
+					$files[$file['name']]['internal_path'] = $path;
 					$files[$file['name']]['image'] = isImage($path);
 					if ($files[$file['name']]['image']) // if isImage()
 						$files[$file['name']]['animated'] = isAnimated($path);
 					if (!empty($fileinfo['extension']))
 						$files[$file['name']]['extension'] = $fileinfo['extension'];
-					
-					createChecksumJob($path);
 					
 					if (ENABLE_THUMBNAILS && hasThumbnailSupport($path)) {
 						if (createThumbnailJob($path, $path_destination . '/' . THUMBNAIL_PREFIX . $fileinfo['basename']))
@@ -215,6 +214,10 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 			chmod($path_destination, 0775);
 		}
 		
+		$path = $path_destination.'/'.$album_bare_id.'.txt';
+		
+		createChecksumJob($path);
+		
 		// create album zip file
 		if (ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
 			$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
@@ -223,7 +226,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 			$album_data['zip'] = URL_BASE . '/' . $zip_path;
 		}
 		
-		file_put_contents($path_destination.'/'.$album_bare_id.'.txt', serialize($album_data));
+		file_put_contents($path, serialize($album_data));
 		
 		$album_id = $lifetime.':'.$album_bare_id;
 	}

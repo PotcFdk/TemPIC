@@ -39,7 +39,7 @@
 			if (is_file ($file)) {
 				echo ' - found: ' . $file;
 				$job = unserialize(file_get_contents($file));
-				if (!empty($job) && !empty($job['src'])) {
+				if (!empty($job) && !empty($job['albumdata'])) {
 					$jobs[$file] = $job;
 				}
 				echo "\n";
@@ -53,8 +53,8 @@
 	foreach ($jobs as $job_file => $job)
 	{
 		unlink ($job_file);
-		if (file_exists($job['src'])) {
-			createChecksums ($job['src']);
+		if (file_exists($job['albumdata'])) {
+			createChecksums ($job['albumdata']);
 			echo " * Generated checksums, by job $job_file\n";
 		}
 		else
