@@ -18,7 +18,7 @@ function createChecksums ($path) {
 	$album_data = unserialize(file_get_contents($path));
 	foreach ($album_data['files'] as $filen => $filed)
 	{
-		$filed['checksums'] = array(
+		$album_data['files'][$filen]['checksums'] = array(
 			'crc'  => hash_file('crc32b', $filed['internal_path']),
 			'md5'  => md5_file($filed['internal_path']),
 			'sha1' => sha1_file($filed['internal_path'])
