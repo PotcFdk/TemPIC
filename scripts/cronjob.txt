@@ -1,4 +1,4 @@
-# Run the clear_tempic file every minute.
+# Run the postprocess.sh file every minute.
 # Remember to set the path!
 # Example:
-* * * * * ~/cleanup > /dev/null
+* * * * * cd ~/TemPIC/scripts && ./postprocess.sh > /dev/null
