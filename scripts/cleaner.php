@@ -1,5 +1,5 @@
 <?php /*
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2015
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2016
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
