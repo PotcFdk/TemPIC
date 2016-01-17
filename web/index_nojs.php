@@ -251,7 +251,7 @@ require_once('../includes/qrcode-interface.php');
 												<?php if ($display_checksums): ?>
 												<pre class="checksum-field"><?php
 													if (empty($file['checksums']))
-														echo "Checksums unavailable. Try reloading the page."
+														echo "Checksums unavailable. Try reloading the page.";
 													else
 													{
 														if (!empty($file['checksums']['crc']))
