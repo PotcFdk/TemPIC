@@ -24,7 +24,11 @@ function createChecksums ($path) {
 			'sha1' => sha1_file($filed['internal_path'])
 		);
 	}
-	return file_put_contents($path, serialize($album_data)) !== FALSE;
+	
+	$mtime = filemtime($path);
+
+	return file_put_contents($path, serialize($album_data)) !== FALSE
+		&& touch($path, $mtime);
 }
 
 function createChecksumJob ($path) {
