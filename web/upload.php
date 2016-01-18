@@ -227,7 +227,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		}
 		
 		file_put_contents($path, serialize($album_data));
-		chmod($path, 0775);
+		chmod($path, 0664);
 		
 		$album_id = $lifetime.':'.$album_bare_id;
 	}
