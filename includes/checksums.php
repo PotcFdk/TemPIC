@@ -24,10 +24,14 @@ function createChecksums ($path) {
 			'sha1' => sha1_file($filed['internal_path'])
 		);
 	}
-	
+
 	$mtime = filemtime($path);
 
+	if (fileowner($path) !== posix_getuid())
+		unlink($path);
+
 	return file_put_contents($path, serialize($album_data)) !== FALSE
+		&& chmod($path, 0664)
 		&& touch($path, $mtime);
 }
 
