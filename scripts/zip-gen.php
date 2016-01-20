@@ -39,7 +39,7 @@
 			if (is_file ($file)) {
 				echo ' - found: ' . $file;
 				$job = unserialize(file_get_contents($file));
-				if (!empty($job) && !empty($job['albumdata']) && !empty($job['ziptarget'])) {
+				if (!empty($job) && !empty($job['files']) && !empty($job['ziptarget'])) {
 					$jobs[$file] = $job;
 				}
 				echo "\n";
@@ -53,8 +53,8 @@
 	foreach ($jobs as $job_file => $job)
 	{
 		unlink ($job_file);
-		if (file_exists($job['albumdata'])) {
-			createZipFile ($job['albumdata'], $job['zipfile']);
+		if (!empty($job['files'])) {
+			createZipFile ($job['files'], $job['zipfile']);
 			echo " * Generated zip archives, by job $job_file\n";
 		}
 		else

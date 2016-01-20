@@ -14,23 +14,18 @@
 	limitations under the License.
 */
 
-function zip ($name, $files) {
+function createZipFile ($file_paths, $target_path) {
 	$zip = new ZipArchive;
-	$zip->open($name, ZipArchive::CREATE);
-	foreach ($files as $filen => $file) {
+	$zip->open($target_path, ZipArchive::CREATE);
+	foreach ($file_paths as $filen => $file) {
 		$zip->addFile($file, $filen);
 	}
 	$zip->close();
 	return $zip;
 }
 
-function createZipFile ($album_path, $target_path) {
-	$album_data = unserialize(file_get_contents($album_path));
-	zip($target_path, $album_data['files']);
-}
-
-function createZipJob ($album_path, $target_path) {
-	$job_entry = array('albumdata' => $album_path, 'ziptarget' => $target_path);
+function createZipJob ($file_paths, $target_path) {
+	$job_entry = array('files' => $file_paths, 'ziptarget' => $target_path);
 	$offset = rand(0,20);
 	$uid = substr (md5(time().mt_rand()), $offset, 12);
 	file_put_contents (PATH_JOBQUEUE_ZIP.'/'.$uid.'.job', serialize ($job_entry));
