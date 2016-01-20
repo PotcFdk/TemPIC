@@ -54,7 +54,7 @@
 	{
 		unlink ($job_file);
 		if (!empty($job['files'])) {
-			createZipFile ($job['files'], $job['zipfile']);
+			createZipFile ($job['files'], $job['ziptarget']);
 			echo " * Generated zip archives, by job $job_file\n";
 		}
 		else
