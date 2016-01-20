@@ -19,16 +19,7 @@ require_once('../includes/config.php');
 require_once('../includes/configcheck.php');
 require_once('../includes/thumbnails.php');
 require_once('../includes/checksums.php');
-
-function createZipFile ($name, $files) {
-	$zip = new ZipArchive;
-	$zip->open($name, ZipArchive::CREATE);
-	foreach ($files as $filen => $file) {
-		$zip->addFile($file, $filen);
-	}
-	$zip->close();
-	return $zip;
-}
+require_once('../includes/zip.php');
 
 function mb_pathinfo($filepath) {
 	preg_match ('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m);
@@ -221,8 +212,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		// create album zip file
 		if (ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
 			$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
-			$zip_file = createZipFile($zip_path, $file_paths);
-			
+			createZipJob($zip_path, $file_paths);
 			$album_data['zip'] = URL_BASE . '/' . $zip_path;
 		}
 		

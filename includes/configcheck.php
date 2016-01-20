@@ -42,6 +42,7 @@
 		|| !(defined ('PATH_UPLOAD')                  && is_string  (PATH_UPLOAD))
 		|| !(defined ('PATH_JOBQUEUE_THUMBNAILS')     && is_string  (PATH_JOBQUEUE_THUMBNAILS))
 		|| !(defined ('PATH_JOBQUEUE_CHECKSUMS')      && is_string  (PATH_JOBQUEUE_CHECKSUMS))
+		|| !(defined ('PATH_JOBQUEUE_ZIP')            && is_string  (PATH_JOBQUEUE_ZIP))
 		|| !(defined ('THUMBNAIL_PREFIX')             && is_string  (THUMBNAIL_PREFIX))
 		|| !(defined ('MAX_ALBUM_NAME_LENGTH')        && is_numeric (MAX_ALBUM_NAME_LENGTH))
 		|| !(defined ('MAX_ALBUM_DESCRIPTION_LENGTH') && is_numeric (MAX_ALBUM_DESCRIPTION_LENGTH))
