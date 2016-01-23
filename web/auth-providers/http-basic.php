@@ -5,15 +5,13 @@ class HttpBasicAuth implements IAuthProvider
 {
 	public function isAuthed()
 	{
-		if (!isset($_SERVER['PHP_AUTH_USER'])) {
-			header('WWW-Authenticate: Basic realm="A TemPIC Instance"');
-			header('HTTP/1.0 401 Unauthorized');
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return false; // TODO
+	}
+	
+	public function doAuth()
+	{
+		header('WWW-Authenticate: Basic realm="A TemPIC Instance"');
+		header('HTTP/1.0 401 Unauthorized');
 	}
 	
 	public function getAuthLocation()

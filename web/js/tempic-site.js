@@ -203,8 +203,15 @@ $(function() {
 				} catch (e) {
 					return uploadFailed(evt);
 				}
-				if (response_obj.location)
-					window.location = response_obj.location;
+				if (response_obj.success)
+					window.location = response_obj.location || album_url;
+				else if (response_obj.error_type == 'auth')
+				{
+					$("#upload-deny_element").show();
+					return uploadEnd();
+				}
+				else
+					return uploadFailed(evt);
 			} else {
 				window.location = url_base;
 			}

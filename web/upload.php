@@ -26,31 +26,43 @@ $auth_provider = NULL;
 if (defined('UPLOAD_AUTH_TYPE') && !empty(UPLOAD_AUTH_TYPE))
 {
 	require_once('auth-providers/'.UPLOAD_AUTH_TYPE.'.php');
-	$auth_provider = new HttpBasicAuth();
+	if (UPLOAD_AUTH_TYPE === 'http-basic')
+		$auth_provider = new HttpBasicAuth();
+	elseif (UPLOAD_AUTH_TYPE === 'http-digest')
+		$auth_provider = new HttpDigestAuth();
+	else
+		$auth_provider = new ThirdPartyAuth();
 }
 
 if (isset($auth_provider))
 {
 	if (!$auth_provider->isAuthed())
 	{
-		if (isset($_POST['nojs'])) {
-			if (!empty($auth_provider->getAuthLocation()))
-				header('Location: '.$auth_provider->getAuthLocation());
-			else
-				header('Location: '.URL_BASE.'/index_nojs.php?upload-deny=auth');
-		} elseif (isset($_POST['ajax'])) {
-			if (!empty($auth_provider->getAuthLocation()))
-				echo json_encode(array('success' => false, 'error_type' => 'auth',
-					'location' => $auth_provider->getAuthLocation()));
-			else
-				echo json_encode(array('success' => false, 'error_type' => 'auth'));
-		} else {
-			if (!empty($auth_provider->getAuthLocation()))
-				header('Location: '.$auth_provider->getAuthLocation());
-			else
-				header('Location: '.URL_BASE.'?upload-deny=auth');
+		if (empty($auth_provider->getAuthLocation()))
+		{
+			$auth_provider->doAuth();
 		}
-		exit;
+		if (!$auth_provider->isAuthed())
+		{
+			if (isset($_POST['nojs'])) {
+				if (!empty($auth_provider->getAuthLocation()))
+					header('Location: '.$auth_provider->getAuthLocation());
+				else
+					header('Location: '.URL_BASE.'/index_nojs.php?upload-deny=auth');
+			} elseif (isset($_POST['ajax'])) {
+				if (!empty($auth_provider->getAuthLocation()))
+					echo json_encode(array('success' => false, 'error_type' => 'auth',
+						'location' => $auth_provider->getAuthLocation()));
+				else
+					echo json_encode(array('success' => false, 'error_type' => 'auth'));
+			} else {
+				if (!empty($auth_provider->getAuthLocation()))
+					header('Location: '.$auth_provider->getAuthLocation());
+				else
+					header('Location: '.URL_BASE.'?upload-deny=auth');
+			}
+			exit;
+		}
 	}
 }
 
