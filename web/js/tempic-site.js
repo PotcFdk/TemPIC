@@ -195,10 +195,34 @@ $(function() {
 	}
 
 	function uploadComplete(evt) {
-		if (evt.target.responseText) {
-			window.location = album_url + evt.target.responseText;
+		if (evt.target.status == 200) {
+			if (evt.target.responseText) {
+				var response_obj;
+				try {
+					response_obj = JSON.parse(evt.target.responseText);
+				} catch (e) {
+					return uploadFailed(evt);
+				}
+				if (response_obj.location)
+					window.location = response_obj.location;
+			} else {
+				window.location = url_base;
+			}
+		} else if (evt.target.status == 401) {
+			$("#upload-deny_element").show();
+			
+			var response_obj;
+			try {
+				response_obj = JSON.parse(evt.target.responseText);
+			} catch (e) {
+				return uploadEnd();
+			}
+			if (response_obj.location)
+				window.location = response_obj.location;
+			
+			return uploadEnd();
 		} else {
-			window.location = url_base;
+			return uploadFailed(evt);
 		}
 	}
 

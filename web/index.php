@@ -33,7 +33,11 @@ require_once('../includes/qrcode-interface.php');
 			if (!empty($_a[1]))
 				$album_hash = $_a[1];
 			
-			if (!empty($LIFETIMES[$album_lifetime]) && file_exists(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')) {
+			if (   !empty($album_lifetime)
+				&& !empty($album_hash)
+				&& !empty($LIFETIMES[$album_lifetime])
+				&& file_exists(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'))
+			{
 				$time  = time ();
 				$album_data = unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
 				if (!empty($album_data) && !empty($album_data['files'])) {
@@ -245,6 +249,16 @@ require_once('../includes/qrcode-interface.php');
 							</div>
 						</div>
 					<?php endif; ?>
+					
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3">
+							<div id="upload-deny_element" class="<?php if (!(isset($_GET['upload-deny']) && $_GET['upload-deny'] === 'auth')) echo 'std-hide '; ?>alert alert-danger alert-dismissable">
+								<button type="button" class="close" data-hide="alert" aria-hidden="true">&times;</button>
+								<p id="upload-deny_element_text">The upload could not be completed!<br />
+								You have to authenticate in order to upload files.</p>
+							</div>
+						</div>
+					</div>
 					
 					<?php if (!empty($album_name)) : ?>
 						<div id="div_albumname" class="row">

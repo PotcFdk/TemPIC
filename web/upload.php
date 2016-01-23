@@ -17,8 +17,42 @@
 @include_once('config.php');
 require_once('../includes/config.php');
 require_once('../includes/configcheck.php');
+require_once('../includes/helpers.php');
 require_once('../includes/thumbnails.php');
 require_once('../includes/checksums.php');
+
+$auth_provider = NULL;
+
+if (defined('UPLOAD_AUTH_TYPE') && !empty(UPLOAD_AUTH_TYPE))
+{
+	require_once('auth-providers/'.UPLOAD_AUTH_TYPE.'.php');
+	$auth_provider = new HttpBasicAuth();
+}
+
+if (isset($auth_provider))
+{
+	if (!$auth_provider->isAuthed())
+	{
+		if (isset($_POST['nojs'])) {
+			if (!empty($auth_provider->getAuthLocation()))
+				header('Location: '.$auth_provider->getAuthLocation());
+			else
+				header('Location: '.URL_BASE.'/index_nojs.php?upload-deny=auth');
+		} elseif (isset($_POST['ajax'])) {
+			if (!empty($auth_provider->getAuthLocation()))
+				echo json_encode(array('success' => false, 'error_type' => 'auth',
+					'location' => $auth_provider->getAuthLocation()));
+			else
+				echo json_encode(array('success' => false, 'error_type' => 'auth'));
+		} else {
+			if (!empty($auth_provider->getAuthLocation()))
+				header('Location: '.$auth_provider->getAuthLocation());
+			else
+				header('Location: '.URL_BASE.'?upload-deny=auth');
+		}
+		exit;
+	}
+}
 
 function createZipFile ($name, $files) {
 	$zip = new ZipArchive;
@@ -240,10 +274,11 @@ if (isset($_POST['nojs'])) {
 		header('Location: '. URL_BASE.'/index_nojs.php');
 } elseif (isset($_POST['ajax'])) {
 	if (!empty($album_id))
-		echo ($album_id);
+		echo json_encode(array('success' => true, 'album_id' => $album_id,
+			'location' => get_album_url($album_id)));
 } else {
 	if (!empty($album_id))
-		header('Location: '.URL_BASE.'?album='.$album_id);
+		header('Location: '.get_album_url($album_id));
 	else
 		header('Location: '.URL_BASE);
 }
