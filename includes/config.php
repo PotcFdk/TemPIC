@@ -31,6 +31,9 @@
 	if (!defined('PATH_JOBQUEUE_CHECKSUMS'))
 		define ('PATH_JOBQUEUE_CHECKSUMS', '../internal/checksum_queue');
 
+	if (!defined('PATH_JOBQUEUE_ZIP'))
+		define ('PATH_JOBQUEUE_ZIP', '../internal/zip_queue');
+
 	if (!defined('THUMBNAIL_PREFIX'))
 		define ('THUMBNAIL_PREFIX', '_thumb_');
 
