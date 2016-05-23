@@ -15,6 +15,7 @@
 */
 
 function createZipFile ($file_paths, $target_path) {
+	mkdir(dirname($target_path), 0775, true);
 	$zip = new ZipArchive;
 	$zip->open($target_path, ZipArchive::CREATE);
 	foreach ($file_paths as $filen => $file) {

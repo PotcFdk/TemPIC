@@ -282,11 +282,9 @@ require_once('../includes/qrcode-interface.php');
 									<button id="qrcode-toggle" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_qrcode">QR Code</button>
 									<button id="checksums-toggle" class="btn btn-default">Show file checksums</button>
 								<?php endif; ?>
-								<?php if (!empty($album_lifetime) && !empty($album_hash)
-									&& file_exists(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip')) : ?>
-									<a href="<?php
-										echo URL_BASE.'/'.PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.zip';
-									?>" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-download"></span> Download entire album</a>
+								<?php if (!empty($album_data) && !empty($album_data['zip_internal_path'])
+									&& file_exists(PATH_UPLOAD.'/'.$album_data['zip_internal_path'])) : ?>
+									<a href="<?php echo $album_data['zip'];	?>" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-download"></span> Download entire album</a>
 								<?php endif; ?>
 							</div>
 						</div>
