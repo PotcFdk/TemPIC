@@ -257,9 +257,18 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		
 		// create album zip file
 		if (ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
-			$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
+			$offset = rand(0,20);
+			$uid = substr(md5(time().mt_rand()), $offset, 12);
+
+			$zip_path = PATH_UPLOAD . '/' . $lifetime . '/' . $uid . '/' . $album_bare_id . '.zip';
 			createZipJob($file_paths, $zip_path);
-			$album_data['zip'] = URL_BASE . '/' . $zip_path;
+
+			if (defined ('URL_UPLOAD') && !empty (URL_UPLOAD)) // URL_UPLOAD lifetime / uid / zipfile
+				$album_url_base = URL_UPLOAD . $lifetime . '/' . $uid . '/';
+			else // URL_BASE / upload / lifetime / uid / zipfile
+				$album_url_base = URL_BASE . '/' . PATH_UPLOAD . '/' . $lifetime . '/' . $uid . '/';
+			$album_data['zip'] = $album_url_base . $album_bare_id . '.zip';
+			$album_data['zip_internal_path'] = $lifetime . '/' . $uid . '/' . $album_bare_id . '.zip';
 		}
 		
 		file_put_contents($path, serialize($album_data));
