@@ -1,5 +1,11 @@
 <?php
 
+// This file is based on 'QRCode for PHP5'
+// by Kazuhiko Arase, with some later modifications by PotcFdk
+// around lines 70-90 to adjust this for PHP7.
+//
+//	Original copyright notice:
+//
 //---------------------------------------------------------------
 // QRCode for PHP5
 //
@@ -66,19 +72,19 @@ class QRCode {
 		switch($mode) {
 
 		case QR_MODE_NUMBER :
-			$this->addDataImpl(new QRNumber($data) );
+			$this->qrDataList[] = new QRNumber($data);
 			break;
 
 		case QR_MODE_ALPHA_NUM :
-			$this->addDataImpl(new QRAlphaNum($data) );
+			$this->qrDataList[] = new QRAlphaNum($data);
 			break;
 
 		case QR_MODE_8BIT_BYTE :
-			$this->addDataImpl(new QR8BitByte($data) );
+			$this->qrDataList[] = new QR8BitByte($data);
 			break;
 
 		case QR_MODE_KANJI :
-			$this->addDataImpl(new QRKanji($data) );
+			$this->qrDataList[] = new QRKanji($data);
 			break;
 
 		default :
@@ -88,10 +94,6 @@ class QRCode {
 
 	function clearData() {
 		$qrDataList = array();
-	}
-	
-	function addDataImpl(&$qrData) {
-		$this->qrDataList[] = $qrData;
 	}
 
 	function getDataCount() {
