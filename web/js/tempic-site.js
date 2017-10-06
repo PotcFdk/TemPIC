@@ -267,9 +267,13 @@ $(function() {
 				button.appendChild(txt);
 				
 				var filename = document.createTextNode(files[x].name);
+				var filesize = document.createElement("span");
+				filesize.setAttribute("class", "text-muted");
+				filesize.innerHTML = " (" + humanFileSize(files[x].size, true) + ")";
 
 				inner_entry.appendChild(button);
 				inner_entry.appendChild(filename);
+				inner_entry.appendChild(filesize);
 				
 				col.appendChild(inner_entry)
 
@@ -297,9 +301,9 @@ $(function() {
 	
 	function observerFileOverview(files) {
 		if(files.length == 1)
-			$("#file-overview-text").text(files[0].name);
+			$("#file-overview-text").text(files[0].name.toString().concat(" (", humanFileSize(um.getUploadSize(), true), ")"));
 		else if(files.length > 1)
-			$("#file-overview-text").text(files.length.toString().concat(" files ready to upload"));
+			$("#file-overview-text").text(files.length.toString().concat(" files ready to upload (", humanFileSize(um.getUploadSize(), true),")"));
 		else
 			$("#file-overview-text").text("");
 	}
