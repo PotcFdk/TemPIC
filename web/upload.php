@@ -17,9 +17,55 @@
 @include_once('config.php');
 require_once('../includes/config.php');
 require_once('../includes/configcheck.php');
+require_once('../includes/helpers.php');
 require_once('../includes/thumbnails.php');
 require_once('../includes/checksums.php');
 require_once('../includes/zip.php');
+
+$auth_provider = NULL;
+
+if (defined('UPLOAD_AUTH_TYPE') && !empty(UPLOAD_AUTH_TYPE))
+{
+	require_once('auth-providers/'.UPLOAD_AUTH_TYPE.'.php');
+	if (UPLOAD_AUTH_TYPE === 'http-basic')
+		$auth_provider = new HttpBasicAuth();
+	elseif (UPLOAD_AUTH_TYPE === 'http-digest')
+		$auth_provider = new HttpDigestAuth();
+	else
+		$auth_provider = new ThirdPartyAuth();
+}
+
+if (isset($auth_provider))
+{
+	if (!$auth_provider->isAuthed())
+	{
+		if (empty($auth_provider->getAuthLocation()))
+		{
+			$auth_provider->doAuth();
+		}
+		if (!$auth_provider->isAuthed())
+		{
+			if (isset($_POST['nojs'])) {
+				if (!empty($auth_provider->getAuthLocation()))
+					header('Location: '.$auth_provider->getAuthLocation());
+				else
+					header('Location: '.URL_BASE.'/index_nojs.php?upload-deny=auth');
+			} elseif (isset($_POST['ajax'])) {
+				if (!empty($auth_provider->getAuthLocation()))
+					echo json_encode(array('success' => false, 'error_type' => 'auth',
+						'location' => $auth_provider->getAuthLocation()));
+				else
+					echo json_encode(array('success' => false, 'error_type' => 'auth'));
+			} else {
+				if (!empty($auth_provider->getAuthLocation()))
+					header('Location: '.$auth_provider->getAuthLocation());
+				else
+					header('Location: '.URL_BASE.'?upload-deny=auth');
+			}
+			exit;
+		}
+	}
+}
 
 function mb_pathinfo($filepath) {
 	preg_match ('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m);
@@ -211,9 +257,18 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		
 		// create album zip file
 		if (ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
-			$zip_path = $path_destination.'/'.$album_bare_id.'.zip';
+			$offset = rand(0,20);
+			$uid = substr(md5(time().mt_rand()), $offset, 12);
+
+			$zip_path = PATH_UPLOAD . '/' . $lifetime . '/' . $uid . '/' . $album_bare_id . '.zip';
 			createZipJob($file_paths, $zip_path);
-			$album_data['zip'] = URL_BASE . '/' . $zip_path;
+
+			if (defined ('URL_UPLOAD') && !empty (URL_UPLOAD)) // URL_UPLOAD lifetime / uid / zipfile
+				$album_url_base = URL_UPLOAD . $lifetime . '/' . $uid . '/';
+			else // URL_BASE / upload / lifetime / uid / zipfile
+				$album_url_base = URL_BASE . '/' . PATH_UPLOAD . '/' . $lifetime . '/' . $uid . '/';
+			$album_data['zip'] = $album_url_base . $album_bare_id . '.zip';
+			$album_data['zip_internal_path'] = $lifetime . '/' . $uid . '/' . $album_bare_id . '.zip';
 		}
 		
 		file_put_contents($path, serialize($album_data));
@@ -230,10 +285,11 @@ if (isset($_POST['nojs'])) {
 		header('Location: '. URL_BASE.'/index_nojs.php');
 } elseif (isset($_POST['ajax'])) {
 	if (!empty($album_id))
-		echo ($album_id);
+		echo json_encode(array('success' => true, 'album_id' => $album_id,
+			'location' => get_album_url($album_id)));
 } else {
 	if (!empty($album_id))
-		header('Location: '.URL_BASE.'?album='.$album_id);
+		header('Location: '.get_album_url($album_id));
 	else
 		header('Location: '.URL_BASE);
 }

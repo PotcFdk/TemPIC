@@ -19,11 +19,11 @@
 	// Don't edit this file.
 	// You can override these settings in the config.php in your web directory.
 
-	if (!defined('PATH_ALBUM'))
-		define ('PATH_ALBUM', 'album');
-
 	if (!defined('PATH_UPLOAD'))
 		define ('PATH_UPLOAD', 'upload');
+
+	if (!defined('PATH_ALBUM'))
+		define ('PATH_ALBUM', '../internal/albums');
 
 	if (!defined('PATH_JOBQUEUE_THUMBNAILS'))
 		define ('PATH_JOBQUEUE_THUMBNAILS', '../internal/thumbnail_queue');

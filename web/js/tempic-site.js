@@ -195,10 +195,41 @@ $(function() {
 	}
 
 	function uploadComplete(evt) {
-		if (evt.target.responseText) {
-			window.location = album_url + evt.target.responseText;
+		if (evt.target.status == 200) {
+			if (evt.target.responseText) {
+				var response_obj;
+				try {
+					response_obj = JSON.parse(evt.target.responseText);
+				} catch (e) {
+					return uploadFailed(evt);
+				}
+				if (response_obj.success)
+					window.location = response_obj.location || album_url;
+				else if (response_obj.error_type == 'auth')
+				{
+					$("#upload-deny_element").show();
+					return uploadEnd();
+				}
+				else
+					return uploadFailed(evt);
+			} else {
+				window.location = url_base;
+			}
+		} else if (evt.target.status == 401) {
+			$("#upload-deny_element").show();
+			
+			var response_obj;
+			try {
+				response_obj = JSON.parse(evt.target.responseText);
+			} catch (e) {
+				return uploadEnd();
+			}
+			if (response_obj.location)
+				window.location = response_obj.location;
+			
+			return uploadEnd();
 		} else {
-			window.location = url_base;
+			return uploadFailed(evt);
 		}
 	}
 
@@ -236,9 +267,13 @@ $(function() {
 				button.appendChild(txt);
 				
 				var filename = document.createTextNode(files[x].name);
+				var filesize = document.createElement("span");
+				filesize.setAttribute("class", "text-muted");
+				filesize.innerHTML = " (" + humanFileSize(files[x].size, true) + ")";
 
 				inner_entry.appendChild(button);
 				inner_entry.appendChild(filename);
+				inner_entry.appendChild(filesize);
 				
 				col.appendChild(inner_entry)
 
@@ -266,9 +301,9 @@ $(function() {
 	
 	function observerFileOverview(files) {
 		if(files.length == 1)
-			$("#file-overview-text").text(files[0].name);
+			$("#file-overview-text").text(files[0].name.toString().concat(" (", humanFileSize(um.getUploadSize(), true), ")"));
 		else if(files.length > 1)
-			$("#file-overview-text").text(files.length.toString().concat(" files ready to upload"));
+			$("#file-overview-text").text(files.length.toString().concat(" files ready to upload (", humanFileSize(um.getUploadSize(), true),")"));
 		else
 			$("#file-overview-text").text("");
 	}

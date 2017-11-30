@@ -105,6 +105,18 @@ UploadManager.prototype.getNumberOfFiles = function()
 	return this.files.length;
 }
 
+UploadManager.prototype.getUploadSize = function()
+{
+	var bytes = 0;
+	
+	for(var x = 0; x < this.files.length; x++)
+	{
+		bytes += this.files[x].size;
+	}
+	
+	return bytes;
+}
+
 UploadManager.prototype.reset = function()
 {
 	this.files = new Array();
