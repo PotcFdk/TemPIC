@@ -1,13 +1,12 @@
-<?php
-/*
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2017
+<?php /*
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2018
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,7 +56,7 @@ switch ($chunks[0])
 		array_shift ($chunks);
 		API_V1 ($chunks);
 		break;
-		
+
 	default:
 		http_response_code (400); // Bad Request
 		$resp['status'] = STATUS_FAIL;
@@ -74,16 +73,16 @@ reply();
 function _API_V1_GET_ALBUM_DATA ($album_id)
 {
 	global $LIFETIMES;
-	
+
 	$album_id = strip_album_id ($album_id);
 	if (empty($album_id)) return array (false, "Invalid album ID");
-	
+
 	$_a = explode (":", $album_id, 2);
 	if (!empty ($_a[0]))
 		$album_lifetime = $_a[0];
 	if (!empty ($_a[1]))
 		$album_hash = $_a[1];
-	
+
 	if (!empty ($LIFETIMES[$album_lifetime]) && file_exists (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'))
 		return array (true, unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')));
 	else
@@ -102,13 +101,13 @@ function API_V1_BAD_REQUEST ($reason = NULL)
 function API_V1_ALBUM_INFO ($album_id)
 {
 	global $resp;
-	
+
 	$adata_resp = _API_V1_GET_ALBUM_DATA ($album_id);
 	if ($adata_resp[0])
 		$album_data = $adata_resp[1];
 	else
 		return API_V1_BAD_REQUEST ($adata_resp[1]);
-	
+
 	$resp['status'] = STATUS_SUCCESS;
 	$resp['data'] = array ('albums' => array ($album_id => $album_data));
 }
@@ -116,21 +115,21 @@ function API_V1_ALBUM_INFO ($album_id)
 function API_V1_ALBUM_FILES ($album_id, $filename, $action = NULL)
 {
 	global $resp;
-	
+
 	$adata_resp = _API_V1_GET_ALBUM_DATA ($album_id);
 	if ($adata_resp[0])
 		$album_data = $adata_resp[1];
 	else
 		return API_V1_BAD_REQUEST ($adata_resp[1]);
-	
+
 	if (!array_key_exists ('files', $album_data) || !array_key_exists ($filename, $album_data['files']))
 	{
 		API_V1_BAD_REQUEST ('File not found in album.');
 		return;
 	}
-	
+
 	$file_info = $album_data['files'][$filename];
-	
+
 	switch ($action)
 	{
 		case 'info':
@@ -150,7 +149,7 @@ function API_V1 (&$chunks)
 {
 	global $resp;
 	$resp['version'] = 'v1';
-	
+
 	if (!empty ($chunks[0]))
 	{
 		switch ($chunks[0])

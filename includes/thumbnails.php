@@ -1,12 +1,12 @@
 <?php /*
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2017
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2018
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,7 @@
 function getThumbnailTargetSize ($src_x, $src_y, $target_max) {
 	$src_max = max ($src_x, $src_y);
 	if ($src_max <= $target_max) return false;
-	
+
 	$scale_factor = $target_max / $src_max;
 	return array (
 		'width' => $scale_factor * $src_x,
@@ -28,9 +28,9 @@ function getThumbnailTargetSize ($src_x, $src_y, $target_max) {
 function createThumbnailNative ($src, $dest) {
 	$type = exif_imagetype($src);
 	$limit = THUMBNAIL_MAX_RES;
-	
+
 	$is_animated = false;
-	
+
 	switch ($type) {
         case IMAGETYPE_GIF:
             $image = imagecreatefromgif($src);
@@ -45,12 +45,12 @@ function createThumbnailNative ($src, $dest) {
 		default:
 			return false;
     }
-	
+
 	$width = imagesx($image);
 	$height = imagesy($image);
-	
+
 	$new_geometry = getThumbnailTargetSize ($width, $height, $limit);
-	
+
 	if ($new_geometry)
 	{
 		$new_width = $new_geometry['width'];
@@ -61,15 +61,15 @@ function createThumbnailNative ($src, $dest) {
 		$new_width = $width;
 		$new_height = $height;
 	}
-	
+
 	$target = imagecreatetruecolor($new_width, $new_height);
 	imagealphablending($target, false);
 	imagesavealpha($target, true);
 	$transparent = imagecolorallocatealpha($target, 255, 255, 255, 127);
 	imagefilledrectangle($target, 0, 0, $new_width, $new_height, $transparent);
-	
+
 	imagecopyresampled($target, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-	
+
 	switch ($type) {
         case IMAGETYPE_GIF:
 			if ($is_animated && $new_width >= 100 && $new_height >= 100)
@@ -89,17 +89,17 @@ function createThumbnailNative ($src, $dest) {
 		default:
 			return false;
     }
-	
+
 	return true;
 }
 
 function createThumbnailImagick ($src, $dest) {
 	$image = new Imagick($src);
-	
+
 	$limit = $image->getNumberImages() > 1 ? THUMBNAIL_MAX_ANIMATED_RES : THUMBNAIL_MAX_RES;
 
 	$image = $image->coalesceImages();
-	
+
 	$geometry = $image->getImageGeometry();
 	$new_geometry = getThumbnailTargetSize($geometry['width'], $geometry['height'], $limit) ?: $geometry;
 
@@ -115,13 +115,13 @@ function createThumbnailImagick ($src, $dest) {
 	else
 	{
 		$is_animated = $image->getNumberImages() > 1;
-		
+
 		iterator_to_array($image)[0]->thumbnailImage($new_geometry['width'], $new_geometry['height']);
 		if ($is_animated && $new_geometry['width'] >= 100 && $new_geometry['height'] >= 100)
 			$image->compositeImage(new Imagick('img/info_animated.png'), imagick::COMPOSITE_DEFAULT, 0, 0);
 		iterator_to_array($image)[0]->writeImage($dest);
 	}
-	
+
 	return true;
 }
 
@@ -130,7 +130,7 @@ function createThumbnail ($src, $dest) {
 		$ret = createThumbnailImagick ($src, $dest);
 	else
 		$ret = createThumbnailNative  ($src, $dest);
-	
+
 	if ($ret && file_exists ($dest))
 	{
 		if (filesize ($dest) >= filesize ($src)) // It's not worth saving.

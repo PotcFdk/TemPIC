@@ -1,5 +1,5 @@
 /*
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2017
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2018
 
 	TemPIC UploadManager (c) PotcFdk, 2015
 	TemPIC UploadManager (c) KeyLimePie, 2015
@@ -27,12 +27,12 @@ function UploadManager(fileSizeLimit, baseurl, uploadProgress, uploadComplete, u
 {
 	this.UPLOADPATH = baseurl.concat("/upload.php");
 	this.SIZELIMIT = fileSizeLimit;
-	
+
 	this.files = new Array(); //contains objects of type "File"
 	this.lifetime = "";
 	this.album_name = "";
 	this.album_description = "";
-	
+
 	this.xhr;
 	this.uploadProgress = uploadProgress;
 	this.uploadComplete = uploadComplete;
@@ -78,8 +78,8 @@ UploadManager.prototype.addFile = function(file)
 			warn("Duplicate filename: " + duplicate);
 		else
 			this.files.push(file);
-	}	
-	
+	}
+
 	this.notifyFileObserver();
 }
 
@@ -108,12 +108,12 @@ UploadManager.prototype.getNumberOfFiles = function()
 UploadManager.prototype.getUploadSize = function()
 {
 	var bytes = 0;
-	
+
 	for(var x = 0; x < this.files.length; x++)
 	{
 		bytes += this.files[x].size;
 	}
-	
+
 	return bytes;
 }
 
@@ -123,23 +123,23 @@ UploadManager.prototype.reset = function()
 	this.notifyFileObserver();
 	this.lifetime = "";
 	this.album_name = "";
-	this.album_description = "";	
+	this.album_description = "";
 }
 
 UploadManager.prototype.makePOSTData = function()
 {
 	var fd = new FormData();
-	
+
 	fd.append("ajax", "true");
 	fd.append("lifetime", this.lifetime);
 	fd.append("album_description", this.album_description);
 	fd.append("album_name", this.album_name);
-	
+
 	for(var x = 0; x < this.files.length; x++)
 	{
 		fd.append("file[]", this.files[x]);
 	}
-	
+
 	return fd;
 }
 
@@ -147,12 +147,12 @@ UploadManager.prototype.send = function(data)
 {
 	this.abort();
 	this.xhr = new XMLHttpRequest();
-	
+
 	this.xhr.upload.addEventListener("progress", this.uploadProgress, false);
 	this.xhr.addEventListener("load", this.uploadComplete, false);
 	this.xhr.addEventListener("error", this.uploadFailed, false);
 	this.xhr.addEventListener("abort", this.uploadCanceled, false);
-	
+
 	this.xhr.open("POST", this.UPLOADPATH);
 	this.xhr.send(data);
 }

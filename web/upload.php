@@ -1,12 +1,12 @@
 <?php /*
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2017
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2018
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -94,8 +94,8 @@ function hasThumbnailSupport ($file) {
 function rearrange ($arr) {
 	foreach ($arr as $key => $all) {
 		foreach($all as $i => $val) {
-			$new[$i][$key] = $val;    
-		}    
+			$new[$i][$key] = $val;
+		}
 	}
 	return $new;
 }
@@ -128,7 +128,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 		http_response_code (400); // Bad Request
 		exit;
 	}
-	
+
 	if (!empty($_POST['album_name']))
 		$album_name = trim($_POST['album_name']);
 
@@ -145,7 +145,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 
 	$files = array();
 	$file_paths = array();
-	
+
 	foreach ($_FILES['file'] as $file) {
 		$files[$file['name']] = array();
 
@@ -160,24 +160,24 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 				$files[$file['name']]['error'] = 'Return Code: ' . $file['error'];
 			} else {
 				$path_destination = PATH_UPLOAD . '/' . $lifetime;
-				
+
 				if (!file_exists($path_destination)) {
 					mkdir($path_destination, 0775);
 					chmod($path_destination, 0775);
 				}
-				
+
 				$offset = rand(0,20);
 				$uid = substr(md5(time().mt_rand()), $offset, 12);
-				
+
 				$path_destination = $path_destination . '/' . $uid;
-				
+
 				if (!file_exists($path_destination)) {
 					mkdir($path_destination, 0775);
 					chmod($path_destination, 0775);
 				}
-				
+
 				$path = $path_destination . '/' . $fileinfo['basename'];
-				
+
 				if (file_exists($path)) {
 					$files[$file['name']]['error'] = $path . ' already exists.';
 				} else {
@@ -189,9 +189,9 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 						$file_url_base = URL_UPLOAD . $lifetime . '/' . $uid . '/';
 					else // URL_BASE / (upload / lifetime / uid) / filename
 						$file_url_base = URL_BASE . '/' . $path_destination . '/';
-						
+
 					$file_url = $file_url_base . rawurlencode($fileinfo['basename']);
-						
+
 					$files[$file['name']]['url'] = $file_url;
 					$files[$file['name']]['internal_path'] = $path;
 					$files[$file['name']]['image'] = isImage($path);
@@ -199,7 +199,7 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 						$files[$file['name']]['animated'] = isAnimated($path);
 					if (!empty($fileinfo['extension']))
 						$files[$file['name']]['extension'] = $fileinfo['extension'];
-					
+
 					if (ENABLE_THUMBNAILS && hasThumbnailSupport($path)) {
 						if (createThumbnailJob($path, $path_destination . '/' . THUMBNAIL_PREFIX . $fileinfo['basename']))
 						{
@@ -212,49 +212,49 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 			$files[$file['name']]['error'] = 'File too large!';
 		}
 	}
-	
+
 	// generate album
-	
+
 	$album_data = array();
-	
+
 	if (isset($album_name)) {
 		$album_data['name'] = $album_name;
-	
+
 		if (mb_strlen($album_data['name']) > MAX_ALBUM_NAME_LENGTH)
 			$album_data['name'] = mb_substr($album_data['name'], 0, MAX_ALBUM_NAME_LENGTH);
 	}
-	
+
 	if (isset($album_description)) {
 		$album_data['description'] = $album_description;
-		
+
 		if (mb_strlen($album_data['description']) > MAX_ALBUM_DESCRIPTION_LENGTH)
 			$album_data['description'] = mb_substr($album_data['description'], 0, MAX_ALBUM_DESCRIPTION_LENGTH);
 	}
-	
+
 	$album_data['files'] = array();
 
 	// Move contents from $files to the final $album_data
 	// Ignore all files with 'error', for now.
-	
+
 	foreach ($files as $filen => $file) {
 		if (!isset($file['error'])) { // no errors, file is ok
 			$album_data['files'][$filen] = $file;
 		}
 	}
-	
+
 	if (count($album_data['files']) >= 1) {
 		$album_bare_id = substr(md5(time()),12);
-		
+
 		$path_destination = PATH_ALBUM.'/'.$lifetime;
 		if (!file_exists($path_destination)) {
 			mkdir($path_destination, 0775);
 			chmod($path_destination, 0775);
 		}
-		
+
 		$path = $path_destination.'/'.$album_bare_id.'.txt';
-		
+
 		createChecksumJob($path);
-		
+
 		// create album zip file
 		if (ENABLE_ALBUM_ZIP && count($album_data['files']) >= 2) {
 			$offset = rand(0,20);
@@ -270,10 +270,10 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 			$album_data['zip'] = $album_url_base . $album_bare_id . '.zip';
 			$album_data['zip_internal_path'] = $lifetime . '/' . $uid . '/' . $album_bare_id . '.zip';
 		}
-		
+
 		file_put_contents($path, serialize($album_data));
 		chmod($path, 0664);
-		
+
 		$album_id = $lifetime.':'.$album_bare_id;
 	}
 }

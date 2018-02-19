@@ -7,14 +7,14 @@ require_once('../includes/qrcode-interface.php');
 ?>
 <!doctype html>
 <!--
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2017
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2018
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ require_once('../includes/qrcode-interface.php');
 				$album_lifetime = $_a[0];
 			if (!empty($_a[1]))
 				$album_hash = $_a[1];
-			
+
 			if (!empty($LIFETIMES[$album_lifetime]) && file_exists(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')) {
 				$time  = time ();
 				$album_data = unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
@@ -47,7 +47,7 @@ require_once('../includes/qrcode-interface.php');
 			}
 		}
 	}
-	
+
 	$display_checksums = !empty($_POST['checksums']);
 	$display_qrcode    = !empty($_POST['qrcode']);
 ?>
@@ -63,7 +63,7 @@ require_once('../includes/qrcode-interface.php');
 		<?php if (defined ('CSS_OVERRIDE') && !empty(CSS_OVERRIDE) && file_exists("css/".CSS_OVERRIDE)) : ?>
 		<link href="<?php echo URL_BASE; ?>/css/<?php echo CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
-		
+
 		<style>
 			@font-face {
 				font-family: 'Open Sans';
@@ -136,7 +136,7 @@ require_once('../includes/qrcode-interface.php');
 							</div>
 						</div>
 					</div>
-					
+
 					<?php if (isset($_GET['404']) || (!empty($album_id) && empty($files))) : // 404 or bad album id ?>
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3">
@@ -148,7 +148,7 @@ require_once('../includes/qrcode-interface.php');
 							</div>
 						</div>
 					<?php endif; ?>
-					
+
 					<?php if (!empty($album_name)) : ?>
 						<div id="div_albumname" class="row">
 							<div class="col-md-12">
@@ -156,7 +156,7 @@ require_once('../includes/qrcode-interface.php');
 							</div>
 						</div>
 					<?php endif; ?>
-					
+
 					<div id="div_infoarea" class="row infoarea">
 						<div id="div_infoarea_left" class="col-md-6">
 							<div class="row">
@@ -192,7 +192,7 @@ require_once('../includes/qrcode-interface.php');
 							</div>
 						</div>
 					</div>
-					
+
 					<?php if ($display_qrcode) : ?>
 						<div class="row infoarea">
 							<div class="col-md-4 col-md-offset-4">
@@ -200,7 +200,7 @@ require_once('../includes/qrcode-interface.php');
 							</div>
 						</div>
 					<?php endif; ?>
-					
+
 					<?php if (!empty($files)) : ?>
 						<?php if (!empty($album_description)) : ?>
 							<div id="div_descriptionbox" class="row">
@@ -234,7 +234,7 @@ require_once('../includes/qrcode-interface.php');
 													<?php $file_ext_icon = URL_BASE . '/img/filetypes/'
 															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
 															? $file['extension'] : '_blank') . '.png';
-													
+
 													if (!empty($file['thumbnail'])) : ?>
 														<img src="<?php echo $file['thumbnail']; ?>" alt="Uploaded Image" class="thumbnail img-responsive"
 															onerror="this.onerror = null; this.src = '<?php echo $file_ext_icon; ?>'">

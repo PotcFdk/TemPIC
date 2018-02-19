@@ -1,12 +1,12 @@
 /*
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2017
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2018
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ function resetTitle () {
 }
 
 function initRemainingLifetime (remaining)
-{	
+{
 	function updateRemainingLifetime () {
 		if (remaining > 0) {
 			$('#lifetime_text').html('<p><span class="label label-info">Album removal</span> Remaining time: '
@@ -75,7 +75,7 @@ function onThumbnailError (obj) {
 
 	if (!obj.data('src'))
 		obj.data('src', obj.attr('src'));
-	
+
 	if (!obj.data('failure')) {
 		obj.data('failure', true);
 		obj.attr('alt', 'Thumbnail currently unavailable.');
@@ -102,7 +102,7 @@ $(function() {
 	$("#button-file-wipe").hide();
 	$("#button-upload").hide();
 	$("#button-abort").hide();
-	
+
 	var upload_in_progress = false;
 
 	var base_text = $('#checksums-toggle').text();
@@ -118,7 +118,7 @@ $(function() {
 			$('#checksums-toggle').text(base_text.replace("Show","Hide"));
 		}
 	});
-	
+
 	var fileInput = $('#file');
 	fileBrowse = function () {
 		// fileInput show()/hide():
@@ -132,7 +132,7 @@ $(function() {
 	}
 
 	var upload_started = 0;
-	
+
 	function uploadProgress(evt) {
 	  if (evt.lengthComputable) {
 		var percentComplete = evt.loaded * 100 / evt.total;
@@ -151,46 +151,46 @@ $(function() {
 		$('#progressbar').removeAttr('value');
 	  }
 	}
-	
+
 	function uploadBegin() {
 		upload_in_progress = true;
-		
+
 		$("#button-file-wipe").hide();
 		$("#button-upload").hide();
 		$("#button-abort").show();
 		$('#button-browse').prop('disabled', true);
-		
+
 		$('#lifetime').prop('disabled', true);
-		
+
 		$('#div_progress').hide();
-		
+
 		$('#div_progressbar').show();
 		$('#progressbar').show();
 		$('#div_progresstext').show();
-		
+
 		$('#div_upload_data').slideUp(400, 'swing', function() {
 			$('#div_progress').slideDown(400, 'swing');
 		});
 	}
-	
+
 	function uploadEnd() {
 		upload_in_progress = false;
-		
+
 		resetTitle();
-		
+
 		$("#button-file-wipe").show();
 		$("#button-upload").show();
 		$("#button-abort").hide();
 		$('#button-browse').prop('disabled', false);
-		
+
 		$('#lifetime').prop('disabled', false);
-		
+
 		$('#div_progress').slideUp(200, 'swing', function() {
 			$('#div_progressbar').hide();
 			$('#progressbar').hide();
 			$('#div_progresstext').hide();
 		});
-		
+
 		$('#div_upload_data').slideDown(200, 'swing');
 	}
 
@@ -217,7 +217,7 @@ $(function() {
 			}
 		} else if (evt.target.status == 401) {
 			$("#upload-deny_element").show();
-			
+
 			var response_obj;
 			try {
 				response_obj = JSON.parse(evt.target.responseText);
@@ -226,7 +226,7 @@ $(function() {
 			}
 			if (response_obj.location)
 				window.location = response_obj.location;
-			
+
 			return uploadEnd();
 		} else {
 			return uploadFailed(evt);
@@ -241,31 +241,31 @@ $(function() {
 	function uploadCanceled(evt) {
 		warn("The upload has been canceled by the user or the browser dropped the connection.");
 		uploadEnd();
-	}				
-	
+	}
+
 	// UploadManager observers
-	
+
 	function observerFilePreview(files) {
 		if (files.length) {
 			$("#div_filelist_preview_box").empty();
-			
+
 			for (var x = 0; x < files.length; x++)
 			{
 				var entry = document.createElement("div");
 					entry.setAttribute("class", "row");
 				var col = document.createElement("div");
 					col.setAttribute("class", "col-md-12");
-				
+
 				var inner_entry = document.createElement("div")
 					inner_entry.setAttribute("class", "file-preview-entry");
 					inner_entry.setAttribute("onclick", "um.delFile(".concat(x,")"));
-					
+
 				var button = document.createElement("button");
 					button.setAttribute("class", "btn-file-remove-base btn-file-remove");
 					button.setAttribute("type", "button");
 				var txt = document.createTextNode("\u00D7");
 				button.appendChild(txt);
-				
+
 				var filename = document.createTextNode(files[x].name);
 				var filesize = document.createElement("span");
 				filesize.setAttribute("class", "text-muted");
@@ -274,7 +274,7 @@ $(function() {
 				inner_entry.appendChild(button);
 				inner_entry.appendChild(filename);
 				inner_entry.appendChild(filesize);
-				
+
 				col.appendChild(inner_entry)
 
 				entry.appendChild(col);
@@ -287,7 +287,7 @@ $(function() {
 		else
 			$("#div_filelist_preview").hide();
 	}
-	
+
 	function observerAlbumForm(files) {
 		if(files.length) {
 			$('#div_albumname_input').show();
@@ -298,7 +298,7 @@ $(function() {
 			$('#div_albumdescription_input').hide();
 		}
 	}
-	
+
 	function observerFileOverview(files) {
 		if(files.length == 1)
 			$("#file-overview-text").text(files[0].name.toString().concat(" (", humanFileSize(um.getUploadSize(), true), ")"));
@@ -307,45 +307,45 @@ $(function() {
 		else
 			$("#file-overview-text").text("");
 	}
-	
+
 	function observerFileWipeButton(files) {
 		if(files.length)
 			$("#button-file-wipe").show();
 		else
 			$("#button-file-wipe").hide();
 	}
-	
+
 	function observerUploadButton(files) {
 		if(files.length)
 			$("#button-upload").show();
 		else
 			$("#button-upload").hide();
 	}
-	
+
 	// UploadManager - global
-	
+
 	um = new UploadManager(size_limit, url_base, uploadProgress, uploadComplete, uploadFailed, uploadCanceled);
 	um.registerFileObserver(observerFileOverview);
 	um.registerFileObserver(observerFileWipeButton);
 	um.registerFileObserver(observerUploadButton);
 	um.registerFileObserver(observerFilePreview)
 	um.registerFileObserver(observerAlbumForm);
-	
+
 	// File upload form setup.
-	
+
 	$("[data-hide]").on("click", function(){
 		$("." + $(this).attr("data-hide")).hide();
 	});
-	
+
 	//Add eventListeners to input -> add values to UploadManager on change
-	
+
 	$("#file").on("change", function(e){
 		var files = this.files;
 		for(var x = 0; x < files.length; x++)
 		{
 			um.addFile(files[x]);
 		}
-		
+
 		// reset input, as input type=file is read only
 		// (!) compatibility hack: don't do this when FormData doesn't work
 		if (canUseFormData ()) {
@@ -353,11 +353,11 @@ $(function() {
 			$(this).unwrap();
 		}
 	});
-	
+
 	$("#lifetime").on("change", function(e){
 		um.setLifetime(this.value);
 	});
-	
+
 	$("#album_name").on("change", function(e){
 		um.setAlbumName(this.value);
 	});
@@ -365,11 +365,11 @@ $(function() {
 	$("#album_description").on("change", function(e){
 		um.setAlbumDescription(this.value);
 	});
-	
-	// Drag&Drop feature setup		
-	
+
+	// Drag&Drop feature setup
+
 	dragCounter = 0; //necessary for entering/leaving child elements of html while dragging stuff
-	
+
 	$("html").on("dragenter", function(e){
 		dragCounter++;
 		e.preventDefault();
@@ -393,7 +393,7 @@ $(function() {
 		if(dragCounter == 0)
 			$(this).removeClass("draghover");
 	});
-	
+
 	$("html").on("drop", function(e){
 		e.preventDefault();
 		dragCounter = 0;
@@ -409,16 +409,16 @@ $(function() {
 	$("#button-file-wipe").on("click", function(e){
 		um.wipeFiles();
 	});
-	
+
 	$("#button-abort").on("click", function(e){
 		um.abort();
 	});
-	
+
 	var btn = $('button[type=submit]');
 	btn.prop('type', 'button');
 	btn.on('click', function() {
 		warn(); // Close the current warning, if applicable.
-		
+
 		um.send(um.makePOSTData());
 		upload_started = Date.now();
 		uploadBegin();
