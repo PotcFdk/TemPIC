@@ -357,7 +357,7 @@ require_once('../includes/qrcode-interface.php');
 														<img src="<?php echo $file_ext_icon; ?>" alt="Uploaded File" class="img-responsive">
 													<?php endif; ?>
 
-													<p> title="<?php echo htmlspecialchars($name); ?>" <?php echo htmlspecialchars($name); ?></p>
+													<p title="<?php echo htmlspecialchars($name); ?>"> <?php echo htmlspecialchars($name); ?></p>
 												</a>
 												<pre class="checksum-field"><?php
 													if (empty($file['checksums']))
