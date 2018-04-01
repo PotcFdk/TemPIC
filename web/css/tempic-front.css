@@ -72,6 +72,12 @@ form {
 	margin: 0 auto 10px;
 }
 
+.panel-body p {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 .std-hide {
   display: none;
 }
