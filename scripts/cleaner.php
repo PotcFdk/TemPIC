@@ -70,7 +70,7 @@
 	echo "ALBUM CLEANUP\n";
 
 	foreach ($LIFETIMES as $lifetime => $data) {
-		$basedir = PATH_INCLUDES . '/albums/' . $lifetime;
+		$basedir = PATH_INTERNAL . '/albums/' . $lifetime;
 		echo '* scanning basedir: ' . $basedir . "\n";
 		if (is_dir ($basedir)) {
 			$files = safe_scandir($basedir);
