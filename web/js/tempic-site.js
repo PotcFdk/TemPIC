@@ -154,6 +154,17 @@ $(function() {
 
 	function uploadBegin() {
 		upload_in_progress = true;
+		window.onbeforeunload = function (e) {
+			e = e || window.event;
+		
+			// For IE and Firefox prior to version 4
+			if (e) {
+				e.returnValue = 'Sure?';
+			}
+		
+			// For Safari
+			return 'Sure?';
+		}
 
 		$("#button-file-wipe").hide();
 		$("#button-upload").hide();
@@ -175,6 +186,7 @@ $(function() {
 
 	function uploadEnd() {
 		upload_in_progress = false;
+		window.onbeforeunload = undefined;
 
 		resetTitle();
 
