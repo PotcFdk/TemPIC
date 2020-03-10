@@ -156,12 +156,12 @@ $(function() {
 		upload_in_progress = true;
 		window.onbeforeunload = function (e) {
 			e = e || window.event;
-		
+
 			// For IE and Firefox prior to version 4
 			if (e) {
 				e.returnValue = 'Sure?';
 			}
-		
+
 			// For Safari
 			return 'Sure?';
 		}
@@ -186,7 +186,6 @@ $(function() {
 
 	function uploadEnd() {
 		upload_in_progress = false;
-		window.onbeforeunload = undefined;
 
 		resetTitle();
 
@@ -207,6 +206,8 @@ $(function() {
 	}
 
 	function uploadComplete(evt) {
+		window.onbeforeunload = undefined;
+
 		if (evt.target.status == 200) {
 			if (evt.target.responseText) {
 				var response_obj;
