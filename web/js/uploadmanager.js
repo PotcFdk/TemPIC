@@ -1,5 +1,5 @@
 /*
-	TemPIC - Copyright (c) PotcFdk, 2014 - 2019
+	TemPIC - Copyright (c) PotcFdk, 2014 - 2020
 
 	TemPIC UploadManager (c) PotcFdk, 2015
 	TemPIC UploadManager (c) KeyLimePie, 2015
