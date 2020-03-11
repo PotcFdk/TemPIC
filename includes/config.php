@@ -19,6 +19,9 @@
 	// Don't edit this file.
 	// You can override these settings in the config.php in your web directory.
 
+	if (!defined('URL_PROTOCOL'))
+		define ('URL_PROTOCOL', 'http');
+
 	if (!defined('PATH_UPLOAD'))
 		define ('PATH_UPLOAD', 'upload');
 

@@ -10,8 +10,11 @@
 	//define ('INSTANCE_DESCRIPTION', 'Powered by <a href="https://github.com/PotcFdk/TemPIC">TemPIC</a>!');
 
 	// The URL of your instance.
-	// This will be used for many link-generation related things.
-	define ('URL_BASE', 'http://example.com');
+	// This will be used for most of the page resources and also as the hostname part of external links.
+	// Please omit the 'http:' or 'https:' prefix here; your URL should begin with '//domain.tld' in most cases.
+	define ('URL_BASE', '//example.com');
+	// Define your default protocol here. This will be used for external link generation. (optional)
+	//define ('URL_PROTOCOL', 'http');
 
 	// Here you can disallow files with the specified extensions.
 	// SECURITY WARNING: You should take additional steps to prevent accidents,
@@ -82,7 +85,7 @@
 	//define ('CSS_OVERRIDE', 'my-stylesheet.css');
 
 	// If you set this option, this string will be used to generate file URLs.
-	// Normally, this is done by taking URL_BASE
+	// Normally, this is done by taking URL_PROTOCOL:URL_BASE
 	// and appending PATH_UPLOAD and the relative file path.
 	// If you prefer to use a subdomain or an entirely different domain
 	// for user-generated content, this is the setting you should be using.
@@ -98,13 +101,13 @@
 	//define ('URL_UPLOAD', 'http://tempicusercontent.example.com/');
 
 	// If you set this option, this string will be used to generate album URLs.
-	// Normally, this is done by taking URL_BASE and appending `/?album=[ALBUM_ID]`.
-	// You can, for example, set this to `URL_BASE.'/'`,
+	// Normally, this is done by taking URL_PROTOCOL:URL_BASE and appending `/?album=[ALBUM_ID]`.
+	// You can, for example, set this to `'http:'.URL_BASE.'/'`,
 	// so album URLs would look like this: `http://example.com/1d:1234567890`.
 	// This requires a rewriting rule to be added to your web-server configuration.
 	// Don't enable this, if you don't know what you are doing,
 	// or you might break album URL generation.
-	//define ('URL_ALBUM', URL_BASE.'/');
+	//define ('URL_ALBUM', 'http:'.URL_BASE.'/');
 
 /// Custom
 	// Here you can append unsupported configuration options,

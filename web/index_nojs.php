@@ -57,11 +57,11 @@ require_once('../includes/qrcode-interface.php');
 		<title><?php if (!empty($album_name)) { echo htmlspecialchars($album_name, ENT_QUOTES).' - '; }
 			echo INSTANCE_NAME; ?></title>
 
-		<link rel="stylesheet" href="<?php echo URL_BASE; ?>/css/bootstrap.min.css">
-		<link href="<?php echo URL_BASE; ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="<?php echo URL_BASE; ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="<?php echo absoluteUrl(); ?>/css/bootstrap.min.css">
+		<link href="<?php echo absoluteUrl(); ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="<?php echo absoluteUrl(); ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
 		<?php if (defined ('CSS_OVERRIDE') && !empty(CSS_OVERRIDE) && file_exists("css/".CSS_OVERRIDE)) : ?>
-		<link href="<?php echo URL_BASE; ?>/css/<?php echo CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
+		<link href="<?php echo absoluteUrl(); ?>/css/<?php echo CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
 		<style>
@@ -69,7 +69,7 @@ require_once('../includes/qrcode-interface.php');
 				font-family: 'Open Sans';
 				font-style: normal;
 				font-weight: 400;
-				src: local('Open Sans'), local('OpenSans'), url('<?php echo URL_BASE; ?>/fonts/opensans.woff') format('woff');
+				src: local('Open Sans'), local('OpenSans'), url('<?php echo absoluteUrl(); ?>/fonts/opensans.woff') format('woff');
 			}
 		</style>
 	</head>
@@ -79,7 +79,7 @@ require_once('../includes/qrcode-interface.php');
 			<div class="row">
 				<div class="col-md-12">
 					<div class="page-header">
-						<h1><a href="<?php echo URL_BASE.'/index_nojs.php'; ?>"><?php echo INSTANCE_NAME; ?></a></h1>
+						<h1><a href="<?php echo absoluteUrl().'/index_nojs.php'; ?>"><?php echo INSTANCE_NAME; ?></a></h1>
 						<?php if (defined ('INSTANCE_DESCRIPTION') && !empty (INSTANCE_DESCRIPTION)): ?>
 						<h4><?php echo INSTANCE_DESCRIPTION; ?></h4>
 						<?php endif; ?>
@@ -88,7 +88,7 @@ require_once('../includes/qrcode-interface.php');
 
 					<div id="div_fileform" class="row">
 						<div class="col-md-12">
-							<form class="form-horizontal" method="post" action="<?php echo URL_BASE; ?>/upload.php" enctype="multipart/form-data">
+							<form class="form-horizontal" method="post" action="<?php echo absoluteUrl(); ?>/upload.php" enctype="multipart/form-data">
 								<div class="form-group">
 									<input type="hidden" name="nojs" value="true">
 									<label for="file" class="col-md-1 control-label">Files</label>
@@ -231,7 +231,7 @@ require_once('../includes/qrcode-interface.php');
 										<div class="panel panel-default">
 											<div class="panel-body">
 												<a href="<?php echo $file['url']; ?>">
-													<?php $file_ext_icon = URL_BASE . '/img/filetypes/'
+													<?php $file_ext_icon = absoluteUrl() . '/img/filetypes/'
 															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
 															? $file['extension'] : '_blank') . '.png';
 

@@ -18,6 +18,8 @@
 		   !(defined ('INSTANCE_NAME')                &&  is_string  (INSTANCE_NAME))
 		||  (defined ('INSTANCE_DESCRIPTION')         && !is_string  (INSTANCE_DESCRIPTION))
 		|| !(defined ('URL_BASE')                     &&  is_string  (URL_BASE))
+		||    substr (URL_BASE, 0, 2)                 !=  '//'
+		|| !(defined ('URL_PROTOCOL')                 &&  is_string  (URL_PROTOCOL))
 		|| !(isset   ($DISALLOWED_EXTS)               &&  is_array   ($DISALLOWED_EXTS))
 		|| !(defined ('SIZE_LIMIT')                   &&  is_numeric (SIZE_LIMIT))
 		|| !(isset   ($LIFETIMES)                     &&  is_array   ($LIFETIMES))

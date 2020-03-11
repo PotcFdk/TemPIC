@@ -58,30 +58,32 @@ require_once('../includes/qrcode-interface.php');
 		<title><?php if (!empty($album_name)) { echo htmlspecialchars($album_name, ENT_QUOTES).' - '; }
 			echo INSTANCE_NAME; ?></title>
 
-		<link rel="stylesheet" href="<?php echo URL_BASE; ?>/css/bootstrap.min.css">
-		<link href="<?php echo URL_BASE; ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="<?php echo URL_BASE; ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="<?php echo absoluteUrl(); ?>/css/bootstrap.min.css">
+		<link href="<?php echo absoluteUrl(); ?>/css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="<?php echo absoluteUrl(); ?>/css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
 		<?php if (defined ('CSS_OVERRIDE') && !empty(CSS_OVERRIDE) && file_exists("css/".CSS_OVERRIDE)) : ?>
-		<link href="<?php echo URL_BASE; ?>/css/<?php echo CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
+		<link href="<?php echo absoluteUrl(); ?>/css/<?php echo CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
-		<script src="<?php echo URL_BASE; ?>/js/jquery-2.1.0.min.js"></script>
-		<script src="<?php echo URL_BASE; ?>/js/bootstrap.min.js"></script>
-		<script src="<?php echo URL_BASE; ?>/js/tempic-helpers.js"></script>
-		<script src="<?php echo URL_BASE; ?>/js/modernizr-p1.js"></script>
-		<script src="<?php echo URL_BASE; ?>/js/uploadmanager.js"></script>
-		<script src="<?php echo URL_BASE; ?>/js/tempic-site.js"></script>
+		<script src="<?php echo absoluteUrl(); ?>/js/jquery-2.1.0.min.js"></script>
+		<script src="<?php echo absoluteUrl(); ?>/js/bootstrap.min.js"></script>
+		<script src="<?php echo absoluteUrl(); ?>/js/tempic-helpers.js"></script>
+		<script src="<?php echo absoluteUrl(); ?>/js/modernizr-p1.js"></script>
+		<script src="<?php echo absoluteUrl(); ?>/js/uploadmanager.js"></script>
+		<script src="<?php echo absoluteUrl(); ?>/js/tempic-site.js"></script>
 
 		<style>
 			@font-face {
 				font-family: 'Open Sans';
 				font-style: normal;
 				font-weight: 400;
-				src: local('Open Sans'), local('OpenSans'), url('<?php echo URL_BASE; ?>/fonts/opensans.woff') format('woff');
+				src: local('Open Sans'), local('OpenSans'), url('<?php echo absoluteUrl(); ?>/fonts/opensans.woff') format('woff');
 			}
 		</style>
 
 		<script>
+			var url_base = '<?php echo absoluteUrl(); ?>';
+			var album_url = '<?php echo get_album_url() ?>';
 			<?php // Show album lifetime, if possible.
 			if (isset ($remaining_time)) : ?>
 				$(function() { initRemainingLifetime (<?php echo($remaining_time); ?>); });
@@ -92,11 +94,7 @@ require_once('../includes/qrcode-interface.php');
 			if (!empty($album_name) && is_string ($album_name)) : ?>
 				var album_name = <?php echo json_encode($album_name); ?>;
 			<?php endif; ?>
-				var album_url = '<?php echo get_album_url() ?>';
-			<?php if (is_string (URL_BASE)) : ?>
-				var url_base = '<?php echo URL_BASE; ?>';
-			<?php endif;
-			if (is_string (INSTANCE_NAME)) : ?>
+			<?php if (is_string (INSTANCE_NAME)) : ?>
 				var instance_name = '<?php echo INSTANCE_NAME; ?>';
 			<?php else : ?>
 				var instance_name = 'TemPIC';
@@ -112,7 +110,7 @@ require_once('../includes/qrcode-interface.php');
 			<div class="row">
 				<div class="col-md-12">
 					<div class="page-header">
-						<h1><a href="<?php echo URL_BASE; ?>"><?php echo INSTANCE_NAME; ?></a></h1>
+						<h1><a href="<?php echo absoluteUrl(); ?>"><?php echo INSTANCE_NAME; ?></a></h1>
 						<?php if (defined ('INSTANCE_DESCRIPTION') && !empty (INSTANCE_DESCRIPTION)): ?>
 						<h4><?php echo INSTANCE_DESCRIPTION; ?></h4>
 						<?php endif; ?>
@@ -135,7 +133,7 @@ require_once('../includes/qrcode-interface.php');
 
 					<div id="div_fileform" class="row">
 						<div class="col-md-12">
-							<form id="file-form" class="form-horizontal" method="post" action="<?php echo URL_BASE; ?>/upload.php" enctype="multipart/form-data">
+							<form id="file-form" class="form-horizontal" method="post" action="<?php echo absoluteUrl(); ?>/upload.php" enctype="multipart/form-data">
 								<div class="form-group">
 									<label for="file" class="col-md-1 control-label">Files</label>
 									<div class="col-md-8">
@@ -344,7 +342,7 @@ require_once('../includes/qrcode-interface.php');
 										<div class="panel panel-default">
 											<div class="panel-body">
 												<a href="<?php echo $file['url']; ?>">
-													<?php $file_ext_icon = URL_BASE . '/img/filetypes/'
+													<?php $file_ext_icon = absoluteUrl() . '/img/filetypes/'
 															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
 															? $file['extension'] : '_blank') . '.png';
 
