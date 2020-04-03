@@ -58,9 +58,9 @@ UploadManager.prototype.setLifetime = function(lifetime)
 
 UploadManager.prototype.addFile = function(file)
 {
-	if(file.size > this.SIZELIMIT)
+	if(this.getFiles().map(f => f.size).reduce((a, b) => a+b, 0) + file.size > this.SIZELIMIT)
 	{
-		var warning = "The file you added exceeds the file size limit:<br />";
+		var warning = "Adding this file would exceed the file size limit:<br />";
 		warn(warning.concat(file.name));
 	}
 	else
