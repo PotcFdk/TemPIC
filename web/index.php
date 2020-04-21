@@ -330,6 +330,19 @@ require_once('../includes/qrcode-interface.php');
 								</div>
 							</div>
 						</div>
+						
+						<div class="modal fade" id="modal_video" tabindex="-1" role="dialog" aria-labelledby="label_modal_video">
+							<div class="modal-dialog modal-lg modal-xl video-dialog" role="document">
+								<div class="modal-content video-container">
+									<div class="modal-header video-header">
+										<button type="button" class="close" data-dismiss="modal_video" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									</div>
+									<div class="modal-body video-body" id="body_modal_video">
+										<video id="video"></video>
+									</div>
+								</div>
+							</div>
+						</div>
 
 						<?php $count = 0; ?>
 						<?php foreach ($files as $name => $file) : ?>
@@ -343,7 +356,7 @@ require_once('../includes/qrcode-interface.php');
 									<?php else: ?>
 										<div class="panel panel-default">
 											<div class="panel-body">
-												<a href="<?php echo $file['url']; ?>">
+												<!--<a href="<?php echo $file['url']; ?>">-->
 													<?php $file_ext_icon = URL_BASE . '/img/filetypes/'
 															. (!empty($file['extension']) && file_exists('img/filetypes/' . $file['extension'] . '.png')
 															? $file['extension'] : '_blank') . '.png';
@@ -353,12 +366,25 @@ require_once('../includes/qrcode-interface.php');
 															onerror="onThumbnailError(this);" onload="onThumbnailLoad(this);">
 													<?php elseif ($file['image']) : ?>
 														<img src="<?php echo $file['url']; ?>" alt="Uploaded Image" class="thumbnail img-responsive">
+													<?php elseif (!empty($file['extension']) && $file['extension'] == "webm") : ?>
+														<!--<div id="video-toggle" type="button" data-toggle="modal" data-target="#modal_video">-->
+														<script>
+															function playVideo (url) {
+																$('#modal_video').modal('show');
+																var video = $('#video');
+																video.attr('src', url);
+																//video.attr('autoPlay', 'true');
+															}
+														</script>
+														<div onclick="playVideo('<?php echo $file['url']; ?>')">
+															<img src="<?php echo $file_ext_icon; ?>" alt="Uploaded File" class="img-responsive">
+														</div>
 													<?php else: ?>
 														<img src="<?php echo $file_ext_icon; ?>" alt="Uploaded File" class="img-responsive">
 													<?php endif; ?>
 
 													<p><?php echo htmlspecialchars($name); ?></p>
-												</a>
+												<!--</a>-->
 												<pre class="checksum-field"><?php
 													if (empty($file['checksums']))
 														echo "Checksums unavailable. Try reloading the page.";
