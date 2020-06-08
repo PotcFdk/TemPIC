@@ -219,10 +219,27 @@ progress {
 .footer .albumname::after {
 	content: '\2014';
 	margin: 0 0.4em;
+	color: #444;
 }
 
 .footer .albumid {
 	color: gray;
+}
+
+.footer .albumfilecnt::before {
+	content: ' (';
+}
+
+.footer .albumfilecnt::after {
+	content: ' files)';
+}
+
+.footer .albumfilecnt[data-value="1"]::after {
+	content: ' file)';
+}
+
+.footer .albumfilecnt {
+	color: darkcyan;
 }
 
 .footer .albumexpires:not([data-expired])::before {

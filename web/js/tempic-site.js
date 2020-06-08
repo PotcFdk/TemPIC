@@ -463,6 +463,7 @@ $(function() {
 			if (typeof album.expires === 'undefined') {
 				album.own_upload = true;
 			}
+			album.file_count = $('.panel-file').length;
 			album.expires = album_expires * 1000;
 			storageSaveAlbums(albums);
 		}
@@ -501,6 +502,12 @@ $(function() {
 			let id = $('<span/>')
 				.addClass('albumid')
 				.text(album.id)
+				.appendTo(label);
+
+			let file_count = $('<span/>')
+				.addClass('albumfilecnt')
+				.text(album.file_count)
+				.attr('data-value', album.file_count)
 				.appendTo(label);
 
 			let expires = album.expires;

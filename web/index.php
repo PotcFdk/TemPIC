@@ -343,7 +343,7 @@ require_once('../includes/qrcode-interface.php');
 											Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
 										</div>
 									<?php else: ?>
-										<div class="panel panel-default">
+										<div class="panel panel-default panel-file">
 											<div class="panel-body">
 												<a href="<?php echo $file['url']; ?>">
 													<?php $file_ext_icon = absoluteUrl() . '/img/filetypes/'
