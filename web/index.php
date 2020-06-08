@@ -66,7 +66,7 @@ require_once('../includes/qrcode-interface.php');
 		<link href="<?php echo absoluteUrl(); ?>/css/<?php echo CSS_OVERRIDE; ?>" media="all" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
-		<script src="<?php echo absoluteUrl(); ?>/js/jquery-2.1.0.min.js"></script>
+		<script src="<?php echo absoluteUrl(); ?>/js/jquery-3.5.1.min.js"></script>
 		<script src="<?php echo absoluteUrl(); ?>/js/bootstrap.min.js"></script>
 		<script src="<?php echo absoluteUrl(); ?>/js/tempic-helpers.js"></script>
 		<script src="<?php echo absoluteUrl(); ?>/js/modernizr-p1.js"></script>
