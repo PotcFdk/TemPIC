@@ -113,3 +113,25 @@ function textAreaAutoResize (obj) {
     obj.style.height = obj.scrollHeight + "px";
   }
 }
+
+function storageLoadAlbums () {
+	return JSON.parse(localStorage.albums || '[]');
+}
+
+function storageSaveAlbums (albums) {
+	localStorage.albums = JSON.stringify(albums);
+}
+
+function storageUpdateAlbum (album_id, data) {
+	let albums = storageLoadAlbums();
+	let album = albums.find(album => album.id == album_id);
+	if (typeof album === 'undefined') {
+		albums.push(data ? {id: album_id, name: data.name, expires: data.expires} : {id: album_id});
+	} else if (data) {
+		if (data.name)
+			album.name = data.name;
+		if (data.expires)
+			album.expires = data.expires;
+	}
+	storageSaveAlbums(albums);
+}

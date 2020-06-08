@@ -86,7 +86,7 @@ function _API_V1_GET_ALBUM_DATA ($album_id)
 	if (!empty ($LIFETIMES[$album_lifetime]) && file_exists (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'))
 		return array (true, unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')));
 	else
-		return array (false, "Album can not be found");
+		return array (false, "Album can not be found.");
 }
 // -
 
@@ -98,6 +98,14 @@ function API_V1_BAD_REQUEST ($reason = NULL)
 	$resp['data'] = array ('error' => !empty ($reason) ? $reason : 'Invalid action.');
 }
 
+function API_V1_NOT_FOUND ($reason = NULL)
+{
+	global $resp;
+	http_response_code (404); // Not Found
+	$resp['status'] = STATUS_FAIL;
+	$resp['data'] = array ('error' => !empty ($reason) ? $reason : 'Not found.');
+}
+
 function API_V1_ALBUM_INFO ($album_id)
 {
 	global $resp;
@@ -106,7 +114,7 @@ function API_V1_ALBUM_INFO ($album_id)
 	if ($adata_resp[0])
 		$album_data = $adata_resp[1];
 	else
-		return API_V1_BAD_REQUEST ($adata_resp[1]);
+		return API_V1_NOT_FOUND ($adata_resp[1]);
 
 	$resp['status'] = STATUS_SUCCESS;
 	$resp['data'] = array ('albums' => array ($album_id => $album_data));

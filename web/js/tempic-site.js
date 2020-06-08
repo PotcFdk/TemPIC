@@ -38,10 +38,10 @@ function resetTitle () {
 function initRemainingLifetime (remaining)
 {
 	function updateRemainingLifetime () {
+		let remaining = album_expires - Date.now()/1000;
 		if (remaining > 0) {
 			$('#lifetime_text').html('<p><span class="label label-info">Album removal</span> Remaining time: '
 				+ millisecondsToAccurateStr (remaining*1000)+'</p>');
-			-- remaining;
 		} else {
 			$('#lifetime_text').html('<p><span class="label label-danger">Removed</span> '
 				+ 'This album has been removed.</p>');
@@ -216,14 +216,14 @@ $(function() {
 				} catch (e) {
 					return uploadFailed(evt);
 				}
-				if (response_obj.success)
+				if (response_obj.success) {
+					if (response_obj.album_id)
+						storageUpdateAlbum(response_obj.album_id);
 					window.location = response_obj.location || album_url;
-				else if (response_obj.error_type == 'auth')
-				{
+				} else if (response_obj.error_type == 'auth') {
 					$("#upload-deny_element").show();
 					return uploadEnd();
-				}
-				else
+				} else
 					return uploadFailed(evt);
 			} else {
 				window.location = url_base;
@@ -436,4 +436,98 @@ $(function() {
 		upload_started = Date.now();
 		uploadBegin();
 	});
+
+	const albumlist = $('#albumlist');
+	let albums = storageLoadAlbums();
+
+	// check if the current album needs to be added to the storage
+	if (typeof album_id !== 'undefined') { // do we even have an album opened?
+		// album needs to be added if it's completely absent
+		if (typeof albums.find(album => album.id == album_id) === 'undefined') {
+			albums.push({
+				id: album_id,
+				name: typeof album_name === 'string' ? album_name : undefined,
+				expires: album_expires * 1000
+			});
+
+			albums = albums.sort((a, b) => a.expires - b.expires);
+			storageSaveAlbums(albums);
+
+		// or if it only exists as a placeholder (i.e. no expiry time)
+		// (in such a case, it was our own upload!)
+		} else if (typeof albums.find(album => album.id == album_id).expires === 'undefined') {
+			let album = albums.find(album => album.id == album_id);
+			album.name = typeof album_name === 'string' ? album_name : undefined;
+			album.expires = album_expires * 1000;
+			album.own_upload = true;
+			console.log(album, albums);
+			albums = albums.sort((a, b) => a.expires - b.expires);
+			storageSaveAlbums(albums);
+		}
+	}
+
+	// create all list entries for the previously seen albums
+	albums.forEach(album => {
+		console.log(album);
+		let item = $('<li/>')
+			.addClass('row')
+			.attr('data-albumid', album.id)
+			.appendTo(albumlist);
+
+		if (album.own_upload)
+			item.attr('data-own-upload', 'true');
+		if (typeof album_id !== 'undefined' && album.id == album_id)
+			item.attr('data-current-album', 'true');
+
+		item = $('<a/>')
+			.attr('href', album_url + album.id)
+			.appendTo(item);
+
+		let label = $('<label/>')
+			.addClass('col-md-7')
+			.appendTo(item);
+
+		if (album.name)
+			$('<span/>')
+				.addClass('albumname')
+				.text(album.name)
+				.appendTo(label);
+
+		let id = $('<span/>')
+			.addClass('albumid')
+			.text(album.id)
+			.appendTo(label);
+
+		if (album.expires) {
+			let remaining = () => album.expires - Date.now();
+			let span = $('<span/>')
+				.addClass('albumexpires')
+				.addClass('col-md-4')
+				.appendTo(item);
+			const update = () => {
+				const r = remaining();
+				span.text(millisecondsToAccurateStr(Math.abs(r)));
+				if (r <= 0)
+					span.attr('data-expired', 'expired');
+			};
+			update();
+			setInterval(update, 1000);
+		};
+	});
+
+	// periodically check all expired albums for existence
+	// and remove if gone
+	setInterval(() => {
+		albums
+			.filter(album => album.expires < Date.now())
+			.forEach(album => {
+				fetch(url_base + '/api.php?v1/albums/' + encodeURIComponent(album.id) + '/info')
+					.then(response => {
+						if (response.status === 404) {
+							albums = albums.filter(stored_album => stored_album.id !== album.id);
+							storageSaveAlbums(albums);
+						}
+					});
+			})
+	}, 1*1000);
 });
