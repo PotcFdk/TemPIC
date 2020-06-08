@@ -451,7 +451,7 @@ $(function() {
 	let albums = storageLoadAlbums();
 
 	// check if the current album needs to be added to the storage
-	if (typeof album_id !== 'undefined') { // do we even have an album opened?
+	if (typeof album_expires !== 'undefined') { // do we even have an album opened?
 		// update the stored data just in case it's wrong for some reason
 		// e.g. the expiry time might have been updated
 		// or if it's incomplete (e.g. if it was our own upload)
