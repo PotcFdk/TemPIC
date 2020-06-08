@@ -119,6 +119,7 @@ function storageLoadAlbums () {
 }
 
 function storageSaveAlbums (albums) {
+	albums = albums.sort((a, b) => a.expires - b.expires);
 	localStorage.albums = JSON.stringify(albums);
 }
 

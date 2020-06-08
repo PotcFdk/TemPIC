@@ -84,7 +84,11 @@ function _API_V1_GET_ALBUM_DATA ($album_id)
 		$album_hash = $_a[1];
 
 	if (!empty ($LIFETIMES[$album_lifetime]) && file_exists (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'))
-		return array (true, unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt')));
+	{
+		$data = unserialize(file_get_contents(PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
+		$data['expires'] = $LIFETIMES[$album_lifetime]['time']*60 + filemtime (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt');
+		return array (true, $data);
+	}
 	else
 		return array (false, "Album can not be found.");
 }

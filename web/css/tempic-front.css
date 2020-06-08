@@ -271,6 +271,10 @@ progress {
 	background-color: yellow;
 }
 
+#albumlist li[data-gone] {
+	background-color: #fd9f9f;
+}
+
 #albumlist li[data-own-upload]::before {
 	content: '\2605';
 	position: absolute;
