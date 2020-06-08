@@ -467,53 +467,55 @@ $(function() {
 	}
 
 	// create all list entries for the previously seen albums
-	albums.forEach(album => {
-		console.log(album);
-		let item = $('<li/>')
-			.addClass('row')
-			.attr('data-albumid', album.id)
-			.appendTo(albumlist);
+	if (albums.length == 0) {
+		$('.footer').hide();
+	} else
+		albums.forEach(album => {
+			let item = $('<li/>')
+				.addClass('row')
+				.attr('data-albumid', album.id)
+				.appendTo(albumlist);
 
-		if (album.own_upload)
-			item.attr('data-own-upload', 'true');
-		if (typeof album_id !== 'undefined' && album.id == album_id)
-			item.attr('data-current-album', 'true');
+			if (album.own_upload)
+				item.attr('data-own-upload', 'true');
+			if (typeof album_id !== 'undefined' && album.id == album_id)
+				item.attr('data-current-album', 'true');
 
-		item = $('<a/>')
-			.attr('href', album_url + album.id)
-			.appendTo(item);
+			item = $('<a/>')
+				.attr('href', album_url + album.id)
+				.appendTo(item);
 
-		let label = $('<label/>')
-			.addClass('col-md-7')
-			.appendTo(item);
+			let label = $('<label/>')
+				.addClass('col-md-7')
+				.appendTo(item);
 
-		if (album.name)
-			$('<span/>')
-				.addClass('albumname')
-				.text(album.name)
+			if (album.name)
+				$('<span/>')
+					.addClass('albumname')
+					.text(album.name)
+					.appendTo(label);
+
+			let id = $('<span/>')
+				.addClass('albumid')
+				.text(album.id)
 				.appendTo(label);
 
-		let id = $('<span/>')
-			.addClass('albumid')
-			.text(album.id)
-			.appendTo(label);
-
-		if (album.expires) {
-			let remaining = () => album.expires - Date.now();
-			let span = $('<span/>')
-				.addClass('albumexpires')
-				.addClass('col-md-4')
-				.appendTo(item);
-			const update = () => {
-				const r = remaining();
-				span.text(millisecondsToAccurateStr(Math.abs(r)));
-				if (r <= 0)
-					span.attr('data-expired', 'expired');
+			if (album.expires) {
+				let remaining = () => album.expires - Date.now();
+				let span = $('<span/>')
+					.addClass('albumexpires')
+					.addClass('col-md-4')
+					.appendTo(item);
+				const update = () => {
+					const r = remaining();
+					span.text(millisecondsToAccurateStr(Math.abs(r)));
+					if (r <= 0)
+						span.attr('data-expired', 'expired');
+				};
+				update();
+				setInterval(update, 1000);
 			};
-			update();
-			setInterval(update, 1000);
-		};
-	});
+		});
 
 	// periodically check all expired albums for existence
 	// and remove if gone
