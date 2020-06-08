@@ -24,7 +24,7 @@
 		<link href="css/copyrotate.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="css/tempic-front.css" media="all" rel="stylesheet" type="text/css" />
 
-		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/jquery-3.5.1.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/fileinput.min.js"></script>
 	</head>
