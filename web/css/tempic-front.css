@@ -276,6 +276,10 @@ progress {
 	cursor: pointer;
 }
 
+#albumlist li:hover, #albumlist li:nth-child(odd):hover, #albumlist li[data-current-album]:hover {
+	background-color: darkorange;
+}
+
 #albumlist label {
 	cursor: pointer;
 }
