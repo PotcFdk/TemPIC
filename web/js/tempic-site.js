@@ -458,7 +458,7 @@ $(function() {
 		albums = storageUpdateAlbum(album_id, {
 			name: typeof album_name === 'string' ? album_name : undefined,
 			file_count: $('.panel-file').length,
-			expires: album_expires * 1000
+			expires: typeof album_expires === 'number' ? album_expires * 1000 : undefined
 		});
 	}
 
