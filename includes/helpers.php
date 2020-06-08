@@ -15,6 +15,14 @@
 	limitations under the License.
 */
 
+	function externalUrl () {
+		return URL_PROTOCOL . ':' . URL_BASE;
+	}
+
+	function absoluteUrl () {
+		return URL_BASE;
+	}
+
 	function formatTime ($time) {
 		$ret = "";
 		$first = true;
@@ -49,17 +57,17 @@
 	}
 
 	function strip_album_id ($string) {
-	  preg_match_all ("/[^0-9^a-z^:]/", $string, $matches);
-	  foreach ($matches[0] as $value) {
-		$string = str_replace ($value, "", $string);
-	  }
-	  return $string;
+		preg_match_all ("/[^0-9^a-z^:]/", $string, $matches);
+		foreach ($matches[0] as $value) {
+			$string = str_replace ($value, "", $string);
+		}
+		return $string;
 	}
 
 	function get_album_url ($album_id = "") {
 		if (defined ('URL_ALBUM'))
 			return URL_ALBUM.$album_id;
 		else
-			return URL_BASE.'/?album='.$album_id;
+			return externalUrl().'/?album='.$album_id;
 	}
 ?>

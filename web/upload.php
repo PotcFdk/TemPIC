@@ -49,7 +49,7 @@ if (isset($auth_provider))
 				if (!empty($auth_provider->getAuthLocation()))
 					header('Location: '.$auth_provider->getAuthLocation());
 				else
-					header('Location: '.URL_BASE.'/index_nojs.php?upload-deny=auth');
+					header('Location: '.absoluteUrl().'/index_nojs.php?upload-deny=auth');
 			} elseif (isset($_POST['ajax'])) {
 				if (!empty($auth_provider->getAuthLocation()))
 					echo json_encode(array('success' => false, 'error_type' => 'auth',
@@ -60,7 +60,7 @@ if (isset($auth_provider))
 				if (!empty($auth_provider->getAuthLocation()))
 					header('Location: '.$auth_provider->getAuthLocation());
 				else
-					header('Location: '.URL_BASE.'?upload-deny=auth');
+					header('Location: '.absoluteUrl().'?upload-deny=auth');
 			}
 			exit;
 		}
@@ -187,8 +187,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 
 					if (defined ('URL_UPLOAD') && !empty (URL_UPLOAD)) // URL_UPLOAD lifetime / uid / filename
 						$file_url_base = URL_UPLOAD . $lifetime . '/' . $uid . '/';
-					else // URL_BASE / (upload / lifetime / uid) / filename
-						$file_url_base = URL_BASE . '/' . $path_destination . '/';
+					else // EXT.URL / (upload / lifetime / uid) / filename
+						$file_url_base = externalUrl() . '/' . $path_destination . '/';
 
 					$file_url = $file_url_base . rawurlencode($fileinfo['basename']);
 
@@ -265,8 +265,8 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 
 			if (defined ('URL_UPLOAD') && !empty (URL_UPLOAD)) // URL_UPLOAD lifetime / uid / zipfile
 				$album_url_base = URL_UPLOAD . $lifetime . '/' . $uid . '/';
-			else // URL_BASE / upload / lifetime / uid / zipfile
-				$album_url_base = URL_BASE . '/' . PATH_UPLOAD . '/' . $lifetime . '/' . $uid . '/';
+			else // EXT.URL / upload / lifetime / uid / zipfile
+				$album_url_base = externalUrl() . '/' . PATH_UPLOAD . '/' . $lifetime . '/' . $uid . '/';
 			$album_data['zip'] = $album_url_base . $album_bare_id . '.zip';
 			$album_data['zip_internal_path'] = $lifetime . '/' . $uid . '/' . $album_bare_id . '.zip';
 		}
@@ -280,9 +280,9 @@ if (!empty($_FILES) && is_uploaded_file($_FILES['file']['tmp_name'][0])) {
 
 if (isset($_POST['nojs'])) {
 	if (!empty($album_id))
-		header('Location: '.URL_BASE.'/index_nojs.php?album='.$album_id);
+		header('Location: '.absoluteUrl().'/index_nojs.php?album='.$album_id);
 	else
-		header('Location: '. URL_BASE.'/index_nojs.php');
+		header('Location: '. absoluteUrl().'/index_nojs.php');
 } elseif (isset($_POST['ajax'])) {
 	if (!empty($album_id))
 		echo json_encode(array('success' => true, 'album_id' => $album_id,
@@ -291,6 +291,6 @@ if (isset($_POST['nojs'])) {
 	if (!empty($album_id))
 		header('Location: '.get_album_url($album_id));
 	else
-		header('Location: '.URL_BASE);
+		header('Location: '.absoluteUrl());
 }
 ?>

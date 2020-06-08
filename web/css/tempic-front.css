@@ -215,3 +215,88 @@ progress {
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.footer .albumname::after {
+	content: '\2014';
+	margin: 0 0.4em;
+	color: #444;
+}
+
+.footer .albumid {
+	color: gray;
+}
+
+.footer .albumfilecnt::before {
+	content: ' (';
+}
+
+.footer .albumfilecnt::after {
+	content: ' files)';
+}
+
+.footer .albumfilecnt[data-value="1"]::after {
+	content: ' file)';
+}
+
+.footer .albumfilecnt {
+	color: darkcyan;
+}
+
+.footer .albumexpires:not([data-expired]):not(:empty)::before {
+	color: black;
+	content: 'expires in ';
+}
+
+.footer .albumexpires[data-expired]::before {
+	color: #444;
+	content: '(expired ';
+}
+
+.footer .albumexpires[data-expired] {
+	color: red;
+}
+
+.footer .albumexpires[data-expired]::after {
+	color: #444;
+	content: ' ago)';
+}
+
+.footer .albumexpires {
+	margin-left: 1em;
+	color: green;
+}
+
+#albumlist {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 1.2em;
+}
+
+#albumlist li {
+	cursor: pointer;
+}
+
+#albumlist li:hover, #albumlist li:nth-child(odd):hover, #albumlist li[data-current-album]:hover {
+	background-color: darkorange;
+}
+
+#albumlist label {
+	cursor: pointer;
+}
+
+#albumlist li:nth-child(odd) {
+	background-color: #dfdfdf;
+}
+
+#albumlist li[data-current-album] {
+	background-color: yellow;
+}
+
+#albumlist li[data-gone] {
+	background-color: #fd9f9f;
+}
+
+#albumlist li[data-own-upload]::before {
+	content: '\2605';
+	position: absolute;
+}
