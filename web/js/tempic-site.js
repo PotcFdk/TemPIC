@@ -45,7 +45,13 @@ function initRemainingLifetime (remaining)
 		} else {
 			$('#lifetime_text').html('<p><span class="label label-danger">Removed</span> '
 				+ 'This album has been removed.</p>');
-			setInterval (function() { window.location = url_base; }, 1000);
+
+			// if we're not currentry about to upload, or uploading, new files, leave the album page
+			if (um.files.length == 0) {
+				setInterval (function() {
+					window.location = url_base;
+				}, 1000);
+			}
 		}
 	}
 	updateRemainingLifetime();
