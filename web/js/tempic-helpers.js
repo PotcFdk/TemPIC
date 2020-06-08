@@ -113,3 +113,26 @@ function textAreaAutoResize (obj) {
     obj.style.height = obj.scrollHeight + "px";
   }
 }
+
+const storageLoadAlbums = () => JSON.parse(localStorage.albums || '[]');
+
+const storageSaveAlbums = albums => {
+	albums = albums.sort((a, b) => a.expires - b.expires);
+	localStorage.albums = JSON.stringify(albums);
+	return albums;
+};
+
+function storageUpdateAlbum (album_id, data) {
+	let albums = storageLoadAlbums();
+	let album = albums.find(album => album.id == album_id);
+	if (typeof album === 'undefined') {
+		if (data) data.id = album_id;
+		albums.push(data || {id: album_id});
+	} else if (data) {
+		Object.assign(album, data); // merge new data
+	}
+	storageSaveAlbums(albums);
+	return albums;
+}
+
+const storageDeleteAlbum = album_id => storageSaveAlbums(storageLoadAlbums().filter(album => album.id != album_id));

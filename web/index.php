@@ -22,7 +22,7 @@ require_once('../includes/qrcode-interface.php');
 	limitations under the License.
 -->
 <?php
-	// Make sure $files, $album_id, $album_hash and $remaining_time contain the data we want.
+	// Make sure $files, $album_id, $album_hash, $expiry_time and $remaining_time contain the data we want.
 
 	if (!empty($_GET['album']) && is_string($_GET['album'])) {
 		$album_id = strip_album_id($_GET['album']);
@@ -47,7 +47,8 @@ require_once('../includes/qrcode-interface.php');
 						$album_description = $album_data['description'];
 					$files = $album_data['files'];
 				}
-				$remaining_time = $LIFETIMES[$album_lifetime]['time']*60 - ($time - filemtime (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt'));
+				$expiry_time = $LIFETIMES[$album_lifetime]['time']*60 + filemtime (PATH_ALBUM.'/'.$album_lifetime.'/'.$album_hash.'.txt');
+				$remaining_time = $expiry_time - $time;
 			}
 		}
 	}
@@ -90,6 +91,9 @@ require_once('../includes/qrcode-interface.php');
 			<?php endif;
 			if (!empty ($album_id) && is_string ($album_id)) : ?>
 				var album_id = '<?php echo $album_id; ?>';
+			<?php endif;
+			if (!empty($expiry_time) && is_numeric ($expiry_time)) : ?>
+				var album_expires = <?php echo $expiry_time; ?>;
 			<?php endif;
 			if (!empty($album_name) && is_string ($album_name)) : ?>
 				var album_name = <?php echo json_encode($album_name); ?>;
@@ -339,7 +343,7 @@ require_once('../includes/qrcode-interface.php');
 											Error uploading "<?php echo htmlspecialchars($name, ENT_QUOTES); ?>": <?php echo $file['error']; ?>
 										</div>
 									<?php else: ?>
-										<div class="panel panel-default">
+										<div class="panel panel-default panel-file">
 											<div class="panel-body">
 												<a href="<?php echo $file['url']; ?>">
 													<?php $file_ext_icon = absoluteUrl() . '/img/filetypes/'
@@ -382,6 +386,11 @@ require_once('../includes/qrcode-interface.php');
 					<?php endif; ?>
 				</div>
 			</div>
+		</div>
+		<div class="footer container">
+			<h3>Previously visited albums:</h3>
+			<ul id="albumlist">
+			</ul>
 		</div>
 	</body>
 </html>
