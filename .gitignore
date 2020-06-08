@@ -1,0 +1,5 @@
+/internal/albums
+/web/upload
+/web/config.php
+/web/config_*.php
+/scripts/config.php
