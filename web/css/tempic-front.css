@@ -242,7 +242,7 @@ progress {
 	color: darkcyan;
 }
 
-.footer .albumexpires:not([data-expired])::before {
+.footer .albumexpires:not([data-expired]):not(:empty)::before {
 	color: black;
 	content: 'expires in ';
 }
